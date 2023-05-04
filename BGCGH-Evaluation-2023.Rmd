@@ -1,0 +1,150 @@
+---
+title: "BGCGH Evaluation 2023"
+author: "Amy Shuff"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+```
+
+``` {r, results='hide'}
+
+library(knitr)
+library(usethis)
+library(tidyverse)
+library(janitor)
+library(reshape2)
+library(stringr)
+library(here)
+library(readxl)
+library(pdftools)
+
+```
+
+# Evaluation questions
+
+- How are the BGCGH school-based programs implementing the Texas ACE for the 2022-2023 school year impacting children through the focused program areas of: Academic Success, Social-Emotional Development and Attendance?
+
+- How does BGCGH support equitable access to quality after school programming?
+
+- How have BGCGH ACE sites compared to each other over the past 3 years?
+
+- What impact has BGCGH ACE had on children over the past 5 years of programming?
+
+- How has BGCGH ACE supported parents?
+
+
+
+```{r}
+
+```
+
+# Data
+
+```{r}
+
+# Import all files from working directory (this is everything sent to us by BGCGH)
+
+csv.file.list <- list.files(pattern='*.csv', recursive = TRUE)
+csv.list <- sapply(csv.file.list, read.csv, simplify=FALSE)
+
+xlsx.file.list <- list.files(pattern='*.xlsx', recursive = TRUE)
+xlsx.list <- sapply(xlsx.file.list, read_xlsx, simplify=FALSE)
+
+pdf.file.list <- list.files(pattern='*.pdf', recursive = TRUE)
+pdf.list <- sapply(pdf.file.list, pdf_text, simplify=FALSE)
+
+```
+
+## 2018-2022 ACE Data 
+
+This houses grade and attendance data from 2018-2022 
+
+
+
+## YPQI Data 
+
+We participate in the annual Youth Program Quality Intervention provided by United Way to conduct a self-assessment on 4 key areas: Safe Environment, Supportive Environment, Interaction, and Engagement. The data provided is a comprehensive breakdown by Club of how they were assessed in the 4 key areas which are further broken down into deeper domains.  
+
+```{r}
+
+```
+
+## NYOI Data 
+
+We participate in an annual survey to hear directly from youth about their Club experience. This survey collects information on selected modules that vary Club. Some of the modules include: Club Experience, Safety, Healthy Lifestyles, Academic Success, Good Character, SEL, Art, STEM, Bullying, Workforce, Risky Behavior. , 
+
+```{r}
+
+```
+
+## Member Demographics 
+
+This is a report pulling demographic statistics for each Club. 
+
+```{r}
+
+```
+
+```{r}
+
+Import PDF data
+
+
+###### Provider clean #######
+url<- c("https://www.twc.texas.gov/files/twc/commission_meeting_materials_09.13.22_item16_bcy23_cc_targets.pdf")
+raw_text <- map(url, pdf_text)
+
+clean_table1<-function(raw) {
+  #split the single pages 
+  raw <-map(raw, ~ str_split(.x, "\\n") %>% unlist())
+  #concatente the split pages
+  raw <- reduce(raw, c)
+  
+  #specify the start and end of the table data
+  table_start <- stringr::str_which(tolower(raw),"Board Name")
+  table_end <- stringr::str_which(tolower(raw), "Sum of Boards")
+  table_end <- table_end[min(which(table_end >table_start))]
+  
+  #Build the table and remove special characters
+  table <- raw[(table_start):(table_end)]
+  table <- str_replace_all(table,"\\s{2,}", "|")
+  text_con <- textConnection(table)
+  data_table <- read.csv(text_con, sep = "|")
+
+#Create a list of column names
+colnames(data_table)<- c("Board Name","#","CY23 Base Allocation","4% Quality Allocation", "Amount Available to Operate the Subsidized CC Program", "Presumed Semi-Fixed Admin/Ops Set Aside","Supplemental Distribution","Available for Direct Care (DC) & Variable Admin/Ops","Variable
+Admin/Ops per Unit","Estimated Avg Provider Reimbursement Rate", "Presumed PSOC","System Cost Per Unit", "BCY23 Target")
+data_table
+}
+
+results <- map_df(raw_text, clean_table1) #I am stuck here and I don't know why-CT (see Amy's attempt below)
+
+
+
+# Amy's attempt:
+
+raw_text <- pdf_text("https://www.twc.texas.gov/files/twc/commission_meeting_materials_09.13.22_item16_bcy23_cc_targets.pdf") 
+
+raw_table <- map(raw_text[3], ~ str_split(.x, "\\n") %>% unlist())
+
+#specify the start and end of the table data
+table_start <- raw_table[[1]] %>% 
+    str_which("Board Name")
+table_end <- raw_table[[1]] %>% 
+    str_which("Sum of Boards")
+
+#Build the table and remove special characters
+table <- raw_table[[1]][(table_start):(table_end)]
+table <- str_replace_all(table,"\\s{2,}", "|")
+text_con <- textConnection(table)
+data_table <- read.csv(text_con, sep = "|")
+  
+#Create a list of column names
+colnames(data_table)<- c("Board Name","#","CY23 Base Allocation","4% Quality Allocation", "Amount Available to Operate the Subsidized CC Program", "Presumed Semi-Fixed Admin/Ops Set Aside","Supplemental Distribution","Available for Direct Care (DC) & Variable Admin/Ops","Variable
+Admin/Ops per Unit","Estimated Avg Provider Reimbursement Rate", "Presumed PSOC","System Cost Per Unit", "BCY23 Target")
+
+
+```
