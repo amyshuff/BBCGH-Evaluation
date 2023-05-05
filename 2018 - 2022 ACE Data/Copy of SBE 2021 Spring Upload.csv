@@ -1,4 +1,4 @@
-Host Site Name,Member ID,Grade,Ace Days Attended,School Days Enrolled,School Days Absent,Criminal Referrals,Non Criminal Referrals,School Day Classes,School Day Classes Passed,Reading Grade,Math Grade,Science Grade,Social Studies Grade
+HostSiteName,UID,Grade,ACE Days Attended,SchoolDaysEnrolled,SchoolDaysAbsent,CriminalReferrals,NonCriminalReferrals,SchoolDayClasses,SchoolDayClassesPassed,ReadingGrade,MathGrade,ScienceGrade,SocialStudiesGrade
 Spring Branch Elementary,1840837,1st,8,94,4,0,0,7,6,D,B,B,D
 Spring Branch Elementary,1841055,1st,12,94,8,0,0,7,6,D,B,B,B
 Spring Branch Elementary,1841056,1st,55,94,3,0,0,7,7,B,B,B,A
