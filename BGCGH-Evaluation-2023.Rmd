@@ -9,6 +9,24 @@ output: html_document
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
 ```
 
+## My questions: 
+
+- Are UID, Member ID, and Club ID all the same thing? I assume these are identifying individual students. Why do some of them have Cs before the number?
+
+- What’s the difference between School Day Classes and School Day Classes Passed?
+
+- We have half as many student report cards in 2022 (351) as 2021 (803). For 2022, SOM, TWH, WW, and WV all have exactly 60 students. We only have three kindergarten students from 2022, all from TWH. Looks like this is the same as last year's report. What can we expect for this year's 2023 data? Why so few report cards?
+
+- In previous years the total attendance has been: 1622, 1227, and 1504. We do not have attendance numbers for this year. We only have the aggregated statistics in the Club Demographics file.
+
+- I'm not sure what"BGCGH SOM 21stCCLC Upload" file is for. We already have SOM data for 2021 and 2022 in other files.
+
+- Folder “2018 - 2022 ACE Data”, file name “Copy of SOM 2021 Spring Upload”, column “ACE Days Attended” has extra values (after row 180) that have no other information. It also says Total Hours Attended in cell D53. Maybe some other column was accidentally pasted here?
+
+- In folder “2018 - 2022 ACE Data”, file name “The Womens Home 2022 Grade Upload”, row 3, the Grade is listed as 1nd. Should this be 1st or 2nd?
+
+- Is the 2022 ACE data also from the Spring term?
+
 ``` {r, results='hide'}
 
 library(knitr)
@@ -24,19 +42,25 @@ library(pdftools)
 ```
 
 
-
 # Data
 
 ```{r}
 
 # Import all files from working directory (this is everything sent to us by BGCGH)
 
+
+# Import all cvs files
 csv.file.list <- list.files(pattern='*.csv', recursive = TRUE)
 csv.list <- sapply(csv.file.list, read.csv, simplify = FALSE, USE.NAMES = TRUE)
 
-xlsx.file.list <- list.files(pattern='*.xlsx', recursive = TRUE)
-xlsx.list <- sapply(xlsx.file.list, read_xlsx, simplify = FALSE, USE.NAMES = TRUE)
 
+# Import all xlsx files. These have a tab for each site, so I'll use a loop to read in all the tabs.
+xlsx.file.list <- list.files(pattern='*.xlsx', recursive = TRUE)
+xlsx.list <- list()
+for (file in xlsx.file.list){xlsx.list[[file]] <- sapply(excel_sheets(file), read_xlsx, path = file, simplify = FALSE, USE.NAMES = TRUE)}
+
+
+# Import all pdf files
 pdf.file.list <- list.files(pattern='*.pdf', recursive = TRUE)
 pdf.list <- sapply(pdf.file.list, pdf_text, simplify = FALSE, USE.NAMES = TRUE)
 
@@ -51,13 +75,6 @@ Texas Afterschool Centers on Education (Texas ACE™) program. Grant funding to 
 https://tea.texas.gov/sites/default/files/texas_ace_messaging_guide2021_22.pdf.pdf
 
 
-My questions: 
-- Are UID, Member ID, and Club ID all the same thing? Are these identifying individual students? Why do some of them have Cs before the number?
-- What’s the difference between School Day Classes and School Day Classes Passed?
-- I'm not sure what"BGCGH SOM 21stCCLC Upload" file is for. We already have SOM data for 2021 and 2022 in other files.
-- We have twice as many students in 2021 as 2022. Is this right? For 2022, SOM, TWH, WW, and WV all have exactly 60 students. We only have three kindergarten students from 2022, all from TWH.
-- In previous years the total attendance has been: 1622, 1227, and 1504. This has me convinced that our data is not complete. I only have 351 records for 2022 and about 803 for 2021.
-- I see a note from last year that says they only had 351 report cards to analyze, which aligns with what I'm seeing. But they also had total attendance numbers, which we do not. We don't have the total number of membbers each year, only the aggregated statistics in the Club Demographics file.
 
 # Notes from last year's report
 A limitation of this analysis is the amount of available report cards. Despite the number of Club Members in Texas ACE™, only a sample size of 351 report cards were available. Because of the variability in grade level and Club site within the sample, this data has limited generalizability of the actual grade distribution within the five Clubs.
@@ -158,8 +175,8 @@ Please note, The Women’s Home, Westwood, and Woodview did not participate in t
 
 ```{r}
 
-pdf.file.list
-pdf.list
+# pdf.file.list
+# pdf.list
 
 ```
 
@@ -173,10 +190,10 @@ We participate in an annual survey to hear directly from youth about their Club 
 
 For more information about NYOI and how it measures Boys and Girls Club experiences: https://clubexperience.blog/2018/02/22/how-do-we-measure-the-club-experience/
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 
-xlsx.file.list
-xlsx.list
+# xlsx.file.list
+# xlsx.list
 
 # Look at each file individually to see what it contains and if changes need to be made before it's joined with the others.
 
@@ -189,26 +206,26 @@ membersurvey2021 <- read_xlsx("NYOI Data/2021 Member Survey Report.xlsx")
 membersurvey2022 <- read_xlsx("NYOI Data/2022 Member Survey Report.xlsx")
 
 
-
 ```
 
-## Member Demographics 
+# Member Demographics 2023
 
-This is a report pulling demographic statistics for each Club. 
+This is a report pulling demographic statistics for each Club. Percents do not add up to 100 because each site had some percent not reported.
 
 ```{r}
 
 # 2023 Club Demographics
-View(xlsx.list[[1]])
+# View(xlsx.list[[1]])
 
-# read_xlsx needs to bring in a tab for each club
-
-demographics2023.list <- sapply(excel_sheets("2023 Club Demographics.xlsx"), read_xlsx, path = "2023 Club Demographics.xlsx", simplify = FALSE, USE.NAMES = TRUE)
-
-demographics2023 <- bind_rows(demographics2023.list, .id = "HostSiteName") %>% 
-  rename(demographic = Gender,
+club.demographics.2023 <- bind_rows(xlsx.list[[1]], .id = "Site") %>% 
+  rename(Demographic = Gender,
          demographic.pct = ...2) %>% 
-  na.omit()
+  na.omit() %>% 
+  mutate(Site = gsub("SBE", "Spring Branch Elementary", Site),
+         Site = gsub("SO", "Spring Oaks Middle", Site),
+         Site = gsub("TWH", "The Womans' Home", Site),
+         Site = gsub("WV", "Woodview Elementary", Site),
+         Site = gsub("WW", "Westwood Elementary", Site))
 
 # Gender: Male, Female
 # Race: Asian, Black, Latino, Native, White, 2+
@@ -217,33 +234,153 @@ demographics2023 <- bind_rows(demographics2023.list, .id = "HostSiteName") %>%
 
 ```
 
-Create table: 
-                    Female Male
-Spring Branch Elementary 81 91
-Spring Oaks Middle 187 232
-The Women’s Home 62 82
-Westwood Elementary 118 132
-Woodview Elementary 123 108
+## Gender
+
+Westwood Elementary had the highest not reporting gender, at 11%. Note that the options for this survey were only Male or Female.
+
 ```{r}
 
-gender <- demographics2023 %>% 
-  filter(demographic == 'Male' | demographic == 'Female') 
+# Gender: Male, Female
 
-  
-gathergender <- gender %>% 
-  gather(demographic)
+gender <- club.demographics.2023 %>% 
+  filter(Demographic == 'Male' | Demographic == 'Female') %>% 
+  mutate(Male = ifelse(Demographic == 'Male', demographic.pct, NA),
+        Female = ifelse(Demographic == "Female", demographic.pct, NA)) %>% 
+  group_by(Site) %>% 
+  summarise(Male = sum(Male, na.rm = T),
+            Female = sum(Female, na.rm = T)) %>% 
+  mutate("Not Set" = 1-Male-Female)
 
+kable(gender, lables = scales::label_percent())
 
-tgender <- gender %>% 
-  as.data.frame.table(`colnames<-`(t(gender[-1]), gender$demographic))[c(2, 1, 3)]
-  
-  
-  t(gender[-1])
+gender.plot <- club.demographics.2023 %>% 
+ filter(Demographic == 'Male' | Demographic == 'Female')  
 
-as.data.frame.table(`colnames<-`(t(df[-1]), df$Category))[c(2, 1, 3)]
+ggplot(gender.plot, aes(x = Site, y = demographic.pct)) +
+  geom_col(aes(fill = Demographic)) +
+  coord_flip() +
+  geom_text(aes(label = scales::percent(demographic.pct)), color = "white", hjust = 1.5, position = "stack") +
+  labs(title = "Gender") +
+  theme(panel.background = element_blank(),
+        axis.text.x = element_blank(),
+        axis.ticks.x = element_blank()) +
+  ylab("Percent") +
+  xlab("") 
+
 ```
 
+## Race
+
+Latino made up the highest percent of student race at any site, although lack of response was high at Spring Branch Elementary (76%), Spring Oaks Middle (62%) and The Womans’ Home (49%).
+
 ```{r}
+
+# Race: Asian, Black, Latino, Native, White, 2+
+
+race <- club.demographics.2023 %>% 
+  filter(Demographic == 'Latino' | 
+           Demographic == 'White'| 
+           Demographic == 'Black'| 
+           Demographic == 'Asian' | 
+           Demographic == 'Native'| 
+           Demographic == '2+') %>% 
+  mutate(
+      Latino = ifelse(Demographic == "Latino", demographic.pct, NA),
+      White = ifelse(Demographic == "White", demographic.pct, NA),
+      Black = ifelse(Demographic == "Black", demographic.pct, NA),
+      Asian = ifelse(Demographic == "Asian", demographic.pct, NA),
+      Native = ifelse(Demographic == "Native", demographic.pct, NA),
+      Multiple = ifelse(Demographic == "2+", demographic.pct, NA)) %>% 
+  group_by(Site) %>% 
+  summarise(
+            Latino = sum(Latino, na.rm = T),    
+            White = sum(White, na.rm = T),       
+            Black = sum(Black, na.rm = T),
+            Asian = sum(Asian, na.rm = T),
+            Native = sum(Native, na.rm = T),
+            Multiple = sum(Multiple, na.rm = T)) %>% 
+  mutate("Not Set" = 1-Asian-Black-Latino-Native-White-Multiple)
+
+kable(race)
+
+race.plot <- 
+  club.demographics.2023 %>% 
+  filter(Demographic == 'Latino' | 
+           Demographic == 'White'| 
+           Demographic == 'Black'| 
+           Demographic == 'Asian' | 
+           Demographic == 'Native'| 
+           Demographic == '2+')
+  
+
+ggplot(race.plot, aes(x = Site, y = demographic.pct)) +
+  geom_col(aes(fill = Demographic)) +
+  coord_flip() +
+  geom_text(aes(label = ifelse(Demographic == "Latino", scales::percent(demographic.pct), '')), 
+                color = "white", hjust = 1.5, position = "stack") +
+  labs(title = "Race") +
+  theme(panel.background = element_blank(),
+        axis.text.x = element_blank(),
+        axis.ticks.x = element_blank()) +
+  ylab("Percent") +
+  xlab("") 
+
+# I want to figure out how to order these: levels=c("Latino", "White", "Black", "Native", "Asian", "2+")
+
+```
+
+## Age
+
+Ages five to nine were the most represented at all sites except Spring Oaks Middle, which was primarily ages thirteen to eighteen.
+
+```{r}
+
+# Age: 5 to 9, 10 to 12, 13 to 18
+
+age <- club.demographics.2023 %>% 
+  filter(Demographic == '5 to 9' | 
+           Demographic == '10 to 12'| 
+           Demographic == '13 to 18') %>% 
+  mutate(
+      "Five_Nine" = ifelse(Demographic == '5 to 9', demographic.pct, NA),
+      "Ten_Twelve" = ifelse(Demographic == '10 to 12', demographic.pct, NA),
+      "Thirteen_Eighteen" = ifelse(Demographic == '13 to 18', demographic.pct, NA)) %>% 
+  group_by(Site) %>% 
+  summarise(Five_Nine = sum(Five_Nine, na.rm = T),    
+            Ten_Twelve = sum(Ten_Twelve, na.rm = T),       
+            Thirteen_Eighteen = sum(Thirteen_Eighteen, na.rm = T)) %>% 
+  mutate("Not Set" = 1-Five_Nine-Ten_Twelve-Thirteen_Eighteen)
+
+kable(age)
+
+age.plot <- 
+  club.demographics.2023  %>% 
+  filter(Demographic == '5 to 9' | 
+           Demographic == '10 to 12'| 
+           Demographic == '13 to 18')
+  
+
+ggplot(age.plot, aes(x = Site, y = demographic.pct)) +
+  geom_col(aes(fill = Demographic)) +
+  coord_flip() +
+  geom_text(aes(label = ifelse(Demographic == "5 to 9" | Demographic == "13 to 18", scales::percent(demographic.pct), '')), 
+                color = "white", hjust = 1.5) +
+  labs(title = "Age") +
+  theme(panel.background = element_blank(),
+        axis.text.x = element_blank(),
+        axis.ticks.x = element_blank()) +
+  ylab("Percent") +
+  xlab("") 
+
+#, position = "stack"
+
+# tables and graphs should be in the same order
+# Order should follow age: 5 to 9, 10 to 12, 13 to 18
+
+```
+
+
+```{r eval=FALSE, include=FALSE}
 
 # Copy and pasted example code of extracting tables from a pdf (From Child Care project)
 
