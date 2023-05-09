@@ -11,21 +11,25 @@ knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
 
 ## My questions: 
 
-- Are UID, Member ID, and Club ID all the same thing? I assume these are identifying individual students. Why do some of them have Cs before the number?
-
-- What’s the difference between School Day Classes and School Day Classes Passed?
+- Are UID, Member ID, and Club ID all the same thing? I assume these are identifying individual students. Why do some of the Woodview UIDs have Cs before the number?
 
 - We have half as many student report cards in 2022 (351) as 2021 (803). For 2022, SOM, TWH, WW, and WV all have exactly 60 students. We only have three kindergarten students from 2022, all from TWH. Looks like this is the same as last year's report. What can we expect for this year's 2023 data? Why so few report cards?
 
 - In previous years the total attendance has been: 1622, 1227, and 1504. We do not have attendance numbers for this year. We only have the aggregated statistics in the Club Demographics file.
 
-- I'm not sure what"BGCGH SOM 21stCCLC Upload" file is for. We already have SOM data for 2021 and 2022 in other files.
+- I'm not sure what"BGCGH SOM 21stCCLC Upload" file is for. We already have SOM data for 2021 and 2022 in other files. It has GPA instead of subject grade letters like other files. Also, they shared names here and I don't think they should should have done that.
 
 - Folder “2018 - 2022 ACE Data”, file name “Copy of SOM 2021 Spring Upload”, column “ACE Days Attended” has extra values (after row 180) that have no other information. It also says Total Hours Attended in cell D53. Maybe some other column was accidentally pasted here?
 
 - In folder “2018 - 2022 ACE Data”, file name “The Womens Home 2022 Grade Upload”, row 3, the Grade is listed as 1nd. Should this be 1st or 2nd?
 
-- Is the 2022 ACE data also from the Spring term?
+- Is the 2022 ACE data also from the Spring term? Are we expecting Spring data for 2023?
+
+- 2022 ACE data has 174 school days for all students. 2021 ACE data has SchoolDaysEnrolled and SchoolDayClasses, which both range from 0 to 94. But they're not always the same, nor do they match ACE Days Attended.
+
+- One kid has an S in math? The Woman's Home, 4th grade, 2022. Made an A in English, though.
+
+- Quite a few grades missing from 2021 data.
 
 ``` {r, results='hide'}
 
@@ -96,12 +100,11 @@ Required Funding Statement: Funded by the 21st CCLC Program administered by the 
 Education
 
 When reporting numeric values for grades, a traditional 0 to 4 grade point scale is utilized in which 0
-represents a grade of ‘F’ and 4 represents a grade of ‘A.’ In the case of overall grades, which included
-reporting options of “Mostly A’s and B’s” and so forth, the middle point between the two grades is assigned
-where appropriate. For example “Mostly A’s and B’s” is scored as 3.5, or halfway between the 4.0 of ‘A’
-and the 3.0 of ‘B.’
+represents a grade of ‘F’ and 4 represents a grade of ‘A.’
 
 ```{r}
+
+# ACE Data
 
 # I went in to each ACE file and manually changed column names in Excel so that they were all the same. Could have coded it, but I assume they'll give us different things again next year.
 
@@ -126,12 +129,21 @@ and the 3.0 of ‘B.’
 ace2021 <- bind_rows(list(csv.list[[2]], csv.list[[4]], csv.list[[5]], csv.list[[6]]), .id = "id") %>% 
   mutate(Year = as.numeric(2021),
          Term = "Spring",
-         Data = "ACE")
+         Data = "ACE",
+         HostSiteName = gsub("The Womens' Home", "The Womans' Home", HostSiteName)) %>% 
+  rename(Site = HostSiteName,
+         Number.of.School.Days = SchoolDaysEnrolled,
+         Number.of.Texas.ACE.Days = ACE.Days.Attended,
+         Math = MathGrade,
+         English.Reading = ReadingGrade) 
 
-# I looked for duplicates in ace2021, since it has 623 obs and 2022 only has 351.
-# Westwood 1840898, Spring Branch 1841070 has different attendance records and different grades
+# figure out how to remove duplicate UIDs
+ace2021.duplicates <- ace2021$UID[duplicated(ace2021$UID)]
+# paste(ace2021.duplicates)
+# "1841070" "1839453" "1840898"
 
-# Four sites in 2021 data: Spring Branch, The Womans' Home, Westwood, Woodview
+ace2021 <- ace2021 %>% 
+  select(Site, Grade, Number.of.School.Days, Number.of.Texas.ACE.Days, Math, English.Reading, Year, Term, Data)
 # Will have Spring Oaks Middle after the data issue is resolved.
 
 
@@ -158,12 +170,79 @@ ace2022 <- bind_rows(list(csv.list[[7]], csv.list[[8]]), .id = "id") %>%
   bind_rows(., list(csv.list[[9]], csv.list[[10]], csv.list[[11]]), .id = "id") %>% 
   mutate(Year = as.numeric(2022),
          Data = "ACE")
+ace2022 <- ace2022 %>% 
+  mutate(Site = ifelse(substr(ace2022$Club.ID, 1, 3) == "SOM", "Spring Oaks Middle", ""),
+         Site = ifelse(substr(ace2022$Club.ID, 1, 3) == "SBE", "Spring Branch Elementary", Site),
+         Site = ifelse(substr(ace2022$Club.ID, 1, 3) == "TWH", "The Womans' Home", Site),
+         Site = ifelse(substr(ace2022$Club.ID, 1, 3) == "WWE", "Westwood Elementary", Site),
+         Site = ifelse(substr(ace2022$Club.ID, 1, 2) == "WV", "Woodview Elementary", Site))
 
+ace2022.duplicates <- ace2022$Club.ID[duplicated(ace2022$Club.ID)]
+# paste(ace2022.duplicates)
+# No duplicates in 2022 data
 
-# 2022 data has five sites: Spring Branch, Spring Oaks, The Womans' Home, Westview, Westwood
+ace2022 <- ace2022 %>% 
+  select(Site, Grade, Number.of.School.Days, Number.of.Texas.ACE.Days, Math, English.Reading, Year, Data)
 
+# Evaluation Question: How have BGCGH ACE sites compared to each other over the past 3 years?
+
+ace <- bind_rows(ace2021, ace2022) %>%
+  # Kinder has Pass/Fail. They were excluded from previous reports.
+  filter(!Grade == "Kindergarten" & !Grade == "Kinder") %>% 
+  # 2022 GPA Methodology – Letter grades were converted to gpa scale where A=4, B=3, C=2, D=1, F=0 then averaged and rounded to the nearest whole number. Methodology consistent with 2020-2021 report  
+  mutate(Math = ifelse(Math == "A", 4, Math),
+         Math = ifelse(Math == "B", 3, Math),
+         Math = ifelse(Math == "C", 2, Math),
+         Math = ifelse(Math == "D", 1, Math),
+         Math = ifelse(Math == "F", 0, Math),
+         Math = as.numeric(Math),
+         English.Reading = ifelse(English.Reading == "A", 4, English.Reading),
+         English.Reading = ifelse(English.Reading == "B", 3, English.Reading),
+         English.Reading = ifelse(English.Reading == "C", 2, English.Reading),
+         English.Reading = ifelse(English.Reading == "D", 1, English.Reading),
+         English.Reading = ifelse(English.Reading == "F", 0, English.Reading),
+         English.Reading = as.numeric(English.Reading)) 
+
+# One kid has an S in math? The Woman's Home, 4th grade, 2022, made an A in English, though
+# Quite a few grades missing from 2021 data
+
+```
+
+## Math GPA
+
+On average, math grades seem to have improved from 2021 to 2022. But we also have significantly fewer report cards to analyze, so there's a chance this wasn't a significant change.
+
+```{r}
+
+ace.averages <- ace %>% 
+  group_by(Site, Year) %>% 
+  summarise(Math = mean(Math, na.rm = TRUE),
+            English.Reading = mean(English.Reading, na.rm = TRUE))
+
+kable(ace.averages, caption = "Average GPA by Site and Year", digits = 2)
+
+# one of the old reports did a histogram with the frequency of grades. I like that a lot.
+# geom_histogram() or geom_freqpoly()
+
+ggplot(ace.averages, aes(x = Site, y = Math, fill = factor(ace.averages$Year))) +
+  geom_bar(stat = "identity", position = "dodge") +
+  coord_flip() +
+  geom_text(aes(label = Math), 
+                color = "white",
+            position = "dodge") +
+  labs(title = "Average Math GPA by Site and Year") +
+  theme(panel.background = element_blank()) +
+  ylab("Average Math GPA") +
+  xlab("") +
+  guides(fill = guide_legend(title = "Year"))
+
+# Why is it so hard to get the labels in the right place?
     
 ```
+
+
+
+
 
 ## YPQI Data 
 
@@ -265,7 +344,7 @@ ggplot(gender.plot, aes(x = Site, y = demographic.pct)) +
         axis.text.x = element_blank(),
         axis.ticks.x = element_blank()) +
   ylab("Percent") +
-  xlab("") 
+  xlab("")
 
 ```
 
