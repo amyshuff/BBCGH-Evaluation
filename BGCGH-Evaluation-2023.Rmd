@@ -9,27 +9,37 @@ output: html_document
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
 ```
 
-## My questions: 
+Last year's report was Fall 2021 - Spring 2022. 
+This year's report will be Fall 2022 - Spring 2023.
 
-- Are UID, Member ID, and Club ID all the same thing? I assume these are identifying individual students. Why do some of the Woodview UIDs have Cs before the number?
 
-- We have half as many student report cards in 2022 (351) as 2021 (803). For 2022, SOM, TWH, WW, and WV all have exactly 60 students. We only have three kindergarten students from 2022, all from TWH. Looks like this is the same as last year's report. What can we expect for this year's 2023 data? Why so few report cards?
+By next check-in:
 
-- In previous years the total attendance has been: 1622, 1227, and 1504. We do not have attendance numbers for this year. We only have the aggregated statistics in the Club Demographics file.
+- check with district about lack of report cards
 
-- I'm not sure what"BGCGH SOM 21stCCLC Upload" file is for. We already have SOM data for 2021 and 2022 in other files. It has GPA instead of subject grade letters like other files. Also, they shared names here and I don't think they should should have done that.
+- New SOM 2021 Spring Upload file: Folder “2018 - 2022 ACE Data”, file name “Copy of SOM 2021 Spring Upload”
 
-- Folder “2018 - 2022 ACE Data”, file name “Copy of SOM 2021 Spring Upload”, column “ACE Days Attended” has extra values (after row 180) that have no other information. It also says Total Hours Attended in cell D53. Maybe some other column was accidentally pasted here?
 
-- In folder “2018 - 2022 ACE Data”, file name “The Womens Home 2022 Grade Upload”, row 3, the Grade is listed as 1nd. Should this be 1st or 2nd?
+To expect with the next data upload this summer:
 
-- Is the 2022 ACE data also from the Spring term? Are we expecting Spring data for 2023?
+- Attendance numbers. (In previous years the total attendance has been: 1622, 1227, and 1504.)
 
-- 2022 ACE data has 174 school days for all students. 2021 ACE data has SchoolDaysEnrolled and SchoolDayClasses, which both range from 0 to 94. But they're not always the same, nor do they match ACE Days Attended.
-
-- One kid has an S in math? The Woman's Home, 4th grade, 2022. Made an A in English, though.
+- Fall 2023 ACE files (report cards) - will probably only get a few hundred again
 
 - Quite a few grades missing from 2021 data.
+
+
+# Next Questions
+
+- You said the 2021 data we have is from the fall. We have the same number of report cards, from the same grades and the same sites, other than woodview. Quite the coincidence. 
+
+
+- 2021 ACE data is only from Spring. Should we also have fall?
+
+- The ACE folder is named 2018-2022. Are we supposed to grab 2018-2020 data from the old evaluation reports?
+
+
+
 
 ``` {r, results='hide'}
 
@@ -76,31 +86,28 @@ This houses grade and attendance data from 2018-2022.
 
 Texas Afterschool Centers on Education (Texas ACE™) program. Grant funding to provide high-quality academic enrichment opportunities for children and youth during non-school hours.
 
-https://tea.texas.gov/sites/default/files/texas_ace_messaging_guide2021_22.pdf.pdf
+Messaging guide: https://tea.texas.gov/sites/default/files/texas_ace_messaging_guide2021_22.pdf.pdf
 
+The school district supplies the report cards
 
+Notes from last year's report:
 
-# Notes from last year's report
 A limitation of this analysis is the amount of available report cards. Despite the number of Club Members in Texas ACE™, only a sample size of 351 report cards were available. Because of the variability in grade level and Club site within the sample, this data has limited generalizability of the actual grade distribution within the five Clubs.
+
 Number of report cards do not match total Membership numbers. Analysis is limited to the total number of report cards provided N=351
 
 (Looking at their report card numbers, we have that same data again this year.)
 
-But they also had general attendance records, even if they didn't have grades for everyone. I'm not sure we have attendance?
 
-GPA Methodology – Letter grades were converted to gpa scale where A=4, B=3, C=2, D=1, F=0 then averaged and rounded to the nearest whole number. Methodology consistent with 2020-2021 report
+Notes from 19-20 report:
 
-# Notes from 19-20 report
-
-number of days of BGCGH Texas ACETM programming
+number of days of BGCGH Texas ACE programming
 attended by a given student could not be calculated to a reasonable level of certainity because of disparities
 in data collection and management procedures.
 
 Required Funding Statement: Funded by the 21st CCLC Program administered by the US Department of
 Education
 
-When reporting numeric values for grades, a traditional 0 to 4 grade point scale is utilized in which 0
-represents a grade of ‘F’ and 4 represents a grade of ‘A.’
 
 ```{r}
 
@@ -108,6 +115,7 @@ represents a grade of ‘F’ and 4 represents a grade of ‘A.’
 
 # I went in to each ACE file and manually changed column names in Excel so that they were all the same. Could have coded it, but I assume they'll give us different things again next year.
 
+# We weren't supposed to have this file
 # Spring Oaks Middle
 # 21st Century Community Learning Centers program administered by the U.S. Department of Education
 # SOM 21st CCLC. Center Name C1. What is this?
@@ -147,7 +155,7 @@ ace2021 <- ace2021 %>%
 # Will have Spring Oaks Middle after the data issue is resolved.
 
 
-# ACE 2022
+# ACE 2022 - Fall
 # Club.ID now starts with site name initials instead of a column for HostSiteName.
 # View(csv.list[[7]]) # Grade is number (1)
 # View(csv.list[[8]]) # Grade is number (1)
@@ -175,15 +183,50 @@ ace2022 <- ace2022 %>%
          Site = ifelse(substr(ace2022$Club.ID, 1, 3) == "SBE", "Spring Branch Elementary", Site),
          Site = ifelse(substr(ace2022$Club.ID, 1, 3) == "TWH", "The Womans' Home", Site),
          Site = ifelse(substr(ace2022$Club.ID, 1, 3) == "WWE", "Westwood Elementary", Site),
-         Site = ifelse(substr(ace2022$Club.ID, 1, 2) == "WV", "Woodview Elementary", Site))
+         Site = ifelse(substr(ace2022$Club.ID, 1, 2) == "WV", "Woodview Elementary", Site),
+         Term = "Fall")
 
 ace2022.duplicates <- ace2022$Club.ID[duplicated(ace2022$Club.ID)]
 # paste(ace2022.duplicates)
 # No duplicates in 2022 data
 
 ace2022 <- ace2022 %>% 
-  select(Site, Grade, Number.of.School.Days, Number.of.Texas.ACE.Days, Math, English.Reading, Year, Data)
+  select(Site, Grade, Number.of.School.Days, Number.of.Texas.ACE.Days, Math, English.Reading, Year, Term, Data)
 
+# - 2022 Fall ACE data has 174 school days for all students. 2021 ACE data has SchoolDaysEnrolled and SchoolDayClasses, which both range from 0 to 94. But they're not always the same, nor do they match ACE Days Attended.
+```
+
+
+BGCGH told us this 2022 data was from the fall, but it looks exactly like last year's data except for Woodview.
+
+```{r}
+
+ace2022.counts <- ace2022 %>% 
+  group_by(Site) %>% 
+  summarise(Kindergarten = sum(Grade == 'Kinder'),
+            "1st" = sum(Grade == '1st'),
+            "2nd" = sum(Grade == '2nd'),
+            "3rd" = sum(Grade == '3rd'),
+            "4th" = sum(Grade == '4th'),
+            "5th" = sum(Grade == '5th'),
+            "6th" = sum(Grade == '6th'),
+            "7th" = sum(Grade == '7th'),
+            "8th" = sum(Grade == '8th'))
+  
+kable(ace2022.counts, caption = "2022 Report Card Counts")
+
+```
+
+
+
+
+
+
+
+
+
+
+```{r}
 # Evaluation Question: How have BGCGH ACE sites compared to each other over the past 3 years?
 
 ace <- bind_rows(ace2021, ace2022) %>%
@@ -203,44 +246,85 @@ ace <- bind_rows(ace2021, ace2022) %>%
          English.Reading = ifelse(English.Reading == "F", 0, English.Reading),
          English.Reading = as.numeric(English.Reading)) 
 
-# One kid has an S in math? The Woman's Home, 4th grade, 2022, made an A in English, though
+# One kid has an S in math, but as.numeric makes it NA, so it's automatically dropped
 # Quite a few grades missing from 2021 data
+
+# We should expect 2023 Spring ACE Data?
 
 ```
 
-## Math GPA
+
+
+```{r}
+
+# Average Math and English/Reading GPAs
+
+ace.averages <- ace %>% 
+  group_by(Site, Year, Term) %>% 
+  summarise(Math = mean(Math, na.rm = TRUE),
+            English.Reading = mean(English.Reading, na.rm = TRUE),
+            "Number of Report Cards" = n()) %>% 
+  mutate_if(is.numeric, round, digits = 2)
+
+kable(ace.averages, caption = "Average GPA by Site and Year", digits = 2)
+
+# one of the old reports did a histogram with the frequency of grades. I like that idea.
+# geom_histogram() or geom_freqpoly()
+
+```
+
+
+### Math GPA
 
 On average, math grades seem to have improved from 2021 to 2022. But we also have significantly fewer report cards to analyze, so there's a chance this wasn't a significant change.
 
 ```{r}
 
-ace.averages <- ace %>% 
-  group_by(Site, Year) %>% 
-  summarise(Math = mean(Math, na.rm = TRUE),
-            English.Reading = mean(English.Reading, na.rm = TRUE))
-
-kable(ace.averages, caption = "Average GPA by Site and Year", digits = 2)
-
-# one of the old reports did a histogram with the frequency of grades. I like that a lot.
-# geom_histogram() or geom_freqpoly()
+# Math GPA by Site and Year
 
 ggplot(ace.averages, aes(x = Site, y = Math, fill = factor(ace.averages$Year))) +
   geom_bar(stat = "identity", position = "dodge") +
   coord_flip() +
   geom_text(aes(label = Math), 
                 color = "white",
-            position = "dodge") +
+            position = position_dodge(width = .9),
+            hjust = 2) +
   labs(title = "Average Math GPA by Site and Year") +
   theme(panel.background = element_blank()) +
   ylab("Average Math GPA") +
   xlab("") +
-  guides(fill = guide_legend(title = "Year"))
+  guides(fill = guide_legend(title = "Year")) +
+    scale_fill_hue(l=40)
 
-# Why is it so hard to get the labels in the right place?
     
 ```
 
 
+### English/Reading GPA
+
+As with Math, there seems to be an increase in the average English/Reading grades from 2021 to 2022.
+
+```{r}
+
+# English/Reading GPA by Site and Year
+
+ggplot(ace.averages, aes(x = Site, y = English.Reading, fill = factor(ace.averages$Year))) +
+  geom_bar(stat = "identity", position = "dodge") +
+  coord_flip() +
+  geom_text(aes(label = English.Reading), 
+                color = "white",
+            position = position_dodge(width = .9),
+            hjust = 2) +
+  labs(title = "Average English/Reading GPA by Site and Year") +
+  theme(panel.background = element_blank()) +
+  ylab("Average English/Reading GPA") +
+  xlab("") +
+  guides(fill = guide_legend(title = "Year")) +
+    scale_fill_hue(l=40)
+
+
+    
+```
 
 
 
@@ -256,6 +340,8 @@ Please note, The Women’s Home, Westwood, and Woodview did not participate in t
 
 # pdf.file.list
 # pdf.list
+
+# Everything we have right now is from 2022.
 
 ```
 
@@ -313,7 +399,7 @@ club.demographics.2023 <- bind_rows(xlsx.list[[1]], .id = "Site") %>%
 
 ```
 
-## Gender
+### Gender
 
 Westwood Elementary had the highest not reporting gender, at 11%. Note that the options for this survey were only Male or Female.
 
@@ -344,11 +430,12 @@ ggplot(gender.plot, aes(x = Site, y = demographic.pct)) +
         axis.text.x = element_blank(),
         axis.ticks.x = element_blank()) +
   ylab("Percent") +
-  xlab("")
+  xlab("") +
+    scale_fill_hue(l=40)
 
 ```
 
-## Race
+### Race
 
 Latino made up the highest percent of student race at any site, although lack of response was high at Spring Branch Elementary (76%), Spring Oaks Middle (62%) and The Womans’ Home (49%).
 
@@ -402,13 +489,14 @@ ggplot(race.plot, aes(x = Site, y = demographic.pct)) +
         axis.text.x = element_blank(),
         axis.ticks.x = element_blank()) +
   ylab("Percent") +
-  xlab("") 
+  xlab("")  +
+    scale_fill_hue(l=40)
 
 # I want to figure out how to order these: levels=c("Latino", "White", "Black", "Native", "Asian", "2+")
 
 ```
 
-## Age
+### Age
 
 Ages five to nine were the most represented at all sites except Spring Oaks Middle, which was primarily ages thirteen to eighteen.
 
@@ -449,7 +537,8 @@ ggplot(age.plot, aes(x = Site, y = demographic.pct)) +
         axis.text.x = element_blank(),
         axis.ticks.x = element_blank()) +
   ylab("Percent") +
-  xlab("") 
+  xlab("")  +
+    scale_fill_hue(l=40)
 
 #, position = "stack"
 
