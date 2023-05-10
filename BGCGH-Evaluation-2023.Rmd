@@ -26,19 +26,18 @@ To expect with the next data upload this summer:
 
 - Fall 2023 ACE files (report cards) - will probably only get a few hundred again
 
-- Quite a few grades missing from 2021 data.
-
 
 # Next Questions
 
-- You said the 2021 data we have is from the fall. We have the same number of report cards, from the same grades and the same sites, other than woodview. Quite the coincidence. 
+- You said the 2021 data we have is from the fall. We have the same number of report cards, from the same grades and the same sites, other than woodview, as the spring 2021 data in last year's report. Quite the coincidence if it isn't the exact same data.
 
+- 2021 ACE data is only from Spring. Should we also have Fall?
 
-- 2021 ACE data is only from Spring. Should we also have fall?
+- The ACE folder is named 2018-2022. Are we supposed to grab 2018-2020 data from the old evaluation reports? We can't do this because most of the graphs do not have individual data labels. Also, the exact same graphs were not recreated each year. We could give very basic comparisons like total attendance once we have those numbers for 2023.
 
-- The ACE folder is named 2018-2022. Are we supposed to grab 2018-2020 data from the old evaluation reports?
+- 2019 report is not final 
 
-
+- Quite a few grades missing from 2021 data.
 
 
 ``` {r, results='hide'}
@@ -98,6 +97,8 @@ Number of report cards do not match total Membership numbers. Analysis is limite
 
 (Looking at their report card numbers, we have that same data again this year.)
 
+Folder for last year's report: https://childrenatrisk.sharepoint.com/sites/GDrive/Shared%20Documents/Forms/AllItems.aspx?ct=1683734745868&or=Teams%2DHL&ga=1&id=%2Fsites%2FGDrive%2FShared%20Documents%2FCenter%20for%20Social%20Measurement%20and%20Evaluation%2FSharmily%20Working%2FBoys%20ang%20Girls%20Club%20Info%2FData%20Sets&viewid=31449e19%2Dda16%2D4372%2D8e07%2D45d6b35480c4
+
 
 Notes from 19-20 report:
 
@@ -113,28 +114,19 @@ Education
 
 # ACE Data
 
-# I went in to each ACE file and manually changed column names in Excel so that they were all the same. Could have coded it, but I assume they'll give us different things again next year.
+# Evaluation question: What impact has BGCGH ACE had on children over the past 5 years of programming?
 
-# We weren't supposed to have this file
-# Spring Oaks Middle
-# 21st Century Community Learning Centers program administered by the U.S. Department of Education
-# SOM 21st CCLC. Center Name C1. What is this?
-# Has GPA instead of subject grade letters like other files
-# Also, they shared names here and I don't think they should should have done that. I'll delete those after I figure this file out.
-# View(csv.list[[1]])
+
+# I went in to each ACE file and manually changed column names in Excel so that they were all the same. Could have coded it, but I assume they'll give us different things again next year.
 
 # Look at each file individually to see what it contains and if changes need to be made before it's joined with the others.
 
 # ACE Spring 2021
-# View(csv.list[[2]])
-# View(csv.list[[3]]) # SOM. has extra values in "ACE.Days.Attended"
-# View(csv.list[[4]])
-# View(csv.list[[5]])
-# View(csv.list[[6]]) # includes Year (2021) and Term (Spring). UID had preceding C for some sites. I took those out.
+# View(csv.list[[5]]) # includes Year (2021) and Term (Spring). UID had preceding C for some sites. I took those out.
 
 # Join all ACE Spring 2021 files together
-# Need to include [[3]] after they send us the fixed file
-ace2021 <- bind_rows(list(csv.list[[2]], csv.list[[4]], csv.list[[5]], csv.list[[6]]), .id = "id") %>% 
+
+ace2021 <- bind_rows(list(csv.list[[1]], csv.list [[2]], csv.list[[3]], csv.list[[4]], csv.list[[5]]), .id = "id") %>% 
   mutate(Year = as.numeric(2021),
          Term = "Spring",
          Data = "ACE",
@@ -157,16 +149,15 @@ ace2021 <- ace2021 %>%
 
 # ACE 2022 - Fall
 # Club.ID now starts with site name initials instead of a column for HostSiteName.
+# View(csv.list[[6]]) # Grade is number (1)
 # View(csv.list[[7]]) # Grade is number (1)
-# View(csv.list[[8]]) # Grade is number (1)
-# View(csv.list[[9]]) # Grade is character (1st), but one is listed as 1nd. Figure out what that should be.
+# View(csv.list[[8]]) # Grade is character (1st), but one is listed as 1nd. Figure out what that should be.
+# View(csv.list[[9]]) # Grade is character (1st)
 # View(csv.list[[10]]) # Grade is character (1st)
-# View(csv.list[[11]]) # Grade is character (1st)
 
 # Join all 2022 files together
-ace2022 <- bind_rows(list(csv.list[[7]], csv.list[[8]]), .id = "id") %>% 
-  mutate(Year = as.numeric(2022),
-         Data = "ACE",
+ace2022 <- bind_rows(list(csv.list[[6]], csv.list[[7]]), .id = "id") %>% 
+  mutate(Data = "ACE",
          Grade = gsub("1", "1st", Grade),
          Grade = gsub("2", "2nd", Grade),
          Grade = gsub("3", "3rd", Grade),
@@ -175,7 +166,7 @@ ace2022 <- bind_rows(list(csv.list[[7]], csv.list[[8]]), .id = "id") %>%
          Grade = gsub("6", "6th", Grade),
          Grade = gsub("7", "7th", Grade),
          Grade = gsub("8", "8th", Grade)) %>% 
-  bind_rows(., list(csv.list[[9]], csv.list[[10]], csv.list[[11]]), .id = "id") %>% 
+  bind_rows(., list(csv.list[[8]], csv.list[[9]], csv.list[[10]]), .id = "id") %>% 
   mutate(Year = as.numeric(2022),
          Data = "ACE")
 ace2022 <- ace2022 %>% 
@@ -324,6 +315,47 @@ ggplot(ace.averages, aes(x = Site, y = English.Reading, fill = factor(ace.averag
 
 
     
+```
+
+### Overall Grades
+
+2019 report has average GPA by site and subject. We would have to weight the averages by attendance for that year to get total subject average. There isn't a report card for each student, so this wouldn't be exact.
+
+2020 report has average grade by site and subject as well. (Math: SB=2.41, SOM=2.32, TWH=2.3, WW=2.34, WV=1.74, Reading: SB = 2.29, SOM=2.13, TWH=2.2, WW=2.4, WV=1.75) There are 1,072 report cards and 1,216 members.
+
+2021 has averages by subject and term.. I averaged the two terms and added it to the data below.
+
+It looks like there's a dramatic increase in grades for 2022, but with so few report cards, it's really hard to say if it's a significant increase.
+
+
+```{r}
+
+ace.overall <- ace %>% 
+  group_by(Year) %>% 
+  summarise(Math = mean(Math, na.rm = TRUE),
+            English.Reading = mean(English.Reading, na.rm = TRUE),
+            "Number of Report Cards" = n()) %>% 
+  rbind(., c(2020, 2.25, 2.1, 1432)) %>% 
+  rbind(., c(2019, (2.41*172+2.32*419+2.3*144+2.34*250+1.74*231)/1216, (2.29*172+2.13*419+2.2*144+2.4*250+1.75*231)/1216, 1072)) %>% 
+  mutate_if(is.numeric, round, digits = 2) %>% 
+  arrange(Year)
+
+kable(ace.overall, caption = "Average GPA by Year", digits = 2)
+
+ace.overall.plot <- ace.overall %>% 
+  pivot_longer(c(Math, English.Reading), 
+               names_to = "Subject", 
+               values_to = "GPA")
+
+ggplot(ace.overall.plot, aes(x = Year)) +
+  geom_line(aes(y = GPA, color = Subject)) +
+  coord_cartesian(ylim = c(0, 4)) +
+  labs(title = "GPA Averages by Year",
+       subtitle = "for all BGCGH sites combined") +
+  scale_x_continuous(breaks=seq(2019, 2022, 1))
+
+
+
 ```
 
 
@@ -504,7 +536,7 @@ Ages five to nine were the most represented at all sites except Spring Oaks Midd
 
 # Age: 5 to 9, 10 to 12, 13 to 18
 
-age <- club.demographics.2023 %>% 
+age <- club.demographics.2023 %>%
   filter(Demographic == '5 to 9' | 
            Demographic == '10 to 12'| 
            Demographic == '13 to 18') %>% 
@@ -518,16 +550,19 @@ age <- club.demographics.2023 %>%
             Thirteen_Eighteen = sum(Thirteen_Eighteen, na.rm = T)) %>% 
   mutate("Not Set" = 1-Five_Nine-Ten_Twelve-Thirteen_Eighteen)
 
+# might try using pivot_wider() on club.demographics.2023 to see if it works better
+
 kable(age)
 
 age.plot <- 
   club.demographics.2023  %>% 
   filter(Demographic == '5 to 9' | 
            Demographic == '10 to 12'| 
-           Demographic == '13 to 18')
-  
+           Demographic == '13 to 18') %>% 
+  mutate(Demographic = factor(Demographic, levels=c("5 to 9", "10 to 12", "13 to 18")))
 
-ggplot(age.plot, aes(x = Site, y = demographic.pct)) +
+
+ggplot(age.plot, aes(x = forcats::fct_rev(Site), y = demographic.pct)) +
   geom_col(aes(fill = Demographic)) +
   coord_flip() +
   geom_text(aes(label = ifelse(Demographic == "5 to 9" | Demographic == "13 to 18", scales::percent(demographic.pct), '')), 
@@ -540,10 +575,6 @@ ggplot(age.plot, aes(x = Site, y = demographic.pct)) +
   xlab("")  +
     scale_fill_hue(l=40)
 
-#, position = "stack"
-
-# tables and graphs should be in the same order
-# Order should follow age: 5 to 9, 10 to 12, 13 to 18
 
 ```
 
@@ -698,3 +729,5 @@ Appendices
 
 (Did not include interviews)
 
+
+# Data Cleaning Notes
