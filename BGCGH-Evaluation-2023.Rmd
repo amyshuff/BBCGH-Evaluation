@@ -37,7 +37,7 @@ To expect with the next data upload this summer:
 
 - 2019 report is not final 
 
-- Quite a few grades missing from 2021 data.
+- NYOI Member Surveys have a lot of different things we could look at. Need to know your priorities. Should we look at the same that we did last year?
 
 
 ``` {r, results='hide'}
@@ -82,6 +82,8 @@ pdf.list <- sapply(pdf.file.list, pdf_text, simplify = FALSE, USE.NAMES = TRUE)
 ## ACE Data 
 
 This houses grade and attendance data from 2018-2022.
+
+- Quite a few grades are missing from the 2021 data.
 
 Texas Afterschool Centers on Education (Texas ACE™) program. Grant funding to provide high-quality academic enrichment opportunities for children and youth during non-school hours.
 
@@ -386,17 +388,46 @@ We participate in an annual survey to hear directly from youth about their Club 
 
 For more information about NYOI and how it measures Boys and Girls Club experiences: https://clubexperience.blog/2018/02/22/how-do-we-measure-the-club-experience/
 
-```{r eval=FALSE, include=FALSE}
+```{r echo=FALSE}
 
 # Member Survey Reports
-View(xlsx.list[[2]]) #2021
-View(xlsx.list[[3]]) #2022, one of the tabs has wonky data
+#View(xlsx.list[[2]]) #2021
+#View(xlsx.list[[3]]) #2022, one of the tabs has wonky data
 
 # skip = 8?
 # pivot_longer()
 
-nyoi.2021 <- bind_rows(xlsx.list[[2]], .id = "Site") 
-# all the detail report columns need to be merged into one
+nyoi.2021 <- bind_rows(xlsx.list[[2]], .id = "Site") %>% 
+  replace(is.na(.), "")
+
+
+nyoi.2021 <- nyoi.2021 %>%
+  # all the detail columns need to be merged into one  
+  mutate(Measure = paste(
+    nyoi.2021$`Detail Report,  Spring Oaks Middle Boys & Girls Club  2021,  Measure(s): All Categories, All`, 
+    nyoi.2021$`Detail Report,  The Women's Home/Treasure Forest Elementary Boys & Girls Club  2021,  Measure(s): All Categories, All`,
+    nyoi.2021$`Detail Report,  Westwood Elementary Boys & Girls Club  2021,  Measure(s): All Categories, All`,
+    nyoi.2021$`Detail Report,  Spring Branch Elementary Boys & Girls Club  2021,  Measure(s): All Categories, All`,
+    nyoi.2021$`Detail Report,  Woodview Elementary Boys & Girls Club  2021,  Measure(s): All Categories, All`),
+    Year = 2021,
+    Data = "NYOI") %>%
+  select(Data, Year, Site, Measure, ...2, ...3, ...4, ...5, ...6, ...7, ...8)
+
+experience <- nyoi.2021 %>% 
+  # using str_detect here because the way I merged the detail columns left spaces before them
+  filter(str_detect(Measure, "Overall Club Experience")) %>% 
+  select(Site, ...2,...3,...4) %>% 
+  rename("Optimal (Doing Great)" = ...2,
+         "Fair (Doing Fine)" = ...3,
+         "Needs Improvement (Room to Grow)" = ...4) %>% 
+    mutate_if(is.numeric, round, digits = 2)
+
+kable(experience, caption = "Overall Club Experience by Site, 2021", digits = 2)
+
+# I don't know why these numbers aren't rounding. Also need to display as percent.
+
+
+
 
 
 nyoi.2022 <- bind_rows(xlsx.list[[3]], .id = "Site") 
@@ -439,6 +470,7 @@ Westwood Elementary had the highest not reporting gender, at 11%. Note that the 
 # Gender: Male, Female
 
 gender <- club.demographics.2023 %>% 
+  # pivot_wider probably would have been an easier option here
   filter(Demographic == 'Male' | Demographic == 'Female') %>% 
   mutate(Male = ifelse(Demographic == 'Male', demographic.pct, NA),
         Female = ifelse(Demographic == "Female", demographic.pct, NA)) %>% 
