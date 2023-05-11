@@ -140,18 +140,17 @@ ace2021 <- bind_rows(list(csv.list[[1]], csv.list [[2]], csv.list[[3]], csv.list
 # figure out how to remove duplicate UIDs
 ace2021.duplicates <- ace2021$UID[duplicated(ace2021$UID)]
 # paste(ace2021.duplicates)
-# "1841070" "1839453" "1840898"
+# "1841070" "1837954" "1838312" "1838401" "1839453" "1840898"
 
 ace2021 <- ace2021 %>% 
   select(Site, Grade, Number.of.School.Days, Number.of.Texas.ACE.Days, Math, English.Reading, Year, Term, Data)
-# Will have Spring Oaks Middle after the data issue is resolved.
 
 
 # ACE 2022 - Fall
 # Club.ID now starts with site name initials instead of a column for HostSiteName.
 # View(csv.list[[6]]) # Grade is number (1)
 # View(csv.list[[7]]) # Grade is number (1)
-# View(csv.list[[8]]) # Grade is character (1st), but one is listed as 1nd. Figure out what that should be.
+# View(csv.list[[8]]) # Grade is character (1st), but one is listed as 1nd. Changed to 1st.
 # View(csv.list[[9]]) # Grade is character (1st)
 # View(csv.list[[10]]) # Grade is character (1st)
 
@@ -389,23 +388,23 @@ For more information about NYOI and how it measures Boys and Girls Club experien
 
 ```{r eval=FALSE, include=FALSE}
 
-# xlsx.file.list
-# xlsx.list
-
-# Look at each file individually to see what it contains and if changes need to be made before it's joined with the others.
-
 # Member Survey Reports
 View(xlsx.list[[2]]) #2021
-View(xlsx.list[[3]]) #2022
+View(xlsx.list[[3]]) #2022, one of the tabs has wonky data
+
+# skip = 8?
+# pivot_longer()
+
+nyoi.2021 <- bind_rows(xlsx.list[[2]], .id = "Site") 
+# all the detail report columns need to be merged into one
 
 
-membersurvey2021 <- read_xlsx("NYOI Data/2021 Member Survey Report.xlsx")
-membersurvey2022 <- read_xlsx("NYOI Data/2022 Member Survey Report.xlsx")
+nyoi.2022 <- bind_rows(xlsx.list[[3]], .id = "Site") 
 
 
 ```
 
-# Member Demographics 2023
+## Member Demographics 2023
 
 This is a report pulling demographic statistics for each Club. Percents do not add up to 100 because each site had some percent not reported.
 
@@ -508,14 +507,15 @@ race.plot <-
            Demographic == 'Black'| 
            Demographic == 'Asian' | 
            Demographic == 'Native'| 
-           Demographic == '2+')
-  
+           Demographic == '2+') %>% 
+    mutate(Demographic = factor(Demographic, levels=c("2+", "Asian", "Native", "Black", "White", "Latino")))
+
 
 ggplot(race.plot, aes(x = Site, y = demographic.pct)) +
   geom_col(aes(fill = Demographic)) +
   coord_flip() +
   geom_text(aes(label = ifelse(Demographic == "Latino", scales::percent(demographic.pct), '')), 
-                color = "white", hjust = 1.5, position = "stack") +
+                color = "white", hjust = 2, position = "stack") +
   labs(title = "Race") +
   theme(panel.background = element_blank(),
         axis.text.x = element_blank(),
@@ -524,7 +524,7 @@ ggplot(race.plot, aes(x = Site, y = demographic.pct)) +
   xlab("")  +
     scale_fill_hue(l=40)
 
-# I want to figure out how to order these: levels=c("Latino", "White", "Black", "Native", "Asian", "2+")
+# The colors of this graph are not great
 
 ```
 
@@ -559,7 +559,7 @@ age.plot <-
   filter(Demographic == '5 to 9' | 
            Demographic == '10 to 12'| 
            Demographic == '13 to 18') %>% 
-  mutate(Demographic = factor(Demographic, levels=c("5 to 9", "10 to 12", "13 to 18")))
+  mutate(Demographic = factor(Demographic, levels=c("13 to 18", "10 to 12", "5 to 9")))
 
 
 ggplot(age.plot, aes(x = forcats::fct_rev(Site), y = demographic.pct)) +
@@ -731,3 +731,8 @@ Appendices
 
 
 # Data Cleaning Notes
+
+One kid has an S in math, but as.numeric makes it NA, so it's automatically dropped
+
+2021 ACE data has 6 duplicate member ids:
+"1841070" "1837954" "1838312" "1838401" "1839453" "1840898"

@@ -1,4 +1,4 @@
-﻿HostSiteName,Year,Term,Member ID,Grade,ACE Days Attended,SchoolDaysEnrolled,SchoolDaysAbsent,CriminalReferrals,NonCriminalReferrals,SchoolDayClasses,StudentOverallGrades,ReadingGrade,MathGrade,ScienceGrade,SocialStudiesGrade
+﻿HostSiteName,Year,Term,UID,Grade,ACE Days Attended,SchoolDaysEnrolled,SchoolDaysAbsent,CriminalReferrals,NonCriminalReferrals,SchoolDayClasses,StudentOverallGrades,ReadingGrade,MathGrade,ScienceGrade,SocialStudiesGrade
 Spring Oaks Middle,2021,Spring,1817816,7th,1,94,0,0,0,7,C's,F,C,C,C
 Spring Oaks Middle,2021,Spring,1817817,6th,1,94,0,0,0,7,Mostly C's and D's,C,D,C,F
 Spring Oaks Middle,2021,Spring,1818108,6th,17,94,0,0,0,7,Mostly A's and B's,C,A,B,B
