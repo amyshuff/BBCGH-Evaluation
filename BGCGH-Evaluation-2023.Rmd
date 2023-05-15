@@ -369,14 +369,154 @@ Please note, The Women’s Home, Westwood, and Woodview did not participate in t
 
 
 
-```{r}
+```{r include=FALSE}
+
+# Import all pdf files
+pdf.file.list <- list.files(pattern='*.pdf', recursive = TRUE)
+pdf.list <- sapply(pdf.file.list, pdf_text, simplify = FALSE, USE.NAMES = TRUE)
 
 # pdf.file.list
 # pdf.list
 
-# Everything we have right now is from 2022.
+pdf.list[[4]]
+
+# Everything we have right now is from 2021 and 2022.
+
+# Summary Report is on pg 4
+# Pg 9 says scores lower than 3 may be the best candidates for improvement action
+
+
+pdf_table <- map(pdf.list[[4]], ~ str_split(.x, "\n") %>% unlist())
+
+#specify the start and end of the table data
+table <- pdf_table[[4]][(str_which(pdf_table[[4]], "Score Set 1")):(str_which(pdf_table[[4]], "The"))]  #on page 4
+#Build the table and remove special characters
+table <- str_replace_all(table," \\s+ ", "|")
+text_con <- textConnection(table)
+data_table <- read.csv(text_con, sep = "|")
+
+#Create a list of column names
+colnames(data_table)<- c("Measure", "Score")
+
+data_table <- data_table %>% 
+mutate(Score = as.numeric(Score),
+       Year = 2021,
+       Data = "YPQI")
+  
+ypqi <- data_table
+  
+for(pdf in 5:13){
+  
+  
+  pdf_table <- map(pdf.list[[pdf]], ~ str_split(.x, "\n") %>% unlist())
+
+
+  #specify the start and end of the table data
+  table <- pdf_table[[4]][(str_which(pdf_table[[4]], "Score Set 1")):(str_which(pdf_table[[4]], "The"))]  #on page 4
+  #Build the table and remove special characters
+  table <- str_replace_all(table," \\s+ ", "|")
+  text_con <- textConnection(table)
+  data_table1 <- read.csv(text_con, sep = "|")
+  
+  #Create a list of column names
+  colnames(data_table1)<- c("Measure", "Score")
+  
+  data_table1 <- data_table1 %>% 
+  mutate(Score = as.numeric(Score),
+         Year = 2021,
+         Data = "YPQI")
+  
+  ypqi <- bind_rows(data_table, data_table1, .id = "Site")
+  
+}
+
+
+# need to save results from loop in list, then bind_rows
+
+nyoi.2021 <- bind_rows(xlsx.list[[2]], .id = "Site")
+
+
+
+
+
+  pdf_table <- map(pdf.list[[4]], ~ str_split(.x, "\n") %>% unlist())
+
+  #specify the start and end of the table data
+  table <- pdf_table[[4]][(str_which(pdf_table[[4]], "Score Set 1")):(str_which(pdf_table[[4]], "The"))]  #on page 4
+  #Build the table and remove special characters
+  table <- str_replace_all(table," \\s+ ", "|")
+  text_con <- textConnection(table)
+  data_table <- read.csv(text_con, sep = "|")
+  
+  #Create a list of column names
+  colnames(data_table)<- c("Measure", "Score")
+  
+  data_table <- data_table %>% 
+  mutate(Score = as.numeric(Score),
+         Year = 2021,
+         Data = "YPQI")
+  
+  
+  
+  pdf_table <- map(pdf.list[[5]], ~ str_split(.x, "\n") %>% unlist())
+
+  #specify the start and end of the table data
+  table <- pdf_table[[4]][(str_which(pdf_table[[4]], "Score Set 1")):(str_which(pdf_table[[4]], "The"))]  #on page 4
+  #Build the table and remove special characters
+  table <- str_replace_all(table," \\s+ ", "|")
+  text_con <- textConnection(table)
+  data_table1 <- read.csv(text_con, sep = "|")
+  
+  #Create a list of column names
+  colnames(data_table1)<- c("Measure", "Score")
+  
+  data_table1 <- data_table1 %>% 
+  mutate(Score = as.numeric(Score),
+         Year = 2021,
+         Data = "YPQI")  
+  
+  ypqi <- bind_rows(data_table, data_table1, .id = "Site")
+
+
+
+pdf.list <- sapply(pdf.file.list, pdf_text, simplify = FALSE, USE.NAMES = TRUE)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+pdf_table[[4]]
+
+pdf_table <- map(pdf.list[[4]], ~ str_split(.x, "\n") %>% unlist())
+
+#specify the start and end of the table data
+table_start <- pdf_table[[4]] %>% 
+  str_which("Score Set 1")
+table_end <- pdf_table[[4]] %>% 
+  str_which("The")
+
+#Build the table and remove special characters
+table <- pdf_table[[4]][(table_start):(table_end)] #on page 4
+table <- str_replace_all(table," \\s+ ", "|")
+text_con <- textConnection(table)
+data_table <- read.csv(text_con, sep = "|")
+
+#Create a list of column names
+colnames(data_table)<- c("Measure", "Score")
 
 ```
+
 
 ## NYOI Data 
 
@@ -400,10 +540,9 @@ For more information about NYOI and how it measures Boys and Girls Club experien
 nyoi.2021 <- bind_rows(xlsx.list[[2]], .id = "Site") %>% 
   replace(is.na(.), "")
 
-
 nyoi.2021 <- nyoi.2021 %>%
   # all the detail columns need to be merged into one  
-  mutate(Measure = paste(
+  mutate(Measure = paste0(
     nyoi.2021$`Detail Report,  Spring Oaks Middle Boys & Girls Club  2021,  Measure(s): All Categories, All`, 
     nyoi.2021$`Detail Report,  The Women's Home/Treasure Forest Elementary Boys & Girls Club  2021,  Measure(s): All Categories, All`,
     nyoi.2021$`Detail Report,  Westwood Elementary Boys & Girls Club  2021,  Measure(s): All Categories, All`,
@@ -414,8 +553,7 @@ nyoi.2021 <- nyoi.2021 %>%
   select(Data, Year, Site, Measure, ...2, ...3, ...4, ...5, ...6, ...7, ...8)
 
 experience <- nyoi.2021 %>% 
-  # using str_detect here because the way I merged the detail columns left spaces before them
-  filter(str_detect(Measure, "Overall Club Experience")) %>% 
+  filter(Measure == "Overall Club Experience") %>% 
   select(Site, ...2,...3,...4) %>% 
   rename("Optimal (Doing Great)" = ...2,
          "Fair (Doing Fine)" = ...3,
@@ -610,66 +748,6 @@ ggplot(age.plot, aes(x = forcats::fct_rev(Site), y = demographic.pct)) +
 
 ```
 
-
-```{r eval=FALSE, include=FALSE}
-
-# Copy and pasted example code of extracting tables from a pdf (From Child Care project)
-
-###### Provider clean #######
-url<- c("https://www.twc.texas.gov/files/twc/commission_meeting_materials_09.13.22_item16_bcy23_cc_targets.pdf")
-raw_text <- map(url, pdf_text)
-
-clean_table1<-function(raw) {
-  #split the single pages 
-  raw <-map(raw, ~ str_split(.x, "\\n") %>% unlist())
-  #concatente the split pages
-  raw <- reduce(raw, c)
-  
-  #specify the start and end of the table data
-  table_start <- stringr::str_which(tolower(raw),"Board Name")
-  table_end <- stringr::str_which(tolower(raw), "Sum of Boards")
-  table_end <- table_end[min(which(table_end >table_start))]
-  
-  #Build the table and remove special characters
-  table <- raw[(table_start):(table_end)]
-  table <- str_replace_all(table,"\\s{2,}", "|")
-  text_con <- textConnection(table)
-  data_table <- read.csv(text_con, sep = "|")
-
-#Create a list of column names
-colnames(data_table)<- c("Board Name","#","CY23 Base Allocation","4% Quality Allocation", "Amount Available to Operate the Subsidized CC Program", "Presumed Semi-Fixed Admin/Ops Set Aside","Supplemental Distribution","Available for Direct Care (DC) & Variable Admin/Ops","Variable
-Admin/Ops per Unit","Estimated Avg Provider Reimbursement Rate", "Presumed PSOC","System Cost Per Unit", "BCY23 Target")
-data_table
-}
-
-results <- map_df(raw_text, clean_table1) #I am stuck here and I don't know why-CT (see Amy's attempt below)
-
-
-
-# Amy's attempt:
-
-raw_text <- pdf_text("https://www.twc.texas.gov/files/twc/commission_meeting_materials_09.13.22_item16_bcy23_cc_targets.pdf") 
-
-raw_table <- map(raw_text[3], ~ str_split(.x, "\\n") %>% unlist())
-
-#specify the start and end of the table data
-table_start <- raw_table[[1]] %>% 
-    str_which("Board Name")
-table_end <- raw_table[[1]] %>% 
-    str_which("Sum of Boards")
-
-#Build the table and remove special characters
-table <- raw_table[[1]][(table_start):(table_end)]
-table <- str_replace_all(table,"\\s{2,}", "|")
-text_con <- textConnection(table)
-data_table <- read.csv(text_con, sep = "|")
-  
-#Create a list of column names
-colnames(data_table)<- c("Board Name","#","CY23 Base Allocation","4% Quality Allocation", "Amount Available to Operate the Subsidized CC Program", "Presumed Semi-Fixed Admin/Ops Set Aside","Supplemental Distribution","Available for Direct Care (DC) & Variable Admin/Ops","Variable
-Admin/Ops per Unit","Estimated Avg Provider Reimbursement Rate", "Presumed PSOC","System Cost Per Unit", "BCY23 Target")
-
-
-```
 
 
 # Evaluation questions
