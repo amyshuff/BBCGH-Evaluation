@@ -73,7 +73,7 @@ xlsx.list <- list()
 for (file in xlsx.file.list){xlsx.list[[file]] <- sapply(excel_sheets(file), read_xlsx, path = file, simplify = FALSE, USE.NAMES = TRUE)}
 
 
-# Import all pdf files
+# Import all pdf files. I did remove the old evaluation reports, so these are only the ypqi pdfs.
 pdf.file.list <- list.files(pattern='*.pdf', recursive = TRUE)
 pdf.list <- sapply(pdf.file.list, pdf_text, simplify = FALSE, USE.NAMES = TRUE)
 
@@ -385,135 +385,47 @@ pdf.list[[4]]
 # Summary Report is on pg 4
 # Pg 9 says scores lower than 3 may be the best candidates for improvement action
 
+# File names to be joined with data later
+ypqi.names <- data.frame(pdf.file.list) %>% 
+  mutate(Site = row_number())
 
-pdf_table <- map(pdf.list[[4]], ~ str_split(.x, "\n") %>% unlist())
-
-#specify the start and end of the table data
-table <- pdf_table[[4]][(str_which(pdf_table[[4]], "Score Set 1")):(str_which(pdf_table[[4]], "The"))]  #on page 4
-#Build the table and remove special characters
-table <- str_replace_all(table," \\s+ ", "|")
-text_con <- textConnection(table)
-data_table <- read.csv(text_con, sep = "|")
-
-#Create a list of column names
-colnames(data_table)<- c("Measure", "Score")
-
-data_table <- data_table %>% 
-mutate(Score = as.numeric(Score),
-       Year = 2021,
-       Data = "YPQI")
+ypqi.list <- list()
   
-ypqi <- data_table
+for(pdf in 1:max(row_number(pdf.file.list))){
   
-for(pdf in 5:13){
-  
-  
-  pdf_table <- map(pdf.list[[pdf]], ~ str_split(.x, "\n") %>% unlist())
-
-
+  ypqi.pdf_table <- map(pdf.list[[pdf]], ~ str_split(.x, "\n") %>% unlist())
   #specify the start and end of the table data
-  table <- pdf_table[[4]][(str_which(pdf_table[[4]], "Score Set 1")):(str_which(pdf_table[[4]], "The"))]  #on page 4
+  ypqi.table <- ypqi.pdf_table[[4]][(str_which(ypqi.pdf_table[[4]], "Score Set 1")):(str_which(ypqi.pdf_table[[4]], "The"))] #on page 4
   #Build the table and remove special characters
-  table <- str_replace_all(table," \\s+ ", "|")
-  text_con <- textConnection(table)
-  data_table1 <- read.csv(text_con, sep = "|")
-  
+  ypqi.table <- str_replace_all(ypqi.table," \\s+ ", "|")
+  ypqi.data_table <- read.csv(textConnection(ypqi.table), sep = "|")
   #Create a list of column names
-  colnames(data_table1)<- c("Measure", "Score")
+  colnames(ypqi.data_table)<- c("Measure", "Score")
   
-  data_table1 <- data_table1 %>% 
+  ypqi.data_table <- ypqi.data_table %>% 
   mutate(Score = as.numeric(Score),
-         Year = 2021,
          Data = "YPQI")
   
-  ypqi <- bind_rows(data_table, data_table1, .id = "Site")
-  
+ypqi.list[[pdf]] <- ypqi.data_table
+
 }
 
 
-# need to save results from loop in list, then bind_rows
+ypqi <- bind_rows(list(ypqi.list), .id = "Site") %>% 
+  mutate(Site = as.numeric(Site)) %>% 
+  # Join data with file names
+  full_join(ypqi.names, by = "Site") %>% 
+  na.omit()
 
-nyoi.2021 <- bind_rows(xlsx.list[[2]], .id = "Site")
-
-
-
-
-
-  pdf_table <- map(pdf.list[[4]], ~ str_split(.x, "\n") %>% unlist())
-
-  #specify the start and end of the table data
-  table <- pdf_table[[4]][(str_which(pdf_table[[4]], "Score Set 1")):(str_which(pdf_table[[4]], "The"))]  #on page 4
-  #Build the table and remove special characters
-  table <- str_replace_all(table," \\s+ ", "|")
-  text_con <- textConnection(table)
-  data_table <- read.csv(text_con, sep = "|")
-  
-  #Create a list of column names
-  colnames(data_table)<- c("Measure", "Score")
-  
-  data_table <- data_table %>% 
-  mutate(Score = as.numeric(Score),
-         Year = 2021,
-         Data = "YPQI")
-  
-  
-  
-  pdf_table <- map(pdf.list[[5]], ~ str_split(.x, "\n") %>% unlist())
-
-  #specify the start and end of the table data
-  table <- pdf_table[[4]][(str_which(pdf_table[[4]], "Score Set 1")):(str_which(pdf_table[[4]], "The"))]  #on page 4
-  #Build the table and remove special characters
-  table <- str_replace_all(table," \\s+ ", "|")
-  text_con <- textConnection(table)
-  data_table1 <- read.csv(text_con, sep = "|")
-  
-  #Create a list of column names
-  colnames(data_table1)<- c("Measure", "Score")
-  
-  data_table1 <- data_table1 %>% 
-  mutate(Score = as.numeric(Score),
-         Year = 2021,
-         Data = "YPQI")  
-  
-  ypqi <- bind_rows(data_table, data_table1, .id = "Site")
-
-
-
-pdf.list <- sapply(pdf.file.list, pdf_text, simplify = FALSE, USE.NAMES = TRUE)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-pdf_table[[4]]
-
-pdf_table <- map(pdf.list[[4]], ~ str_split(.x, "\n") %>% unlist())
-
-#specify the start and end of the table data
-table_start <- pdf_table[[4]] %>% 
-  str_which("Score Set 1")
-table_end <- pdf_table[[4]] %>% 
-  str_which("The")
-
-#Build the table and remove special characters
-table <- pdf_table[[4]][(table_start):(table_end)] #on page 4
-table <- str_replace_all(table," \\s+ ", "|")
-text_con <- textConnection(table)
-data_table <- read.csv(text_con, sep = "|")
-
-#Create a list of column names
-colnames(data_table)<- c("Measure", "Score")
+ypqi <- ypqi %>% 
+  mutate(Site = ifelse(str_detect(ypqi$pdf.file.list, "SBE"), "Spring Branch Elementary", Site),
+         Site = ifelse(str_detect(ypqi$pdf.file.list, "SO"), "Spring Oaks Middle", Site),
+         Site = ifelse(str_detect(ypqi$pdf.file.list, "TWH"), "The Womans' Home", Site),
+         Site = ifelse(str_detect(ypqi$pdf.file.list, "WV"), "Woodview Elementary", Site),
+         Site = ifelse(str_detect(ypqi$pdf.file.list, "WW"), "Westwood Elementary", Site),
+         Year = ifelse(str_detect(ypqi$pdf.file.list, "2021"), "2021", ""),
+         Year = ifelse(str_detect(ypqi$pdf.file.list, "2022"), "2022", Year),
+         Year = ifelse(str_detect(ypqi$pdf.file.list, "2023"), "2023", Year))
 
 ```
 
@@ -537,6 +449,7 @@ For more information about NYOI and how it measures Boys and Girls Club experien
 # skip = 8?
 # pivot_longer()
 
+
 nyoi.2021 <- bind_rows(xlsx.list[[2]], .id = "Site") %>% 
   replace(is.na(.), "")
 
@@ -552,7 +465,7 @@ nyoi.2021 <- nyoi.2021 %>%
     Data = "NYOI") %>%
   select(Data, Year, Site, Measure, ...2, ...3, ...4, ...5, ...6, ...7, ...8)
 
-experience <- nyoi.2021 %>% 
+nyoi.2021.experience <- nyoi.2021 %>% 
   filter(Measure == "Overall Club Experience") %>% 
   select(Site, ...2,...3,...4) %>% 
   rename("Optimal (Doing Great)" = ...2,
@@ -560,15 +473,9 @@ experience <- nyoi.2021 %>%
          "Needs Improvement (Room to Grow)" = ...4) %>% 
     mutate_if(is.numeric, round, digits = 2)
 
-kable(experience, caption = "Overall Club Experience by Site, 2021", digits = 2)
+kable(nyoi.2021.experience, caption = "Overall Club Experience by Site, 2021", digits = 2)
 
 # I don't know why these numbers aren't rounding. Also need to display as percent.
-
-
-
-
-
-nyoi.2022 <- bind_rows(xlsx.list[[3]], .id = "Site") 
 
 
 ```
@@ -607,7 +514,7 @@ Westwood Elementary had the highest not reporting gender, at 11%. Note that the 
 
 # Gender: Male, Female
 
-gender <- club.demographics.2023 %>% 
+club.gender <- club.demographics.2023 %>% 
   # pivot_wider probably would have been an easier option here
   filter(Demographic == 'Male' | Demographic == 'Female') %>% 
   mutate(Male = ifelse(Demographic == 'Male', demographic.pct, NA),
@@ -617,12 +524,12 @@ gender <- club.demographics.2023 %>%
             Female = sum(Female, na.rm = T)) %>% 
   mutate("Not Set" = 1-Male-Female)
 
-kable(gender, lables = scales::label_percent())
+kable(club.gender, lables = scales::label_percent())
 
-gender.plot <- club.demographics.2023 %>% 
+club.gender.plot <- club.demographics.2023 %>% 
  filter(Demographic == 'Male' | Demographic == 'Female')  
 
-ggplot(gender.plot, aes(x = Site, y = demographic.pct)) +
+ggplot(club.gender.plot, aes(x = Site, y = demographic.pct)) +
   geom_col(aes(fill = Demographic)) +
   coord_flip() +
   geom_text(aes(label = scales::percent(demographic.pct)), color = "white", hjust = 1.5, position = "stack") +
@@ -644,7 +551,7 @@ Latino made up the highest percent of student race at any site, although lack of
 
 # Race: Asian, Black, Latino, Native, White, 2+
 
-race <- club.demographics.2023 %>% 
+club.race <- club.demographics.2023 %>% 
   filter(Demographic == 'Latino' | 
            Demographic == 'White'| 
            Demographic == 'Black'| 
@@ -668,9 +575,9 @@ race <- club.demographics.2023 %>%
             Multiple = sum(Multiple, na.rm = T)) %>% 
   mutate("Not Set" = 1-Asian-Black-Latino-Native-White-Multiple)
 
-kable(race)
+kable(club.race)
 
-race.plot <- 
+club.race.plot <- 
   club.demographics.2023 %>% 
   filter(Demographic == 'Latino' | 
            Demographic == 'White'| 
@@ -681,7 +588,7 @@ race.plot <-
     mutate(Demographic = factor(Demographic, levels=c("2+", "Asian", "Native", "Black", "White", "Latino")))
 
 
-ggplot(race.plot, aes(x = Site, y = demographic.pct)) +
+ggplot(club.race.plot, aes(x = Site, y = demographic.pct)) +
   geom_col(aes(fill = Demographic)) +
   coord_flip() +
   geom_text(aes(label = ifelse(Demographic == "Latino", scales::percent(demographic.pct), '')), 
@@ -706,7 +613,7 @@ Ages five to nine were the most represented at all sites except Spring Oaks Midd
 
 # Age: 5 to 9, 10 to 12, 13 to 18
 
-age <- club.demographics.2023 %>%
+club.age <- club.demographics.2023 %>%
   filter(Demographic == '5 to 9' | 
            Demographic == '10 to 12'| 
            Demographic == '13 to 18') %>% 
@@ -722,9 +629,9 @@ age <- club.demographics.2023 %>%
 
 # might try using pivot_wider() on club.demographics.2023 to see if it works better
 
-kable(age)
+kable(club.age)
 
-age.plot <- 
+club.age.plot <- 
   club.demographics.2023  %>% 
   filter(Demographic == '5 to 9' | 
            Demographic == '10 to 12'| 
@@ -732,7 +639,7 @@ age.plot <-
   mutate(Demographic = factor(Demographic, levels=c("13 to 18", "10 to 12", "5 to 9")))
 
 
-ggplot(age.plot, aes(x = forcats::fct_rev(Site), y = demographic.pct)) +
+ggplot(club.age.plot, aes(x = forcats::fct_rev(Site), y = demographic.pct)) +
   geom_col(aes(fill = Demographic)) +
   coord_flip() +
   geom_text(aes(label = ifelse(Demographic == "5 to 9" | Demographic == "13 to 18", scales::percent(demographic.pct), '')), 
