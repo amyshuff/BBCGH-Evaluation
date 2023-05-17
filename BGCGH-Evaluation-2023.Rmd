@@ -9,16 +9,10 @@ output: html_document
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
 ```
 
-Last year's report was Fall 2021 - Spring 2022. 
-This year's report will be Fall 2022 - Spring 2023.
-
 
 By next check-in:
 
 - check with district about lack of report cards
-
-- New SOM 2021 Spring Upload file: Folder “2018 - 2022 ACE Data”, file name “Copy of SOM 2021 Spring Upload”
-
 
 To expect with the next data upload this summer:
 
@@ -29,15 +23,21 @@ To expect with the next data upload this summer:
 
 # Next Questions
 
-- You said the 2021 data we have is from the fall. We have the same number of report cards, from the same grades and the same sites, other than woodview, as the spring 2021 data in last year's report. Quite the coincidence if it isn't the exact same data.
+- We were told at the last meeting that the 2022 ACE data we have is from the fall. If it is Fall 2022, then we’re missing data for the 2021-2022 school year. 
+(Last year's report was Fall 2021 - Spring 2022. This year's report will be Fall 2022 - Spring 2023.) 
+
+However, it looks very similar to the Spring 2022 data from last year’s report.
+(We have the same number of report cards, from the same grades and the same sites, other than Woodview, as the Spring 2021 data in last year's report. Quite the coincidence if it isn't the exact same data)
 
 - 2021 ACE data is only from Spring. Should we also have Fall?
 
 - The ACE folder is named 2018-2022. Are we supposed to grab 2018-2020 data from the old evaluation reports? We can't do this because most of the graphs do not have individual data labels. Also, the exact same graphs were not recreated each year. We could give very basic comparisons like total attendance once we have those numbers for 2023.
 
-- 2019 report is not final 
+- Folder “2018 – 2022 ACE Data”, file “BGCGH_TXACE_Evaluation_Analysis_Report_2019” is a draft document. It would be nice to have the final version. Even still, the data we can grab from someone else’s report will be quite limited, as the analysis each year was done a bit differently. 
 
-- NYOI Member Surveys have a lot of different things we could look at. Need to know your priorities. Should we look at the same that we did last year?
+- Folder “NYOI Data”, file “2022 Member Survey Report”, the tab for Westwood is not complete. After row 83 all the percentages are missing. It also doesn’t have all the sections that the rest of the site tabs have.
+
+- NYOI Member Surveys have a lot of different things we could look at. Need to know your priorities. Should we only look at club member experience like we did last year?
 
 
 ``` {r, results='hide'}
@@ -55,27 +55,250 @@ library(pdftools)
 ```
 
 
-# Data
+# Executive Summary
+
+At the request of BGCGH, CHILDREN AT RISK conducted an evaluation analysis of the BGCGH Texas Afterschool Centers on Education (Texas ACE™) program in its fifth year in the Spring Branch Independent School District (SBISD). The Texas ACE™ program at BGCGH is designed to provide academic enrichment opportunities for students during non-school hours. The evaluation report highlights the evaluation findings of the BGCGH Texas ACE™ programming for the 2022-2023 school year.
+
+The findings from this evaluation are pulled from available data sources provided by BGCGH. CHILDREN AT RISK reviewed member and club data from the 2022-2023 school year. The quantitative data includes data on Club Members as well as aggregated data on each of the five clubs participating in Texas ACE™.
+
+Required Funding Statement: Funded by the 21st CCLC Program administered by the US Department of
+Education. (Do we still need to include this? Found it in the 2019-2020 report, but not last year's.)
+
+Major Findings on the BGCGH Texas ACE™ program include:
+
+- something
+
+- something
+
+- something
+
+
+# Introduction and Background
+
+The Boys & Girls Clubs of Greater Houston (BGCGH) was awarded Texas Afterschool Centers on Education (Texas ACE™) grant funding to provide high-quality academic enrichment opportunities for children and youth during non-school hours. BGCGH partnered with Spring Branch Independent School District (SBISD) to provide after school programming with this funding. During the 2022-2023 academic year, BGCGH Texas ACE™ operated at five clubs in SBISD: Spring Branch Elementary School, Spring Oaks Middle School, Westwood Elementary School, Woodview Elementary School, and The Women's Home, a housing and support program that serves students from Treasure Forest Elementary School.
+
+BGCGH requested an evaluation analysis from CHILDREN AT RISK (C@R) to describe services provided and students served through its Texas ACE™ program during the 2022-2023 academic year. BGCGH was also interested in understanding the quantity and quality of these services, how of the services may support Members’ academic performance, and how BGCGH can make improvements in this programming.
+
+BGCGH provided CHILDREN AT RISK with four sources of quantitative data to inform our analyses in this report. The first were a sample of academic performance records from SBISD for Spring 2021, 2022, and 2023. The second source of quantitative data was from the Boys & Girls Clubs of America’s National Youth Outcomes Initiative (NYOI). The third data source was from the Youth Program Quality Assessment (YPQA) by the The David P. Weikart Center for Youth Program Quality. The fourth and final source of data was aggregated club member demographics and individual attendance records.
+
+# Descriptive Statistics on Club Members
+
+Data described in this section comes from aggregated club member demographics and individual attendance records.
+
+## Attendance
+
+*Expect 2023 attendance data with the summer data dump.*
 
 ```{r}
 
-# Import all files from working directory (this is everything sent to us by BGCGH)
+# Import attendance data here
+
+```
 
 
-# Import all cvs files
-csv.file.list <- list.files(pattern='*.csv', recursive = TRUE)
-csv.list <- sapply(csv.file.list, read.csv, simplify = FALSE, USE.NAMES = TRUE)
+In the 2022-2023 school year, there were #,### Club Members that served in BGCGH Texas ACE™. These Members were spread across 5 BGCGH Clubs from Spring Branch Independent School District (SBISD). Membership data included in this analysis are from the following schools in SBISD:
+• Spring Oaks Middle School
+• Spring Branch Elementary School
+• Westwood Elementary School
+• Woodview Elementary School
+• The Women’s Home
+
+Total Club Membership is based on the unique Membership IDs present in the academic and club attendance data set which represents a single Club member who attended at least one day of BGCGH Texas ACE™ programming during 2022-2023 school year.
+
+During the 2022-2023 school year, the majority of Members (##%) attended Spring Oak Middle School. Club Membership was spread across the other schools in the following order: Westwood Elementary (##%), Woodview Elementary (##%), The Women’s Home (##%) and Spring Branch Elementary (##%). Spring Oaks was the only school to see a decrease in Club attendance from 2021-2022 to 2022-2023. The other four schools experienced a slight increase in Membership from the 2021-2022 school year. Figure 1 includes a breakdown by Club site.
+
+```{r}
 
 
+# Graph of attendance by site over time
+# Last year's report includes 2020-2021 and 2021-2022 data
+
+attendance <- as.data.frame(c(231, 572, 177, 212))
+
+
+```
+
+
+## Member Demographics
+
+This is a report pulling demographic statistics for each Club. Percents do not add up to 100 because each site had some percent not reported.
+
+```{r}
+
+# Demographics Data
 # Import all xlsx files. These have a tab for each site, so I'll use a loop to read in all the tabs.
 xlsx.file.list <- list.files(pattern='*.xlsx', recursive = TRUE)
 xlsx.list <- list()
 for (file in xlsx.file.list){xlsx.list[[file]] <- sapply(excel_sheets(file), read_xlsx, path = file, simplify = FALSE, USE.NAMES = TRUE)}
 
+# 2023 Club Demographics
+# View(xlsx.list[[1]])
 
-# Import all pdf files. I did remove the old evaluation reports, so these are only the ypqi pdfs.
-pdf.file.list <- list.files(pattern='*.pdf', recursive = TRUE)
-pdf.list <- sapply(pdf.file.list, pdf_text, simplify = FALSE, USE.NAMES = TRUE)
+club.demographics.2023 <- bind_rows(xlsx.list[[1]], .id = "Site") %>% 
+  rename(Demographic = Gender,
+         demographic.pct = ...2) %>% 
+  na.omit() %>% 
+  mutate(Site = gsub("SBE", "Spring Branch Elementary", Site),
+         Site = gsub("SO", "Spring Oaks Middle", Site),
+         Site = gsub("TWH", "The Women's Home", Site),
+         Site = gsub("WV", "Woodview Elementary", Site),
+         Site = gsub("WW", "Westwood Elementary", Site))
+
+# Gender: Male, Female
+# Race: Asian, Black, Latino, Native, White, 2+
+# Age: 5 to 9, 10 to 12, 13 to 18
+
+
+```
+
+### Gender
+
+Westwood Elementary had the highest not reporting gender, at 11%. Note that the options for this survey were only Male or Female.
+
+```{r}
+
+# Gender: Male, Female
+
+club.gender <- club.demographics.2023 %>% 
+  # pivot_wider probably would have been an easier option here
+  filter(Demographic == 'Male' | Demographic == 'Female') %>% 
+  mutate(Male = ifelse(Demographic == 'Male', demographic.pct, NA),
+        Female = ifelse(Demographic == "Female", demographic.pct, NA)) %>% 
+  group_by(Site) %>% 
+  summarise(Male = sum(Male, na.rm = T),
+            Female = sum(Female, na.rm = T)) %>% 
+  mutate("Not Set" = 1-Male-Female)
+
+kable(club.gender, lables = scales::label_percent())
+
+club.gender.plot <- club.demographics.2023 %>% 
+ filter(Demographic == 'Male' | Demographic == 'Female')  
+
+ggplot(club.gender.plot, aes(x = Site, y = demographic.pct)) +
+  geom_col(aes(fill = Demographic)) +
+  coord_flip() +
+  geom_text(aes(label = scales::percent(demographic.pct)), color = "white", hjust = 1.5, position = "stack") +
+  labs(title = "Gender") +
+  theme(panel.background = element_blank(),
+        axis.text.x = element_blank(),
+        axis.ticks.x = element_blank()) +
+  ylab("Percent") +
+  xlab("") +
+    scale_fill_hue(l=40)
+
+```
+
+
+### Race
+
+Latino made up the highest percent of student race at any site, although lack of response was high at Spring Branch Elementary (76%), Spring Oaks Middle (62%) and The Women's Home (49%).
+
+```{r}
+
+# Race: Asian, Black, Latino, Native, White, 2+
+
+club.race <- club.demographics.2023 %>% 
+  filter(Demographic == 'Latino' | 
+           Demographic == 'White'| 
+           Demographic == 'Black'| 
+           Demographic == 'Asian' | 
+           Demographic == 'Native'| 
+           Demographic == '2+') %>% 
+  mutate(
+      Latino = ifelse(Demographic == "Latino", demographic.pct, NA),
+      White = ifelse(Demographic == "White", demographic.pct, NA),
+      Black = ifelse(Demographic == "Black", demographic.pct, NA),
+      Asian = ifelse(Demographic == "Asian", demographic.pct, NA),
+      Native = ifelse(Demographic == "Native", demographic.pct, NA),
+      Multiple = ifelse(Demographic == "2+", demographic.pct, NA)) %>% 
+  group_by(Site) %>% 
+  summarise(
+            Latino = sum(Latino, na.rm = T),    
+            White = sum(White, na.rm = T),       
+            Black = sum(Black, na.rm = T),
+            Asian = sum(Asian, na.rm = T),
+            Native = sum(Native, na.rm = T),
+            Multiple = sum(Multiple, na.rm = T)) %>% 
+  mutate("Not Set" = 1-Asian-Black-Latino-Native-White-Multiple)
+
+kable(club.race)
+
+club.race.plot <- 
+  club.demographics.2023 %>% 
+  filter(Demographic == 'Latino' | 
+           Demographic == 'White'| 
+           Demographic == 'Black'| 
+           Demographic == 'Asian' | 
+           Demographic == 'Native'| 
+           Demographic == '2+') %>% 
+    mutate(Demographic = factor(Demographic, levels=c("2+", "Asian", "Native", "Black", "White", "Latino")))
+
+
+ggplot(club.race.plot, aes(x = Site, y = demographic.pct)) +
+  geom_col(aes(fill = Demographic)) +
+  coord_flip() +
+  geom_text(aes(label = ifelse(Demographic == "Latino", scales::percent(demographic.pct), '')), 
+                color = "white", hjust = 2, position = "stack") +
+  labs(title = "Race") +
+  theme(panel.background = element_blank(),
+        axis.text.x = element_blank(),
+        axis.ticks.x = element_blank()) +
+  ylab("Percent") +
+  xlab("")  +
+    scale_fill_hue(l=40)
+
+# The colors of this graph are not great
+
+```
+
+
+### Age
+
+Ages five to nine were the most represented at all sites except Spring Oaks Middle, which was primarily ages thirteen to eighteen.
+
+```{r}
+
+# Age: 5 to 9, 10 to 12, 13 to 18
+
+club.age <- club.demographics.2023 %>%
+  filter(Demographic == '5 to 9' | 
+           Demographic == '10 to 12'| 
+           Demographic == '13 to 18') %>% 
+  mutate(
+      "Five_Nine" = ifelse(Demographic == '5 to 9', demographic.pct, NA),
+      "Ten_Twelve" = ifelse(Demographic == '10 to 12', demographic.pct, NA),
+      "Thirteen_Eighteen" = ifelse(Demographic == '13 to 18', demographic.pct, NA)) %>% 
+  group_by(Site) %>% 
+  summarise(Five_Nine = sum(Five_Nine, na.rm = T),    
+            Ten_Twelve = sum(Ten_Twelve, na.rm = T),       
+            Thirteen_Eighteen = sum(Thirteen_Eighteen, na.rm = T)) %>% 
+  mutate("Not Set" = 1-Five_Nine-Ten_Twelve-Thirteen_Eighteen)
+
+# might try using pivot_wider() on club.demographics.2023 to see if it works better
+
+kable(club.age)
+
+club.age.plot <- 
+  club.demographics.2023  %>% 
+  filter(Demographic == '5 to 9' | 
+           Demographic == '10 to 12'| 
+           Demographic == '13 to 18') %>% 
+  mutate(Demographic = factor(Demographic, levels=c("13 to 18", "10 to 12", "5 to 9")))
+
+
+ggplot(club.age.plot, aes(x = forcats::fct_rev(Site), y = demographic.pct)) +
+  geom_col(aes(fill = Demographic)) +
+  coord_flip() +
+  geom_text(aes(label = ifelse(Demographic == "5 to 9" | Demographic == "13 to 18", scales::percent(demographic.pct), '')), 
+                color = "white", hjust = 1.5) +
+  labs(title = "Age") +
+  theme(panel.background = element_blank(),
+        axis.text.x = element_blank(),
+        axis.ticks.x = element_blank()) +
+  ylab("Percent") +
+  xlab("")  +
+    scale_fill_hue(l=40)
+
 
 ```
 
@@ -112,9 +335,14 @@ Required Funding Statement: Funded by the 21st CCLC Program administered by the 
 Education
 
 
+
 ```{r}
 
 # ACE Data
+# Import all cvs files
+csv.file.list <- list.files(pattern='*.csv', recursive = TRUE)
+csv.list <- sapply(csv.file.list, read.csv, simplify = FALSE, USE.NAMES = TRUE)
+
 
 # Evaluation question: What impact has BGCGH ACE had on children over the past 5 years of programming?
 
@@ -132,7 +360,7 @@ ace2021 <- bind_rows(list(csv.list[[1]], csv.list [[2]], csv.list[[3]], csv.list
   mutate(Year = as.numeric(2021),
          Term = "Spring",
          Data = "ACE",
-         HostSiteName = gsub("The Womens' Home", "The Womans' Home", HostSiteName)) %>% 
+         HostSiteName = gsub("The Womens' Home", "The Women's Home", HostSiteName)) %>% 
   rename(Site = HostSiteName,
          Number.of.School.Days = SchoolDaysEnrolled,
          Number.of.Texas.ACE.Days = ACE.Days.Attended,
@@ -173,7 +401,7 @@ ace2022 <- bind_rows(list(csv.list[[6]], csv.list[[7]]), .id = "id") %>%
 ace2022 <- ace2022 %>% 
   mutate(Site = ifelse(substr(ace2022$Club.ID, 1, 3) == "SOM", "Spring Oaks Middle", ""),
          Site = ifelse(substr(ace2022$Club.ID, 1, 3) == "SBE", "Spring Branch Elementary", Site),
-         Site = ifelse(substr(ace2022$Club.ID, 1, 3) == "TWH", "The Womans' Home", Site),
+         Site = ifelse(substr(ace2022$Club.ID, 1, 3) == "TWH", "The Women's Home", Site),
          Site = ifelse(substr(ace2022$Club.ID, 1, 3) == "WWE", "Westwood Elementary", Site),
          Site = ifelse(substr(ace2022$Club.ID, 1, 2) == "WV", "Woodview Elementary", Site),
          Term = "Fall")
@@ -365,6 +593,15 @@ ggplot(ace.overall.plot, aes(x = Year)) +
 
 We participate in the annual Youth Program Quality Intervention provided by United Way to conduct a self-assessment on 4 key areas: Safe Environment, Supportive Environment, Interaction, and Engagement. The data provided is a comprehensive breakdown by Club of how they were assessed in the 4 key areas which are further broken down into deeper domains.  
 
+PQA scores range from 1.0 to 5.0. In general, scores can be interpreted as follows:
+
+- Score of 1 = The practice is not in place
+
+- Score of 3 = The practice is available to a limited extent or in a less advanced form
+
+- Score of 5 = The practice is widely available and/or with great frequency
+
+
 Please note, The Women’s Home, Westwood, and Woodview did not participate in the YOPQI process in 2020 nor 2021 due to the pandemic so I have included their 2019 report instead. 
 
 
@@ -380,10 +617,7 @@ pdf.list <- sapply(pdf.file.list, pdf_text, simplify = FALSE, USE.NAMES = TRUE)
 
 pdf.list[[4]]
 
-# Everything we have right now is from 2021 and 2022.
-
-# Summary Report is on pg 4
-# Pg 9 says scores lower than 3 may be the best candidates for improvement action
+# Everything we have right now is from 2021 and 2022, but this code should also work for 2023 once it's added to the working folder
 
 # File names to be joined with data later
 ypqi.names <- data.frame(pdf.file.list) %>% 
@@ -395,7 +629,7 @@ for(pdf in 1:max(row_number(pdf.file.list))){
   
   ypqi.pdf_table <- map(pdf.list[[pdf]], ~ str_split(.x, "\n") %>% unlist())
   #specify the start and end of the table data
-  ypqi.table <- ypqi.pdf_table[[4]][(str_which(ypqi.pdf_table[[4]], "Score Set 1")):(str_which(ypqi.pdf_table[[4]], "The"))] #on page 4
+  ypqi.table <- ypqi.pdf_table[[4]][(str_which(ypqi.pdf_table[[4]], "Score Set 1")):(str_which(ypqi.pdf_table[[4]], "The"))] # Summary Report is on pg 4
   #Build the table and remove special characters
   ypqi.table <- str_replace_all(ypqi.table," \\s+ ", "|")
   ypqi.data_table <- read.csv(textConnection(ypqi.table), sep = "|")
@@ -420,12 +654,17 @@ ypqi <- bind_rows(list(ypqi.list), .id = "Site") %>%
 ypqi <- ypqi %>% 
   mutate(Site = ifelse(str_detect(ypqi$pdf.file.list, "SBE"), "Spring Branch Elementary", Site),
          Site = ifelse(str_detect(ypqi$pdf.file.list, "SO"), "Spring Oaks Middle", Site),
-         Site = ifelse(str_detect(ypqi$pdf.file.list, "TWH"), "The Womans' Home", Site),
+         Site = ifelse(str_detect(ypqi$pdf.file.list, "TWH"), "The Women's Home", Site),
          Site = ifelse(str_detect(ypqi$pdf.file.list, "WV"), "Woodview Elementary", Site),
          Site = ifelse(str_detect(ypqi$pdf.file.list, "WW"), "Westwood Elementary", Site),
          Year = ifelse(str_detect(ypqi$pdf.file.list, "2021"), "2021", ""),
          Year = ifelse(str_detect(ypqi$pdf.file.list, "2022"), "2022", Year),
          Year = ifelse(str_detect(ypqi$pdf.file.list, "2023"), "2023", Year))
+
+
+# Pg 9 says scores lower than 3 may be the best candidates for improvement action
+ypqi.below <- ypqi %>% 
+  filter(Score < 3)
 
 ```
 
@@ -442,9 +681,12 @@ For more information about NYOI and how it measures Boys and Girls Club experien
 
 ```{r echo=FALSE}
 
-# Member Survey Reports
-#View(xlsx.list[[2]]) #2021
-#View(xlsx.list[[3]]) #2022, one of the tabs has wonky data
+# NYOI Member Survey Reports
+# Import all xlsx files. These have a tab for each site, so I'll use a loop to read in all the tabs.
+xlsx.file.list <- list.files(pattern='*.xlsx', recursive = TRUE)
+xlsx.list <- list()
+for (file in xlsx.file.list){xlsx.list[[file]] <- sapply(excel_sheets(file), read_xlsx, path = file, simplify = FALSE, USE.NAMES = TRUE)}
+
 
 # skip = 8?
 # pivot_longer()
@@ -480,180 +722,8 @@ kable(nyoi.2021.experience, caption = "Overall Club Experience by Site, 2021", d
 
 ```
 
-## Member Demographics 2023
-
-This is a report pulling demographic statistics for each Club. Percents do not add up to 100 because each site had some percent not reported.
-
-```{r}
-
-# 2023 Club Demographics
-# View(xlsx.list[[1]])
-
-club.demographics.2023 <- bind_rows(xlsx.list[[1]], .id = "Site") %>% 
-  rename(Demographic = Gender,
-         demographic.pct = ...2) %>% 
-  na.omit() %>% 
-  mutate(Site = gsub("SBE", "Spring Branch Elementary", Site),
-         Site = gsub("SO", "Spring Oaks Middle", Site),
-         Site = gsub("TWH", "The Womans' Home", Site),
-         Site = gsub("WV", "Woodview Elementary", Site),
-         Site = gsub("WW", "Westwood Elementary", Site))
-
-# Gender: Male, Female
-# Race: Asian, Black, Latino, Native, White, 2+
-# Age: 5 to 9, 10 to 12, 13 to 18
 
 
-```
-
-### Gender
-
-Westwood Elementary had the highest not reporting gender, at 11%. Note that the options for this survey were only Male or Female.
-
-```{r}
-
-# Gender: Male, Female
-
-club.gender <- club.demographics.2023 %>% 
-  # pivot_wider probably would have been an easier option here
-  filter(Demographic == 'Male' | Demographic == 'Female') %>% 
-  mutate(Male = ifelse(Demographic == 'Male', demographic.pct, NA),
-        Female = ifelse(Demographic == "Female", demographic.pct, NA)) %>% 
-  group_by(Site) %>% 
-  summarise(Male = sum(Male, na.rm = T),
-            Female = sum(Female, na.rm = T)) %>% 
-  mutate("Not Set" = 1-Male-Female)
-
-kable(club.gender, lables = scales::label_percent())
-
-club.gender.plot <- club.demographics.2023 %>% 
- filter(Demographic == 'Male' | Demographic == 'Female')  
-
-ggplot(club.gender.plot, aes(x = Site, y = demographic.pct)) +
-  geom_col(aes(fill = Demographic)) +
-  coord_flip() +
-  geom_text(aes(label = scales::percent(demographic.pct)), color = "white", hjust = 1.5, position = "stack") +
-  labs(title = "Gender") +
-  theme(panel.background = element_blank(),
-        axis.text.x = element_blank(),
-        axis.ticks.x = element_blank()) +
-  ylab("Percent") +
-  xlab("") +
-    scale_fill_hue(l=40)
-
-```
-
-### Race
-
-Latino made up the highest percent of student race at any site, although lack of response was high at Spring Branch Elementary (76%), Spring Oaks Middle (62%) and The Womans’ Home (49%).
-
-```{r}
-
-# Race: Asian, Black, Latino, Native, White, 2+
-
-club.race <- club.demographics.2023 %>% 
-  filter(Demographic == 'Latino' | 
-           Demographic == 'White'| 
-           Demographic == 'Black'| 
-           Demographic == 'Asian' | 
-           Demographic == 'Native'| 
-           Demographic == '2+') %>% 
-  mutate(
-      Latino = ifelse(Demographic == "Latino", demographic.pct, NA),
-      White = ifelse(Demographic == "White", demographic.pct, NA),
-      Black = ifelse(Demographic == "Black", demographic.pct, NA),
-      Asian = ifelse(Demographic == "Asian", demographic.pct, NA),
-      Native = ifelse(Demographic == "Native", demographic.pct, NA),
-      Multiple = ifelse(Demographic == "2+", demographic.pct, NA)) %>% 
-  group_by(Site) %>% 
-  summarise(
-            Latino = sum(Latino, na.rm = T),    
-            White = sum(White, na.rm = T),       
-            Black = sum(Black, na.rm = T),
-            Asian = sum(Asian, na.rm = T),
-            Native = sum(Native, na.rm = T),
-            Multiple = sum(Multiple, na.rm = T)) %>% 
-  mutate("Not Set" = 1-Asian-Black-Latino-Native-White-Multiple)
-
-kable(club.race)
-
-club.race.plot <- 
-  club.demographics.2023 %>% 
-  filter(Demographic == 'Latino' | 
-           Demographic == 'White'| 
-           Demographic == 'Black'| 
-           Demographic == 'Asian' | 
-           Demographic == 'Native'| 
-           Demographic == '2+') %>% 
-    mutate(Demographic = factor(Demographic, levels=c("2+", "Asian", "Native", "Black", "White", "Latino")))
-
-
-ggplot(club.race.plot, aes(x = Site, y = demographic.pct)) +
-  geom_col(aes(fill = Demographic)) +
-  coord_flip() +
-  geom_text(aes(label = ifelse(Demographic == "Latino", scales::percent(demographic.pct), '')), 
-                color = "white", hjust = 2, position = "stack") +
-  labs(title = "Race") +
-  theme(panel.background = element_blank(),
-        axis.text.x = element_blank(),
-        axis.ticks.x = element_blank()) +
-  ylab("Percent") +
-  xlab("")  +
-    scale_fill_hue(l=40)
-
-# The colors of this graph are not great
-
-```
-
-### Age
-
-Ages five to nine were the most represented at all sites except Spring Oaks Middle, which was primarily ages thirteen to eighteen.
-
-```{r}
-
-# Age: 5 to 9, 10 to 12, 13 to 18
-
-club.age <- club.demographics.2023 %>%
-  filter(Demographic == '5 to 9' | 
-           Demographic == '10 to 12'| 
-           Demographic == '13 to 18') %>% 
-  mutate(
-      "Five_Nine" = ifelse(Demographic == '5 to 9', demographic.pct, NA),
-      "Ten_Twelve" = ifelse(Demographic == '10 to 12', demographic.pct, NA),
-      "Thirteen_Eighteen" = ifelse(Demographic == '13 to 18', demographic.pct, NA)) %>% 
-  group_by(Site) %>% 
-  summarise(Five_Nine = sum(Five_Nine, na.rm = T),    
-            Ten_Twelve = sum(Ten_Twelve, na.rm = T),       
-            Thirteen_Eighteen = sum(Thirteen_Eighteen, na.rm = T)) %>% 
-  mutate("Not Set" = 1-Five_Nine-Ten_Twelve-Thirteen_Eighteen)
-
-# might try using pivot_wider() on club.demographics.2023 to see if it works better
-
-kable(club.age)
-
-club.age.plot <- 
-  club.demographics.2023  %>% 
-  filter(Demographic == '5 to 9' | 
-           Demographic == '10 to 12'| 
-           Demographic == '13 to 18') %>% 
-  mutate(Demographic = factor(Demographic, levels=c("13 to 18", "10 to 12", "5 to 9")))
-
-
-ggplot(club.age.plot, aes(x = forcats::fct_rev(Site), y = demographic.pct)) +
-  geom_col(aes(fill = Demographic)) +
-  coord_flip() +
-  geom_text(aes(label = ifelse(Demographic == "5 to 9" | Demographic == "13 to 18", scales::percent(demographic.pct), '')), 
-                color = "white", hjust = 1.5) +
-  labs(title = "Age") +
-  theme(panel.background = element_blank(),
-        axis.text.x = element_blank(),
-        axis.ticks.x = element_blank()) +
-  ylab("Percent") +
-  xlab("")  +
-    scale_fill_hue(l=40)
-
-
-```
 
 
 
@@ -695,7 +765,7 @@ Research Limitations
 Conclusions and Recommendations
 Appendix One: Additional Club Level Data
 
-20-21 (33 pages), Meadows Mental Hleath Policy Institute
+20-21 (33 pages), Meadows Mental Health Policy Institute
 Executive Summary
 Introduction and Background
 Descriptive Statistics on Club Members
