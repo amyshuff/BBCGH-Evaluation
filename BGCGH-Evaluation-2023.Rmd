@@ -9,6 +9,13 @@ output: html_document
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
 ```
 
+Notes for Leila:
+Anything that shows up as blue in the code like *this*, surrounded by asterisks, should not stay in the final report. These comments are either copy and pasted from old reports, as example language that we need to update based on the new data, or observations I've made about the data but haven't written down using formal language. When looking at the html document, these words show up in italics.
+
+Notes for Christine:
+In the code chunks, I've written UPDATE everywhere something needs to be changed when we get the next batch of data in this summer. The code I've written that imports the csv, xlsx, and pdf files should capture everything saved in the working folder, but I have no idea what the attendance data will look like when it comes in. So, for instance, club demographics was imported as the first xlsx file, but if it's not the first file anymore, then that code will need to be updated.
+
+
 
 By next check-in:
 
@@ -37,7 +44,9 @@ However, it looks very similar to the Spring 2022 data from last year’s report
 
 - Folder “NYOI Data”, file “2022 Member Survey Report”, the tab for Westwood is not complete. After row 83 all the percentages are missing. It also doesn’t have all the sections that the rest of the site tabs have.
 
-- NYOI Member Surveys have a lot of different things we could look at. Need to know your priorities. Should we only look at club member experience like we did last year?
+- NYOI Member Surveys have a lot of different things we could look at. Need to know your priorities. Should we only look at the select member experience indicators we did last year? (Emotional Safety, Physical Safety, Fun, Sense of Belonging, Adult Connections, Expectations, and Recognition.)
+
+- Notes from 19-20 report: number of days of BGCGH Texas ACE programming attended by a given student could not be calculated to a reasonable level of certainty because of disparities in data collection and management procedures. - I would like some more information about this and if the same is true for this year.
 
 
 ``` {r, results='hide'}
@@ -57,20 +66,19 @@ library(pdftools)
 
 # Executive Summary
 
-At the request of BGCGH, CHILDREN AT RISK conducted an evaluation analysis of the BGCGH Texas Afterschool Centers on Education (Texas ACE™) program in its fifth year in the Spring Branch Independent School District (SBISD). The Texas ACE™ program at BGCGH is designed to provide academic enrichment opportunities for students during non-school hours. The evaluation report highlights the evaluation findings of the BGCGH Texas ACE™ programming for the 2022-2023 school year.
+At the request of Boys and Girls Clubs of Greater Houston (BGCGH), CHILDREN AT RISK conducted an evaluation analysis of the BGCGH Texas Afterschool Centers on Education (Texas ACE™) program in its fifth year in the Spring Branch Independent School District (SBISD). The Texas ACE™ program at BGCGH is designed to provide high-quality academic enrichment opportunities for children and youth during non-school hours. The evaluation report highlights the evaluation findings of the BGCGH Texas ACE™ programming for the 2022-2023 school year.
 
-The findings from this evaluation are pulled from available data sources provided by BGCGH. CHILDREN AT RISK reviewed member and club data from the 2022-2023 school year. The quantitative data includes data on Club Members as well as aggregated data on each of the five clubs participating in Texas ACE™.
+The findings from this evaluation are pulled from available data sources provided by BGCGH. CHILDREN AT RISK reviewed member and club data from the 2022-2023 school year. The quantitative data includes data on club members as well as aggregated data on each of the five clubs participating in Texas ACE™. Longitudinal data for 2019-2022 was pulled from past evaluation reports.
 
-Required Funding Statement: Funded by the 21st CCLC Program administered by the US Department of
-Education. (Do we still need to include this? Found it in the 2019-2020 report, but not last year's.)
+*Required Funding Statement: Funded by the 21st CCLC Program administered by the US Department of Education. (Do we still need to include this? Found it in the 2019-2020 report, but not last year's.)*
 
 Major Findings on the BGCGH Texas ACE™ program include:
 
-- something
+- *There has been an increase in overall attendance for BGCGH Texas ACE™ programs*
 
-- something
+- *Site attendance has been better distributed across all 5 sites for 2021-2022*
 
-- something
+- *Overall member satisfaction is high across most Club experience measures including Members’ emotional safety and adult connection*
 
 
 # Introduction and Background
@@ -81,6 +89,21 @@ BGCGH requested an evaluation analysis from CHILDREN AT RISK (C@R) to describe s
 
 BGCGH provided CHILDREN AT RISK with four sources of quantitative data to inform our analyses in this report. The first were a sample of academic performance records from SBISD for Spring 2021, 2022, and 2023. The second source of quantitative data was from the Boys & Girls Clubs of America’s National Youth Outcomes Initiative (NYOI). The third data source was from the Youth Program Quality Assessment (YPQA) by the The David P. Weikart Center for Youth Program Quality. The fourth and final source of data was aggregated club member demographics and individual attendance records.
 
+
+The following evaluation questions will be considered:
+
+- How are the BGCGH school-based programs implementing the Texas ACE for the 2022-2023 school year impacting children through the focused program areas of: Academic Success, Social-Emotional Development and Attendance?
+
+- How does BGCGH support equitable access to quality after school programming?
+
+- How have BGCGH ACE sites compared to each other over the past 3 years?
+
+- What impact has BGCGH ACE had on children over the past 5 years of programming?
+
+- How has BGCGH ACE supported parents?
+
+*I don't know if you want to include the above evaluation questions, but I thought  it would be good to copy them in here for reference when writing the report.*
+
 # Descriptive Statistics on Club Members
 
 Data described in this section comes from aggregated club member demographics and individual attendance records.
@@ -89,41 +112,124 @@ Data described in this section comes from aggregated club member demographics an
 
 *Expect 2023 attendance data with the summer data dump.*
 
+*Notes from 19-20 report: number of days of BGCGH Texas ACE programming attended by a given student could not be calculated to a reasonable level of certainty because of disparities in data collection and management procedures.*
+
 ```{r}
 
-# Import attendance data here
+# UPDATE: clean 2023 attendance data here
 
 ```
 
 
-In the 2022-2023 school year, there were #,### Club Members that served in BGCGH Texas ACE™. These Members were spread across 5 BGCGH Clubs from Spring Branch Independent School District (SBISD). Membership data included in this analysis are from the following schools in SBISD:
-• Spring Oaks Middle School
-• Spring Branch Elementary School
-• Westwood Elementary School
-• Woodview Elementary School
-• The Women’s Home
+In the 2022-2023 school year, there were *#,###* Club Members that served in BGCGH Texas ACE™. These Members were spread across 5 BGCGH Clubs from Spring Branch Independent School District (SBISD). Membership data included in this analysis are from the following schools in SBISD:
+
+- Spring Branch Elementary School
+
+- Spring Oaks Middle School
+
+- The Women’s Home
+ 
+- Westwood Elementary School
+ 
+- Woodview Elementary School
 
 Total Club Membership is based on the unique Membership IDs present in the academic and club attendance data set which represents a single Club member who attended at least one day of BGCGH Texas ACE™ programming during 2022-2023 school year.
 
-During the 2022-2023 school year, the majority of Members (##%) attended Spring Oak Middle School. Club Membership was spread across the other schools in the following order: Westwood Elementary (##%), Woodview Elementary (##%), The Women’s Home (##%) and Spring Branch Elementary (##%). Spring Oaks was the only school to see a decrease in Club attendance from 2021-2022 to 2022-2023. The other four schools experienced a slight increase in Membership from the 2021-2022 school year. Figure 1 includes a breakdown by Club site.
+*During the 2022-2023 school year, the majority of Members (##%) attended Spring Oak Middle School. Club Membership was spread across the other schools in the following order: Westwood Elementary (##%), Woodview Elementary (##%), The Women’s Home (##%) and Spring Branch Elementary (##%). Spring Oaks was the only school to see a decrease in Club attendance from 2021-2022 to 2022-2023. The other four schools experienced a slight increase in Membership from the 2021-2022 school year. Figure 1 includes a breakdown by club site for members who attended at least one day of BGCGH Texas ACE™ programming.*
 
 ```{r}
 
+# Last year's report included 2020-2021 and 2021-2022 data. 2020 numbers came from the 2019-2020 report. 2019 numbers came from the 2018-2019 report.
+# UPDATE attendance with 2023 attendance numbers.
+attendance <- tibble("Year" = c(2019, 2020, 2021, 2022), 
+                         "Spring Branch Elementary" = c(330, 172, 221,224),
+                         "Spring Oaks Middle" = c(283, 419, 572, 424),
+                         "The Women's Home" = c(322, 144, 177, 228),
+                         "Westwood Elementary" = c(346, 250, 298, 366),
+                         "Woodview Elementary" = c(319, 231, 212, 301)) %>% 
+  mutate(Total = `Spring Branch Elementary` + `Spring Oaks Middle` + `The Women's Home` +
+                         `Westwood Elementary` + `Woodview Elementary`)
+
+kable(attendance)
+
+
+attendance.plot <- attendance %>%   
+    pivot_longer(c(`Spring Branch Elementary`, `Spring Oaks Middle`, `The Women's Home`,
+                         `Westwood Elementary`, `Woodview Elementary`, Total),
+               names_to = "Site",
+               values_to = "Total Membership")
 
 # Graph of attendance by site over time
-# Last year's report includes 2020-2021 and 2021-2022 data
-
-attendance <- as.data.frame(c(231, 572, 177, 212))
+ggplot(attendance.plot, aes(x = Year, y = attendance.plot$`Total Membership`, color = Site)) +
+  geom_line() +
+  geom_point(position = "dodge") +
+  coord_cartesian(ylim = c(0, 1650)) +
+  scale_x_continuous(breaks = seq(2019, 2023, 1)) +
+  labs(title = "Attendance by Site, 2019-2023") +
+  ylab("Total Membership") +
+    scale_fill_hue(l=40)
 
 
 ```
+
+*I think it's interesting to see the big dip in membership for 2020. I'll be curious to know with the 2023 data if they're back up to the 2019 attendance numbers yet.*
+
+### Grant Attendance Targets
+
+Texas ACE™ defines regular participation as attending the program 45 days or more during the annual grant period, which includes fall, spring, and summer academic terms. Only students with 45 days of documented program attendance in accordance with program documentation and attendance policies, will be counted toward Texas ACE™ student service goals. 
+
+*Even though only Fall semester program attendance is counted here, 45 days was judged to still be an appropriate cut point because the majority of members at each club reached that level on Fall semester program attendance alone.*
+
+*All clubs providing BGCGH Texas ACE™ programming met their grant attendance targets. (Members who attend 45+ days), however attendance varied by club location (Table 1). Spring Oak and Woodview surpassed their goals the most compared to other club sites.*
+
+```{r}
+
+# Table idea: Number of students attending each site for at least 45 days
+
+# Percent of Members Who Attended 45+ Days of ACE Programming by Site
+# Previous years data taken from past reports
+# UPDATE with 2023 numbers
+attendance.grant <- tibble("Year" = c(2019, 2020, 2021, 2022), 
+                         "Spring Branch Elementary" = c(.55, .70, .71, .83),
+                         "Spring Oaks Middle" = c(.39, .56, .45, .26),
+                         "The Women's Home" = c(.83, .97, .97, .51),
+                         "Westwood Elementary" = c(.89, .79, .55, .37),
+                         "Woodview Elementary" = c(.71, .68, NA, .54),
+                         "Total" = c(NA, .70, .65, .46)) 
+  
+kable(attendance.grant)
+
+
+attendance.grant.plot <- attendance.grant %>%   
+    pivot_longer(c(`Spring Branch Elementary`, `Spring Oaks Middle`, `The Women's Home`,
+                         `Westwood Elementary`, `Woodview Elementary`, Total),
+               names_to = "Site",
+               values_to = "Percent of Members")
+
+# Graph of Percent of Members Who Attended 45+ Days of ACE Programming by Site over time
+ggplot(attendance.grant.plot, aes(x = Year, y = attendance.grant.plot$`Percent of Members`, color = Site)) +
+  geom_line() +
+  geom_point(position = "dodge") +
+  coord_cartesian(ylim = c(0, 1)) +
+  scale_x_continuous(breaks = seq(2019, 2023, 1)) +
+  labs(title = "Percent of Members Who Attended 45+ Days of ACE Programming, 2019-2023") +
+  ylab("Percent of Members") +
+    scale_fill_hue(l=40)
+
+```
+*What happened at The Women's Home last year? That's a dramatic change in regular attendance. I took the number from last year's report. You can find our folder for last year here: https://childrenatrisk.sharepoint.com/sites/GDrive/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FGDrive%2FShared%20Documents%2FCenter%20for%20Social%20Measurement%20and%20Evaluation%2FSharmily%20Working%2FBoys%20ang%20Girls%20Club%20Info&p=true&ct=1684425770678&or=Teams%2DHL&ga=1*
+
 
 
 ## Member Demographics
 
-This is a report pulling demographic statistics for each Club. Percents do not add up to 100 because each site had some percent not reported.
+Demographic data provided included information on the gender, race, and age of club members from the Fall 2023 semester. Percents do not add up to 100 because each site had some percent not reported.
+
+*Our contract said that we would compare member data with population data at community level. I haven't done that yet.*
 
 ```{r}
+
+# UPDATE: Our contract said that we would compare member data with population data at community level. I haven't done that yet.
 
 # Demographics Data
 # Import all xlsx files. These have a tab for each site, so I'll use a loop to read in all the tabs.
@@ -134,6 +240,7 @@ for (file in xlsx.file.list){xlsx.list[[file]] <- sapply(excel_sheets(file), rea
 # 2023 Club Demographics
 # View(xlsx.list[[1]])
 
+# UPDATE if file number is different
 club.demographics.2023 <- bind_rows(xlsx.list[[1]], .id = "Site") %>% 
   rename(Demographic = Gender,
          demographic.pct = ...2) %>% 
@@ -169,7 +276,7 @@ club.gender <- club.demographics.2023 %>%
             Female = sum(Female, na.rm = T)) %>% 
   mutate("Not Set" = 1-Male-Female)
 
-kable(club.gender, lables = scales::label_percent())
+kable(club.gender)
 
 club.gender.plot <- club.demographics.2023 %>% 
  filter(Demographic == 'Male' | Demographic == 'Female')  
@@ -302,60 +409,36 @@ ggplot(club.age.plot, aes(x = forcats::fct_rev(Site), y = demographic.pct)) +
 
 ```
 
-## ACE Data 
+## Academic Grades 
 
-This houses grade and attendance data from 2018-2022.
+Report card data in this section was provided by SBISD to BGCGH. We reviewed and analyzed data on members’ academic grades in the two core courses: Math and English/Reading. 
 
-- Quite a few grades are missing from the 2021 data.
+When reporting numeric values for grades, we used a traditional 0 to 4 grade point scale in which 0 represents a grade of ‘F’ and 4 represents a grade of ‘A.’ Kindergarten students are not included in any analysis of reporting of grades here due to the small number of members in that grade and a different grading scale.
 
-Texas Afterschool Centers on Education (Texas ACE™) program. Grant funding to provide high-quality academic enrichment opportunities for children and youth during non-school hours.
+*A limitation of this analysis is the amount of available report cards. Despite the number of club Members in Texas ACE™, only a sample size of ### report cards were available. Because of the variability in grade level and Club site within the sample, this data has limited generalizability of the actual grade distribution within the five Clubs.*
 
-Messaging guide: https://tea.texas.gov/sites/default/files/texas_ace_messaging_guide2021_22.pdf.pdf
-
-The school district supplies the report cards
-
-Notes from last year's report:
-
-A limitation of this analysis is the amount of available report cards. Despite the number of Club Members in Texas ACE™, only a sample size of 351 report cards were available. Because of the variability in grade level and Club site within the sample, this data has limited generalizability of the actual grade distribution within the five Clubs.
-
-Number of report cards do not match total Membership numbers. Analysis is limited to the total number of report cards provided N=351
-
-(Looking at their report card numbers, we have that same data again this year.)
-
-Folder for last year's report: https://childrenatrisk.sharepoint.com/sites/GDrive/Shared%20Documents/Forms/AllItems.aspx?ct=1683734745868&or=Teams%2DHL&ga=1&id=%2Fsites%2FGDrive%2FShared%20Documents%2FCenter%20for%20Social%20Measurement%20and%20Evaluation%2FSharmily%20Working%2FBoys%20ang%20Girls%20Club%20Info%2FData%20Sets&viewid=31449e19%2Dda16%2D4372%2D8e07%2D45d6b35480c4
-
-
-Notes from 19-20 report:
-
-number of days of BGCGH Texas ACE programming
-attended by a given student could not be calculated to a reasonable level of certainity because of disparities
-in data collection and management procedures.
-
-Required Funding Statement: Funded by the 21st CCLC Program administered by the US Department of
-Education
-
+Data from *Spring?* 2022 is limited to 351 report cards and data from Spring 2021 is limited to 797 report cards. This is not a large enough sample size to draw conclusions from.
 
 
 ```{r}
 
 # ACE Data
-# Import all cvs files
+# Import all csv files
 csv.file.list <- list.files(pattern='*.csv', recursive = TRUE)
 csv.list <- sapply(csv.file.list, read.csv, simplify = FALSE, USE.NAMES = TRUE)
 
 
-# Evaluation question: What impact has BGCGH ACE had on children over the past 5 years of programming?
+# I went in to each ACE file and manually changed column names in Excel so that they were all the same across sites and years. (Site, Grade, Number of School Days, Number of Texas ACE Days, Math, English Reading)
 
-
-# I went in to each ACE file and manually changed column names in Excel so that they were all the same. Could have coded it, but I assume they'll give us different things again next year.
-
+# UPDATE. Make sure to check column names manually in excel for new ACE data before importing all files, or bind_rows will not work properly. Also save all as csv if they send them in a different format.
 # Look at each file individually to see what it contains and if changes need to be made before it's joined with the others.
+
 
 # ACE Spring 2021
 # View(csv.list[[5]]) # includes Year (2021) and Term (Spring). UID had preceding C for some sites. I took those out.
 
 # Join all ACE Spring 2021 files together
-
+# UPDATE if file numbers are different
 ace2021 <- bind_rows(list(csv.list[[1]], csv.list [[2]], csv.list[[3]], csv.list[[4]], csv.list[[5]]), .id = "id") %>% 
   mutate(Year = as.numeric(2021),
          Term = "Spring",
@@ -367,6 +450,7 @@ ace2021 <- bind_rows(list(csv.list[[1]], csv.list [[2]], csv.list[[3]], csv.list
          Math = MathGrade,
          English.Reading = ReadingGrade) 
 
+# UPDATE (I need help here)
 # figure out how to remove duplicate UIDs
 ace2021.duplicates <- ace2021$UID[duplicated(ace2021$UID)]
 # paste(ace2021.duplicates)
@@ -374,10 +458,12 @@ ace2021.duplicates <- ace2021$UID[duplicated(ace2021$UID)]
 
 ace2021 <- ace2021 %>% 
   select(Site, Grade, Number.of.School.Days, Number.of.Texas.ACE.Days, Math, English.Reading, Year, Term, Data)
+# Quite a few grades are missing from the 2021 data
+
 
 
 # ACE 2022 - Fall
-# Club.ID now starts with site name initials instead of a column for HostSiteName.
+# Club.ID now starts with site name initials instead of a column for Site
 # View(csv.list[[6]]) # Grade is number (1)
 # View(csv.list[[7]]) # Grade is number (1)
 # View(csv.list[[8]]) # Grade is character (1st), but one is listed as 1nd. Changed to 1st.
@@ -385,6 +471,7 @@ ace2021 <- ace2021 %>%
 # View(csv.list[[10]]) # Grade is character (1st)
 
 # Join all 2022 files together
+# UPDATE if file numbers are different
 ace2022 <- bind_rows(list(csv.list[[6]], csv.list[[7]]), .id = "id") %>% 
   mutate(Data = "ACE",
          Grade = gsub("1", "1st", Grade),
@@ -413,11 +500,12 @@ ace2022.duplicates <- ace2022$Club.ID[duplicated(ace2022$Club.ID)]
 ace2022 <- ace2022 %>% 
   select(Site, Grade, Number.of.School.Days, Number.of.Texas.ACE.Days, Math, English.Reading, Year, Term, Data)
 
-# - 2022 Fall ACE data has 174 school days for all students. 2021 ACE data has SchoolDaysEnrolled and SchoolDayClasses, which both range from 0 to 94. But they're not always the same, nor do they match ACE Days Attended.
+# 2022 ACE data has 174 school days for all students. 2021 ACE data has SchoolDaysEnrolled and SchoolDayClasses, which both range from 0 to 94. But they're not always the same, nor do they match ACE Days Attended.
+
 ```
 
 
-BGCGH told us this 2022 data was from the fall, but it looks exactly like last year's data except for Woodview.
+*BGCGH told us this 2022 data was from the fall, but it looks exactly like last year's data except for Woodview.*
 
 ```{r}
 
@@ -447,7 +535,6 @@ kable(ace2022.counts, caption = "2022 Report Card Counts")
 
 
 ```{r}
-# Evaluation Question: How have BGCGH ACE sites compared to each other over the past 3 years?
 
 ace <- bind_rows(ace2021, ace2022) %>%
   # Kinder has Pass/Fail. They were excluded from previous reports.
@@ -542,23 +629,26 @@ ggplot(ace.averages, aes(x = Site, y = English.Reading, fill = factor(ace.averag
   guides(fill = guide_legend(title = "Year")) +
     scale_fill_hue(l=40)
 
-
     
 ```
 
 ### Overall Grades
 
-2019 report has average GPA by site and subject. We would have to weight the averages by attendance for that year to get total subject average. There isn't a report card for each student, so this wouldn't be exact.
-
-2020 report has average grade by site and subject as well. (Math: SB=2.41, SOM=2.32, TWH=2.3, WW=2.34, WV=1.74, Reading: SB = 2.29, SOM=2.13, TWH=2.2, WW=2.4, WV=1.75) There are 1,072 report cards and 1,216 members.
-
-2021 has averages by subject and term.. I averaged the two terms and added it to the data below.
-
-It looks like there's a dramatic increase in grades for 2022, but with so few report cards, it's really hard to say if it's a significant increase.
+*The below table shows just how wide the variation is in the supplied number of report cards each year. This is what makes it impossible to draw conclusions from 2021 and 2022 data*
 
 
 ```{r}
 
+# 2019 report has average GPA by site and subject. We would have to weight the averages by attendance for that year to get total subject average. There isn't a report card for each student, so this wouldn't be exact.
+
+# 2020 report has average grade by site and subject as well. (Math: SB=2.41, SOM=2.32, TWH=2.3, WW=2.34, WV=1.74, Reading: SB = 2.29, SOM=2.13, TWH=2.2, WW=2.4, WV=1.75) There are 1,072 report cards and 1,216 members.
+
+# 2021 has averages by subject and term.. I averaged the two terms and added it to the data below.
+
+# It looks like there's a dramatic increase in grades for 2022, but with so few report cards, it's hard to say if it's a significant increase.
+
+# UPDATE: Add 2023 data here if wanted. 
+# I don't know if you all want this in the final report, but I thought the number of report cards each year was important. Maybe move it to the begining of the Grades section?
 ace.overall <- ace %>% 
   group_by(Year) %>% 
   summarise(Math = mean(Math, na.rm = TRUE),
@@ -570,6 +660,15 @@ ace.overall <- ace %>%
   arrange(Year)
 
 kable(ace.overall, caption = "Average GPA by Year", digits = 2)
+
+```
+
+
+
+
+```{r include=FALSE}
+
+# This didn't turn out to be as interesting as I thought it might be. I'd probably leave this out of the final report.
 
 ace.overall.plot <- ace.overall %>% 
   pivot_longer(c(Math, English.Reading), 
@@ -583,17 +682,69 @@ ggplot(ace.overall.plot, aes(x = Year)) +
        subtitle = "for all BGCGH sites combined") +
   scale_x_continuous(breaks=seq(2019, 2022, 1))
 
+```
+
+
+# Club-Level Data 
+
+## NYOI
+
+Boys & Girls Clubs of America’s National Youth Outcomes Initiative (NYOI)
+
+Member Survey Report
+
+We participate in an annual survey to hear directly from youth about their Club experience. This survey collects information on selected modules that vary Club. Some of the modules include: Club Experience, Safety, Healthy Lifestyles, Academic Success, Good Character, SEL, Art, STEM, Bullying, Workforce, Risky Behavior. , 
+
+For more information about NYOI and how it measures Boys and Girls Club experiences: https://clubexperience.blog/2018/02/22/how-do-we-measure-the-club-experience/
+
+```{r echo=FALSE}
+
+# NYOI Member Survey Reports
+# Import all xlsx files. These have a tab for each site, so I'll use a loop to read in all the tabs.
+xlsx.file.list <- list.files(pattern='*.xlsx', recursive = TRUE)
+xlsx.list <- list()
+for (file in xlsx.file.list){xlsx.list[[file]] <- sapply(excel_sheets(file), read_xlsx, path = file, simplify = FALSE, USE.NAMES = TRUE)}
+
+
+# skip = 8?
+# pivot_longer()
+
+# UPDATE if file numbers are different
+nyoi.2021 <- bind_rows(xlsx.list[[2]], .id = "Site") %>% 
+  replace(is.na(.), "")
+
+nyoi.2021 <- nyoi.2021 %>%
+  # all the detail columns need to be merged into one  
+  mutate(Measure = paste0(
+    nyoi.2021$`Detail Report,  Spring Oaks Middle Boys & Girls Club  2021,  Measure(s): All Categories, All`, 
+    nyoi.2021$`Detail Report,  The Women's Home/Treasure Forest Elementary Boys & Girls Club  2021,  Measure(s): All Categories, All`,
+    nyoi.2021$`Detail Report,  Westwood Elementary Boys & Girls Club  2021,  Measure(s): All Categories, All`,
+    nyoi.2021$`Detail Report,  Spring Branch Elementary Boys & Girls Club  2021,  Measure(s): All Categories, All`,
+    nyoi.2021$`Detail Report,  Woodview Elementary Boys & Girls Club  2021,  Measure(s): All Categories, All`),
+    Year = 2021,
+    Data = "NYOI") %>%
+  select(Data, Year, Site, Measure, ...2, ...3, ...4, ...5, ...6, ...7, ...8)
+
+nyoi.2021.experience <- nyoi.2021 %>% 
+  filter(Measure == "Overall Club Experience") %>% 
+  select(Site, ...2,...3,...4) %>% 
+  rename("Optimal (Doing Great)" = ...2,
+         "Fair (Doing Fine)" = ...3,
+         "Needs Improvement (Room to Grow)" = ...4) %>% 
+    mutate_if(is.numeric, round, digits = 2)
+
+kable(nyoi.2021.experience, caption = "Overall Club Experience by Site, 2021", digits = 2)
+
+# I don't know why these numbers aren't rounding. Also need to display as percent.
 
 
 ```
 
+## YPQI
 
+BGCGH participates in the annual Youth Program Quality Intervention provided by United Way to conduct a self-assessment on four key areas: Safe Environment, Supportive Environment, Interaction, and Engagement. 
 
-## YPQI Data 
-
-We participate in the annual Youth Program Quality Intervention provided by United Way to conduct a self-assessment on 4 key areas: Safe Environment, Supportive Environment, Interaction, and Engagement. The data provided is a comprehensive breakdown by Club of how they were assessed in the 4 key areas which are further broken down into deeper domains.  
-
-PQA scores range from 1.0 to 5.0. In general, scores can be interpreted as follows:
+Program Quality Assessment (PQA) scores range from 1.0 to 5.0. In general, scores can be interpreted as follows:
 
 - Score of 1 = The practice is not in place
 
@@ -602,12 +753,13 @@ PQA scores range from 1.0 to 5.0. In general, scores can be interpreted as follo
 - Score of 5 = The practice is widely available and/or with great frequency
 
 
-Please note, The Women’s Home, Westwood, and Woodview did not participate in the YOPQI process in 2020 nor 2021 due to the pandemic so I have included their 2019 report instead. 
+*Note: The Women’s Home, Westwood, and Woodview did not participate in the YPQI process in 2020 nor 2021 due to the pandemic so we have their 2019 report instead.*
 
 
 
 ```{r include=FALSE}
 
+# YPQI Data
 # Import all pdf files
 pdf.file.list <- list.files(pattern='*.pdf', recursive = TRUE)
 pdf.list <- sapply(pdf.file.list, pdf_text, simplify = FALSE, USE.NAMES = TRUE)
@@ -615,9 +767,9 @@ pdf.list <- sapply(pdf.file.list, pdf_text, simplify = FALSE, USE.NAMES = TRUE)
 # pdf.file.list
 # pdf.list
 
-pdf.list[[4]]
-
-# Everything we have right now is from 2021 and 2022, but this code should also work for 2023 once it's added to the working folder
+# UPDATE if needed
+# This code should also work for 2023 once it's added to the working folder, assuming the pdfs are the same as previous years.
+# Note: The Women’s Home, Westwood, and Woodview did not participate in the YOPQI process in 2020 nor 2021 due to the pandemic so I have included their 2019 report instead. 
 
 # File names to be joined with data later
 ypqi.names <- data.frame(pdf.file.list) %>% 
@@ -657,9 +809,11 @@ ypqi <- ypqi %>%
          Site = ifelse(str_detect(ypqi$pdf.file.list, "TWH"), "The Women's Home", Site),
          Site = ifelse(str_detect(ypqi$pdf.file.list, "WV"), "Woodview Elementary", Site),
          Site = ifelse(str_detect(ypqi$pdf.file.list, "WW"), "Westwood Elementary", Site),
-         Year = ifelse(str_detect(ypqi$pdf.file.list, "2021"), "2021", ""),
-         Year = ifelse(str_detect(ypqi$pdf.file.list, "2022"), "2022", Year),
-         Year = ifelse(str_detect(ypqi$pdf.file.list, "2023"), "2023", Year))
+         Year = ifelse(endsWith(ypqi$pdf.file.list, "2019.pdf"), "2019", ""),
+         Year = ifelse(endsWith(ypqi$pdf.file.list, "2020.pdf"), "2020", Year),
+         Year = ifelse(endsWith(ypqi$pdf.file.list, "2021.pdf"), "2021", Year),
+         Year = ifelse(endsWith(ypqi$pdf.file.list, "2022.pdf"), "2022", Year),
+         Year = ifelse(endsWith(ypqi$pdf.file.list, "2023.pdf"), "2023", Year))
 
 
 # Pg 9 says scores lower than 3 may be the best candidates for improvement action
@@ -669,157 +823,26 @@ ypqi.below <- ypqi %>%
 ```
 
 
-## NYOI Data 
 
-Boys & Girls Clubs of America’s National Youth Outcomes Initiative
+# Results and Implications
 
-Member Survey Report
-
-We participate in an annual survey to hear directly from youth about their Club experience. This survey collects information on selected modules that vary Club. Some of the modules include: Club Experience, Safety, Healthy Lifestyles, Academic Success, Good Character, SEL, Art, STEM, Bullying, Workforce, Risky Behavior. , 
-
-For more information about NYOI and how it measures Boys and Girls Club experiences: https://clubexperience.blog/2018/02/22/how-do-we-measure-the-club-experience/
-
-```{r echo=FALSE}
-
-# NYOI Member Survey Reports
-# Import all xlsx files. These have a tab for each site, so I'll use a loop to read in all the tabs.
-xlsx.file.list <- list.files(pattern='*.xlsx', recursive = TRUE)
-xlsx.list <- list()
-for (file in xlsx.file.list){xlsx.list[[file]] <- sapply(excel_sheets(file), read_xlsx, path = file, simplify = FALSE, USE.NAMES = TRUE)}
-
-
-# skip = 8?
-# pivot_longer()
-
-
-nyoi.2021 <- bind_rows(xlsx.list[[2]], .id = "Site") %>% 
-  replace(is.na(.), "")
-
-nyoi.2021 <- nyoi.2021 %>%
-  # all the detail columns need to be merged into one  
-  mutate(Measure = paste0(
-    nyoi.2021$`Detail Report,  Spring Oaks Middle Boys & Girls Club  2021,  Measure(s): All Categories, All`, 
-    nyoi.2021$`Detail Report,  The Women's Home/Treasure Forest Elementary Boys & Girls Club  2021,  Measure(s): All Categories, All`,
-    nyoi.2021$`Detail Report,  Westwood Elementary Boys & Girls Club  2021,  Measure(s): All Categories, All`,
-    nyoi.2021$`Detail Report,  Spring Branch Elementary Boys & Girls Club  2021,  Measure(s): All Categories, All`,
-    nyoi.2021$`Detail Report,  Woodview Elementary Boys & Girls Club  2021,  Measure(s): All Categories, All`),
-    Year = 2021,
-    Data = "NYOI") %>%
-  select(Data, Year, Site, Measure, ...2, ...3, ...4, ...5, ...6, ...7, ...8)
-
-nyoi.2021.experience <- nyoi.2021 %>% 
-  filter(Measure == "Overall Club Experience") %>% 
-  select(Site, ...2,...3,...4) %>% 
-  rename("Optimal (Doing Great)" = ...2,
-         "Fair (Doing Fine)" = ...3,
-         "Needs Improvement (Room to Grow)" = ...4) %>% 
-    mutate_if(is.numeric, round, digits = 2)
-
-kable(nyoi.2021.experience, caption = "Overall Club Experience by Site, 2021", digits = 2)
-
-# I don't know why these numbers aren't rounding. Also need to display as percent.
-
-
-```
+# Limitations
 
 
 
-
-
-
-# Evaluation questions
-
-- How are the BGCGH school-based programs implementing the Texas ACE for the 2022-2023 school year impacting children through the focused program areas of: Academic Success, Social-Emotional Development and Attendance?
-
-- How does BGCGH support equitable access to quality after school programming?
-
-- How have BGCGH ACE sites compared to each other over the past 3 years?
-
-- What impact has BGCGH ACE had on children over the past 5 years of programming?
-
-- How has BGCGH ACE supported parents?
 
 ```{r}
 
 ```
 
 
+# Appendix One: Data Cleaning Notes
 
-# Outlines from past years
+*One kid has an S in math, but as.numeric makes it NA, so it's automatically dropped*
 
-21-22 (18 pages), CHILDREN AT RISK
-(Did not include interviews, although 20-21 and 19-20 both did)
-Acknowledgements 
-Executive Summary 
-Introduction and Background
-Descriptive Statistics on Club Members
-    Members and Attendance
-    Academic Distribution Summary
-Club-Level Data
-    National Youth Outcome Initiative – Club Member Experience
-Results and Implications
-    Attendance
-    Academic Performance
-    Member Experience
-Research Limitations
-Conclusions and Recommendations
-Appendix One: Additional Club Level Data
-
-20-21 (33 pages), Meadows Mental Health Policy Institute
-Executive Summary
-Introduction and Background
-Descriptive Statistics on Club Members
-    Members and Attendance
-    Members by School Grade Level
-Club-Level Data
-Staff Interview Findings
-    Strengths
-    Challenges
-Results and Implications
-    Major Findings
-Research Limitations
-Conclusions and Recommendations
-Appendix One: Member-Level Data Cleaning Notes
-Appendix Two: Additional Member-Level Details
-Appendix Three: Additional Club-Level Details
+*2021 ACE data has 6 duplicate member ids: "1841070" "1837954" "1838312" "1838401" "1839453" "1840898"*
 
 
-19-20 (34 pages), Patrick S. Tennant, Ph.D., LMFT
-Executive Summary
-Introduction
-Descriptive Statistics of BGCGH Club Members
-    Number of Members
-    Member Demographic Details
-    BGCGH Texas ACETM Program Days Attended
-    Academic Grades, Attendance, and Referrals
-Analyses Based on Regular Attendance (also done in the 18-19 report, but not after)
-    Defining Regular Attendance
-    Academic Grades by Regular Attendance
-    School Days Absent by Regular Attendance
-    Referrals by Regular Attendance
-Club-level Data
-    National Youth Outcomes Initiative
-    Youth Program Quality Assessment
-Coronavirus Pandemic
-    Timeline and Services
-    Interviews
-Results and Implications
-    Findings
-    Limitations
-    Conclusions and Recommendations
-Appendices 
-    Appendix A: Member-level Data Cleaning Notes
-    Appendix B: Additional Member-level Details
-    Appendix C: Additional Club-level Details
-    
-18-19 (15 pages), Patrick S. Tennant, Ph.D., LMFT
+# Appendix Two: Additional Data
 
-(Did not include interviews)
-
-
-# Data Cleaning Notes
-
-One kid has an S in math, but as.numeric makes it NA, so it's automatically dropped
-
-2021 ACE data has 6 duplicate member ids:
-"1841070" "1837954" "1838312" "1838401" "1839453" "1840898"
+*dump any graphs here that aren't going to be used in the final narrative*
