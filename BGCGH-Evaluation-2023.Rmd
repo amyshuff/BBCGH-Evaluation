@@ -33,7 +33,7 @@ To expect with the next data upload this summer:
 - We were told at the last meeting that the 2022 ACE data we have is from the fall. If it is Fall 2022, then we’re missing data for the 2021-2022 school year. 
 (Last year's report was Fall 2021 - Spring 2022. This year's report will be Fall 2022 - Spring 2023.) 
 
-However, it looks very similar to the Spring 2022 data from last year’s report.
+    + However, it looks very similar to the Spring 2022 data from last year’s report.
 (We have the same number of report cards, from the same grades and the same sites, other than Woodview, as the Spring 2021 data in last year's report. Quite the coincidence if it isn't the exact same data)
 
 - 2021 ACE data is only from Spring. Should we also have Fall?
@@ -43,6 +43,8 @@ However, it looks very similar to the Spring 2022 data from last year’s report
 - Folder “2018 – 2022 ACE Data”, file “BGCGH_TXACE_Evaluation_Analysis_Report_2019” is a draft document. It would be nice to have the final version. Even still, the data we can grab from someone else’s report will be quite limited, as the analysis each year was done a bit differently. 
 
 - Folder “NYOI Data”, file “2022 Member Survey Report”, the tab for Westwood is not complete. After row 83 all the percentages are missing. It also doesn’t have all the sections that the rest of the site tabs have.
+
+- When will we have the 2023 NYOI files? How does this survey get sent out? Just wondering about the number of responses. Who fills these out - the parents?
 
 - NYOI Member Surveys have a lot of different things we could look at. Need to know your priorities. Should we only look at the select member experience indicators we did last year? (Emotional Safety, Physical Safety, Fun, Sense of Belonging, Adult Connections, Expectations, and Recognition.)
 
@@ -689,7 +691,7 @@ ggplot(ace.overall.plot, aes(x = Year)) +
 
 ## NYOI
 
-Boys & Girls Clubs of America’s National Youth Outcomes Initiative (NYOI)
+Boys & Girls Clubs of America’s National Youth Outcomes Initiative (NYOI) - Club Member Experience
 
 Member Survey Report
 
@@ -699,17 +701,15 @@ For more information about NYOI and how it measures Boys and Girls Club experien
 
 ```{r echo=FALSE}
 
-# NYOI Member Survey Reports
+# NYOI Member Survey Reports are xlsx files 2 and 3
 # Import all xlsx files. These have a tab for each site, so I'll use a loop to read in all the tabs.
 xlsx.file.list <- list.files(pattern='*.xlsx', recursive = TRUE)
 xlsx.list <- list()
 for (file in xlsx.file.list){xlsx.list[[file]] <- sapply(excel_sheets(file), read_xlsx, path = file, simplify = FALSE, USE.NAMES = TRUE)}
 
 
-# skip = 8?
-# pivot_longer()
-
 # UPDATE if file numbers are different
+# NYOI 2021 Member Survey Report
 nyoi.2021 <- bind_rows(xlsx.list[[2]], .id = "Site") %>% 
   replace(is.na(.), "")
 
@@ -725,6 +725,9 @@ nyoi.2021 <- nyoi.2021 %>%
     Data = "NYOI") %>%
   select(Data, Year, Site, Measure, ...2, ...3, ...4, ...5, ...6, ...7, ...8)
 
+
+# Last year we only looked at Emotional Safety, Physical Safety, Fun, Sense of Belonging, Adult Connections, Expectations, and Recognition.
+
 nyoi.2021.experience <- nyoi.2021 %>% 
   filter(Measure == "Overall Club Experience") %>% 
   select(Site, ...2,...3,...4) %>% 
@@ -736,9 +739,45 @@ nyoi.2021.experience <- nyoi.2021 %>%
 kable(nyoi.2021.experience, caption = "Overall Club Experience by Site, 2021", digits = 2)
 
 # I don't know why these numbers aren't rounding. Also need to display as percent.
+```
 
+
+
+*Why do we have so few survey responses?*
+
+```{r}
+
+
+nyoi.2021.responses <- nyoi.2021 %>% 
+  filter(Measure == "# of Member Responses") %>% 
+  mutate("# of Member Responses" = as.numeric(...2)) %>%
+  select(Year, Site, "# of Member Responses") %>% 
+  group_by(Year) %>% 
+  summarise("# of Member Responses" = sum(`# of Member Responses`))
+
+kable(nyoi.2021.responses)
 
 ```
+
+
+```{r}
+
+# Need updated file from BGCGH -  tab for Westwood is not complete
+nyoi.2022 <- bind_rows(xlsx.list[[3]], .id = "Site") %>% 
+  replace(is.na(.), "")
+
+
+test <- as.data.frame(colnames(nyoi.2022))
+
+nyoi.columns <- c(paste(subset(test, str_starts(test$`colnames(nyoi.2022)`, "Detail"), select = `colnames(nyoi.2022)`)))
+
+
+nyoi.2022.clean <- nyoi.2022 %>% 
+  mutate(Measure = paste0(c(nyoi.columns)))
+
+```
+
+
 
 ## YPQI
 
