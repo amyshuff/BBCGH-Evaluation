@@ -699,7 +699,7 @@ We participate in an annual survey to hear directly from youth about their Club 
 
 For more information about NYOI and how it measures Boys and Girls Club experiences: https://clubexperience.blog/2018/02/22/how-do-we-measure-the-club-experience/
 
-```{r echo=FALSE}
+```{r NYOI Data Import, echo=FALSE}
 
 # NYOI Member Survey Reports are xlsx files 2 and 3
 # Import all xlsx files. These have a tab for each site, so I'll use a loop to read in all the tabs.
@@ -708,37 +708,87 @@ xlsx.list <- list()
 for (file in xlsx.file.list){xlsx.list[[file]] <- sapply(excel_sheets(file), read_xlsx, path = file, simplify = FALSE, USE.NAMES = TRUE)}
 
 
-# UPDATE if file numbers are different
-# NYOI 2021 Member Survey Report
-nyoi.2021 <- bind_rows(xlsx.list[[2]], .id = "Site") %>% 
-  replace(is.na(.), "")
 
-nyoi.2021 <- nyoi.2021 %>%
-  # all the detail columns need to be merged into one  
-  mutate(Measure = paste0(
-    nyoi.2021$`Detail Report,  Spring Oaks Middle Boys & Girls Club  2021,  Measure(s): All Categories, All`, 
-    nyoi.2021$`Detail Report,  The Women's Home/Treasure Forest Elementary Boys & Girls Club  2021,  Measure(s): All Categories, All`,
-    nyoi.2021$`Detail Report,  Westwood Elementary Boys & Girls Club  2021,  Measure(s): All Categories, All`,
-    nyoi.2021$`Detail Report,  Spring Branch Elementary Boys & Girls Club  2021,  Measure(s): All Categories, All`,
-    nyoi.2021$`Detail Report,  Woodview Elementary Boys & Girls Club  2021,  Measure(s): All Categories, All`),
-    Year = 2021,
-    Data = "NYOI") %>%
-  select(Data, Year, Site, Measure, ...2, ...3, ...4, ...5, ...6, ...7, ...8)
+# Each member survey report needs to have the same column names for bind_rows to work, so here I'll rename them
+
+site.names <- c("Spring Oaks Middle", "The Women's Home", "Westwood", "Spring Branch Elem", "Woodview")
+
+nyoi.2021.list <- list()
+for (site in site.names){
+  nyoi.raw <- data.frame(xlsx.list[[2]][site]) # UPDATE number here if file number is different
+  colnames(nyoi.raw) <- c("Measure", "Optimal", "Fair", "Needs Improvement")
+  nyoi.2021.list[[site]] <- nyoi.raw
+}
+nyoi.2021 <- bind_rows(nyoi.2021.list, .id = "Site") %>% 
+  replace(is.na(.), "") %>% 
+  mutate(Year = 2021, .before = Site)
+
+
+# Need updated file from BGCGH -  tab for Westwood is not complete
+nyoi.2022.list <- list()
+for (site in site.names){
+  nyoi.raw <- data.frame(xlsx.list[[3]][site]) # UPDATE number here if file number is different
+  colnames(nyoi.raw) <- c("Measure", "Optimal", "Fair", "Needs Improvement")
+  nyoi.2022.list[[site]] <- nyoi.raw
+}
+nyoi.2022 <- bind_rows(nyoi.2022.list, .id = "Site") %>% 
+  replace(is.na(.), "") %>% 
+  mutate(Year = 2022, .before = Site)
+
+# UPDATE: copy and paste above code but for NYOI 2023 file
+
+
+
+nyoi <- bind_rows(nyoi.2021, nyoi.2022) # UPDATE: add nyoi 2023
+
+```
+
+
+
+
+```{r}
+
+nyoi.experience <- nyoi %>% 
+  filter(Measure == "Overall Club Experience") %>% 
+  select(Year, Site, Optimal, Fair, "Needs Improvement") 
+
+# %>% 
+#   mutate(Optimal = as.numeric(Optimal))
+#     mutate_if(is.numeric, round, digits = 2)
+
+kable(nyoi.experience, caption = "Overall Club Experience by Site", digits = 2)
 
 
 # Last year we only looked at Emotional Safety, Physical Safety, Fun, Sense of Belonging, Adult Connections, Expectations, and Recognition.
 
-nyoi.2021.experience <- nyoi.2021 %>% 
-  filter(Measure == "Overall Club Experience") %>% 
-  select(Site, ...2,...3,...4) %>% 
-  rename("Optimal (Doing Great)" = ...2,
-         "Fair (Doing Fine)" = ...3,
-         "Needs Improvement (Room to Grow)" = ...4) %>% 
-    mutate_if(is.numeric, round, digits = 2)
+nyoi.select <- nyoi %>% 
+  filter(Measure == "Emotional Safety" | 
+           Measure =="Physical Safety" | 
+           Measure =="Fun" | 
+           Measure =="Sense of Belonging" | 
+           Measure =="Adult Connections" | 
+           Measure =="Expectations" | 
+           Measure =="Recognition") %>% 
+  select(Year, Site, Optimal, Fair, "Needs Improvement") %>% 
+  pivot_longer(c(Optimal, Fair, "Needs Improvement"),
+               names_to = "Score",
+               values_to = "Value") 
 
-kable(nyoi.2021.experience, caption = "Overall Club Experience by Site, 2021", digits = 2)
 
-# I don't know why these numbers aren't rounding. Also need to display as percent.
+# Next remove percent signs - change all to numeric decimals
+
+
+# %>% 
+#   mutate(gsub("%","")
+#   
+#   pivot_longer(c(`Spring Branch Elementary`, `Spring Oaks Middle`, `The Women's Home`,
+#                          `Westwood Elementary`, `Woodview Elementary`, Total),
+#                names_to = "Site",
+#                values_to = "Total Membership")
+#   
+#   
+#   mutate(Measure = gsub("%", "", variable),
+
 ```
 
 
@@ -747,35 +797,17 @@ kable(nyoi.2021.experience, caption = "Overall Club Experience by Site, 2021", d
 
 ```{r}
 
-
-nyoi.2021.responses <- nyoi.2021 %>% 
+nyoi.responses <- nyoi %>% 
   filter(Measure == "# of Member Responses") %>% 
-  mutate("# of Member Responses" = as.numeric(...2)) %>%
+  mutate("# of Member Responses" = as.numeric(Optimal)) %>%
   select(Year, Site, "# of Member Responses") %>% 
   group_by(Year) %>% 
   summarise("# of Member Responses" = sum(`# of Member Responses`))
 
-kable(nyoi.2021.responses)
+kable(nyoi.responses)
 
 ```
 
-
-```{r}
-
-# Need updated file from BGCGH -  tab for Westwood is not complete
-nyoi.2022 <- bind_rows(xlsx.list[[3]], .id = "Site") %>% 
-  replace(is.na(.), "")
-
-
-test <- as.data.frame(colnames(nyoi.2022))
-
-nyoi.columns <- c(paste(subset(test, str_starts(test$`colnames(nyoi.2022)`, "Detail"), select = `colnames(nyoi.2022)`)))
-
-
-nyoi.2022.clean <- nyoi.2022 %>% 
-  mutate(Measure = paste0(c(nyoi.columns)))
-
-```
 
 
 
