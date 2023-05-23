@@ -33,23 +33,25 @@ To expect with the next data upload this summer:
 - We were told at the last meeting that the 2022 ACE data we have is from the fall. If it is Fall 2022, then we’re missing data for the 2021-2022 school year. 
 (Last year's report was Fall 2021 - Spring 2022. This year's report will be Fall 2022 - Spring 2023.) 
 
-    + However, it looks very similar to the Spring 2022 data from last year’s report.
-(We have the same number of report cards, from the same grades and the same sites, other than Woodview, as the Spring 2021 data in last year's report. Quite the coincidence if it isn't the exact same data)
+    + However, it looks very similar to the Spring 2022 data from last year’s report. (We have the same number of report cards, from the same grades and the same sites, other than Woodview, as the Spring 2021 data in last year's report. Quite the coincidence if it isn't the exact same data)
 
 - 2021 ACE data is only from Spring. Should we also have Fall?
 
-- The ACE folder is named 2018-2022. Are we supposed to grab 2018-2020 data from the old evaluation reports? We can't do this because most of the graphs do not have individual data labels. Also, the exact same graphs were not recreated each year. We could give very basic comparisons like total attendance once we have those numbers for 2023.
+- The ACE folder is named 2018-2022. Are we supposed to grab 2018-2020 data from the old evaluation reports? We could give very basic comparisons like total attendance, but we're limited in what we can get from these reports because the exact same graphs were not recreated each year and most of the graphs do not have individual data labels.
 
 - Folder “2018 – 2022 ACE Data”, file “BGCGH_TXACE_Evaluation_Analysis_Report_2019” is a draft document. It would be nice to have the final version. Even still, the data we can grab from someone else’s report will be quite limited, as the analysis each year was done a bit differently. 
 
 - Folder “NYOI Data”, file “2022 Member Survey Report”, the tab for Westwood is not complete. After row 83 all the percentages are missing. It also doesn’t have all the sections that the rest of the site tabs have.
 
-- When will we have the 2023 NYOI files? How does this survey get sent out? Just wondering about the number of responses. Who fills these out - the parents?
+- When will we have the 2023 NYOI files? How is this survey administered? Wondering about the number of responses.
 
-- NYOI Member Surveys have a lot of different things we could look at. Need to know your priorities. Should we only look at the select member experience indicators we did last year? (Emotional Safety, Physical Safety, Fun, Sense of Belonging, Adult Connections, Expectations, and Recognition.)
+- NYOI Member Surveys: Should we only look at the same member experience indicators we did last year? (Emotional Safety, Physical Safety, Fun, Sense of Belonging, Adult Connections, Expectations, and Recognition.)
 
-- Notes from 19-20 report: number of days of BGCGH Texas ACE programming attended by a given student could not be calculated to a reasonable level of certainty because of disparities in data collection and management procedures. - I would like some more information about this and if the same is true for this year.
+- Notes from 19-20 report: number of days of BGCGH Texas ACE programming attended by a given student could not be calculated to a reasonable level of certainty because of disparities in data collection and management procedures.
 
+    + I would like some more information about this and if the same is true for this year.
+
+- You sent Youth Program Quality Intervention (YPQI) data. The reports themselves and the past evaluations call it the Youth Program Quality Assessment (YPQA). What do you prefer for this report?
 
 ``` {r, results='hide'}
 
@@ -76,18 +78,18 @@ The findings from this evaluation are pulled from available data sources provide
 
 Major Findings on the BGCGH Texas ACE™ program include:
 
-- *There has been an increase in overall attendance for BGCGH Texas ACE™ programs*
+- *Example: There has been an increase in overall attendance for BGCGH Texas ACE™ programs*
 
-- *Site attendance has been better distributed across all 5 sites for 2021-2022*
+- *Example: Site attendance has been better distributed across all 5 sites for 2021-2022*
 
-- *Overall member satisfaction is high across most Club experience measures including Members’ emotional safety and adult connection*
+- *Example: Overall member satisfaction is high across most Club experience measures including Members’ emotional safety and adult connection*
 
 
 # Introduction and Background
 
 The Boys & Girls Clubs of Greater Houston (BGCGH) was awarded Texas Afterschool Centers on Education (Texas ACE™) grant funding to provide high-quality academic enrichment opportunities for children and youth during non-school hours. BGCGH partnered with Spring Branch Independent School District (SBISD) to provide after school programming with this funding. During the 2022-2023 academic year, BGCGH Texas ACE™ operated at five clubs in SBISD: Spring Branch Elementary School, Spring Oaks Middle School, Westwood Elementary School, Woodview Elementary School, and The Women's Home, a housing and support program that serves students from Treasure Forest Elementary School.
 
-BGCGH requested an evaluation analysis from CHILDREN AT RISK (C@R) to describe services provided and students served through its Texas ACE™ program during the 2022-2023 academic year. BGCGH was also interested in understanding the quantity and quality of these services, how of the services may support Members’ academic performance, and how BGCGH can make improvements in this programming.
+BGCGH requested an evaluation analysis from CHILDREN AT RISK to describe services provided and students served through its Texas ACE™ program during the 2022-2023 academic year. BGCGH was also interested in understanding the quantity and quality of these services, how of the services may support Members’ academic performance, and how BGCGH can make improvements in this programming.
 
 BGCGH provided CHILDREN AT RISK with four sources of quantitative data to inform our analyses in this report. The first were a sample of academic performance records from SBISD for Spring 2021, 2022, and 2023. The second source of quantitative data was from the Boys & Girls Clubs of America’s National Youth Outcomes Initiative (NYOI). The third data source was from the Youth Program Quality Assessment (YPQA) by the The David P. Weikart Center for Youth Program Quality. The fourth and final source of data was aggregated club member demographics and individual attendance records.
 
@@ -137,7 +139,7 @@ In the 2022-2023 school year, there were *#,###* Club Members that served in BGC
 
 Total Club Membership is based on the unique Membership IDs present in the academic and club attendance data set which represents a single Club member who attended at least one day of BGCGH Texas ACE™ programming during 2022-2023 school year.
 
-*During the 2022-2023 school year, the majority of Members (##%) attended Spring Oak Middle School. Club Membership was spread across the other schools in the following order: Westwood Elementary (##%), Woodview Elementary (##%), The Women’s Home (##%) and Spring Branch Elementary (##%). Spring Oaks was the only school to see a decrease in Club attendance from 2021-2022 to 2022-2023. The other four schools experienced a slight increase in Membership from the 2021-2022 school year. Figure 1 includes a breakdown by club site for members who attended at least one day of BGCGH Texas ACE™ programming.*
+*Example text: During the 2022-2023 school year, the majority of Members (##%) attended Spring Oak Middle School. Club Membership was spread across the other schools in the following order: Westwood Elementary (##%), Woodview Elementary (##%), The Women’s Home (##%) and Spring Branch Elementary (##%). Spring Oaks was the only school to see a decrease in Club attendance from 2021-2022 to 2022-2023. The other four schools experienced a slight increase in Membership from the 2021-2022 school year. Figure 1 includes a breakdown by club site for members who attended at least one day of BGCGH Texas ACE™ programming.*
 
 ```{r}
 
@@ -180,9 +182,9 @@ ggplot(attendance.plot, aes(x = Year, y = attendance.plot$`Total Membership`, co
 
 Texas ACE™ defines regular participation as attending the program 45 days or more during the annual grant period, which includes fall, spring, and summer academic terms. Only students with 45 days of documented program attendance in accordance with program documentation and attendance policies, will be counted toward Texas ACE™ student service goals. 
 
-*Even though only Fall semester program attendance is counted here, 45 days was judged to still be an appropriate cut point because the majority of members at each club reached that level on Fall semester program attendance alone.*
+*Text from past report: Even though only Fall semester program attendance is counted here, 45 days was judged to still be an appropriate cut point because the majority of members at each club reached that level on Fall semester program attendance alone.*
 
-*All clubs providing BGCGH Texas ACE™ programming met their grant attendance targets. (Members who attend 45+ days), however attendance varied by club location (Table 1). Spring Oak and Woodview surpassed their goals the most compared to other club sites.*
+*Example text: All clubs providing BGCGH Texas ACE™ programming met their grant attendance targets. (Members who attend 45+ days), however attendance varied by club location (Table 1). Spring Oak and Woodview surpassed their goals the most compared to other club sites.*
 
 ```{r}
 
@@ -257,7 +259,6 @@ club.demographics.2023 <- bind_rows(xlsx.list[[1]], .id = "Site") %>%
 # Race: Asian, Black, Latino, Native, White, 2+
 # Age: 5 to 9, 10 to 12, 13 to 18
 
-
 ```
 
 ### Gender
@@ -300,7 +301,7 @@ ggplot(club.gender.plot, aes(x = Site, y = demographic.pct)) +
 
 ### Race
 
-Latino made up the highest percent of student race at any site, although lack of response was high at Spring Branch Elementary (76%), Spring Oaks Middle (62%) and The Women's Home (49%).
+Latino made up the highest percent of student race at any site, although lack of response was high at Spring Branch Elementary (76%), Spring Oaks Middle (62%), and The Women's Home (49%).
 
 ```{r}
 
@@ -408,6 +409,7 @@ ggplot(club.age.plot, aes(x = forcats::fct_rev(Site), y = demographic.pct)) +
   xlab("")  +
     scale_fill_hue(l=40)
 
+# UPDATE: The labels here need to be adjusted. I don't know why the Women's Home 13 to 18 label is in such a weird place.
 
 ```
 
@@ -417,7 +419,7 @@ Report card data in this section was provided by SBISD to BGCGH. We reviewed and
 
 When reporting numeric values for grades, we used a traditional 0 to 4 grade point scale in which 0 represents a grade of ‘F’ and 4 represents a grade of ‘A.’ Kindergarten students are not included in any analysis of reporting of grades here due to the small number of members in that grade and a different grading scale.
 
-*A limitation of this analysis is the amount of available report cards. Despite the number of club Members in Texas ACE™, only a sample size of ### report cards were available. Because of the variability in grade level and Club site within the sample, this data has limited generalizability of the actual grade distribution within the five Clubs.*
+*Past report language: A limitation of this analysis is the amount of available report cards. Despite the number of club Members in Texas ACE™, only a sample size of ### report cards were available. Because of the variability in grade level and Club site within the sample, this data has limited generalizability of the actual grade distribution within the five Clubs.*
 
 Data from *Spring?* 2022 is limited to 351 report cards and data from Spring 2021 is limited to 797 report cards. This is not a large enough sample size to draw conclusions from.
 
@@ -530,16 +532,10 @@ kable(ace2022.counts, caption = "2022 Report Card Counts")
 
 
 
-
-
-
-
-
-
 ```{r}
 
 ace <- bind_rows(ace2021, ace2022) %>%
-  # Kinder has Pass/Fail. They were excluded from previous reports.
+  # Kinder has Pass/Fail. They were excluded from previous reports, so we'll do the same.
   filter(!Grade == "Kindergarten" & !Grade == "Kinder") %>% 
   # 2022 GPA Methodology – Letter grades were converted to gpa scale where A=4, B=3, C=2, D=1, F=0 then averaged and rounded to the nearest whole number. Methodology consistent with 2020-2021 report  
   mutate(Math = ifelse(Math == "A", 4, Math),
@@ -666,11 +662,9 @@ kable(ace.overall, caption = "Average GPA by Year", digits = 2)
 ```
 
 
+*This didn't turn out to be as interesting as I thought it might be. I'd probably leave this out of the final report or stick it into an appendix. With so few report cards, the increase in 2022 might be statistically insignificant.*
 
-
-```{r include=FALSE}
-
-# This didn't turn out to be as interesting as I thought it might be. I'd probably leave this out of the final report.
+```{r Grades over time}
 
 ace.overall.plot <- ace.overall %>% 
   pivot_longer(c(Math, English.Reading), 
@@ -691,7 +685,9 @@ ggplot(ace.overall.plot, aes(x = Year)) +
 
 ## National Youth Outcomes Initiative (NYOI)
 
-*We participate in an annual survey to hear directly from youth about their Club experience. This survey collects information on selected modules that vary Club. Some of the modules include: Club Experience, Safety, Healthy Lifestyles, Academic Success, Good Character, SEL, Art, STEM, Bullying, Workforce, Risky Behavior. , (This is from our contract. The sentence was unfinished.)*
+*This is from the report walkthrough document they sent us: We participate in an annual survey to hear directly from youth about their Club experience. This survey collects information on selected modules that vary Club. Some of the modules include: Club Experience, Safety, Healthy Lifestyles, Academic Success, Good Character, SEL, Art, STEM, Bullying, Workforce, Risky Behavior. , (This sentence was unfinished.)*
+
+This survey is intended for members that are ages nine and up to give youth perspective on the club.
 
 For more information about NYOI and how it measures Boys and Girls Club experiences: https://clubexperience.blog/2018/02/22/how-do-we-measure-the-club-experience/
 
@@ -739,9 +735,28 @@ nyoi <- bind_rows(nyoi.2021, nyoi.2022) # UPDATE: add nyoi 2023
 
 ```
 
-The NYOI is a survey of the experiences and perceptions of the club completed by club members. Individual responses to survey items are compiled into a variety of measures, seven of which make up the The Club Experience Indicator and are detailed in this report: Emotional Safety, Physical Safety, Fun, Sense of Belonging, Adult Connections, Staff Expectations and Recognition. Each of the seven measure is reported in aggregate for each BGCGH club.
+*Why do we have so few survey responses? I don't think we can reasonably draw conclusions from such a small sample size.*
 
-The NYOI Club Experience Indicator Measures data provided to the author was in the form of percentages of members indicating that their club’s performance was Optimal (Doing Great), Fair (Doing Fine), or Needs Improvement (Room to Grow) on each of the seven Club Experience Indicator Measures: Emotional Safety, Physical Safety, Fun, Sense of Belonging, Adult Connections, Staff Expectations and Recognition. These measures are derived from club member responses to a survey item or items.
+*Past report text: There were ### valid survey responses collected across the five clubs. CHILDREN AT RISK is not aware of the reason for the discrepancy in the number of Club Members and the number of valid surveys.*
+
+```{r}
+
+nyoi.responses <- nyoi %>% 
+  filter(Measure == "# of Member Responses") %>% 
+  mutate("# of Member Responses" = as.numeric(Optimal)) %>%
+  select(Year, Site, "# of Member Responses") %>% 
+  group_by(Year) %>% 
+  summarise("# of Member Responses" = sum(`# of Member Responses`))
+
+kable(nyoi.responses)
+
+```
+
+### Club Experience Measures
+
+The NYOI is a survey of the experiences and perceptions of the club completed by club members. Individual responses to survey items are compiled into a variety of measures, seven of which make up the The Club Experience Indicator and are detailed in this report: Emotional Safety, Physical Safety, Fun, Sense of Belonging, Adult Connections, Staff Expectations, and Recognition. Each of the seven measures is reported in aggregate for each BGCGH club.
+
+*2021 Report text: When we compared the NYOI results for the 2020 fall term to the 2019 fall term (see Figure 12), we noted substantial improvements. All measures had a positive change in the percent of members reporting an Optimal experience, most dramatically in Emotional Safety and Sense of Belonging. Fun and Recognition saw the smallest increase. The percentage of members reporting Needs Improvement increased for Adult Expectations and Fun at Spring Branch Elementary and for Fun at Westwood Elementary. Perhaps the most remarkable finding is that the percentage of students reporting feeling Optimal Physical Safety at the clubs increased during a pandemic.*
 
 ```{r NYOI Visualizations, fig.dim = c(10, 12)}
 
@@ -750,12 +765,12 @@ The NYOI Club Experience Indicator Measures data provided to the author was in t
 nyoi.plot <- nyoi %>% 
   filter(Measure == "Overall Club Experience" |
          Measure == "Emotional Safety" | 
-         Measure =="Physical Safety" | 
-         Measure =="Fun" | 
-         Measure =="Sense of Belonging" | 
-         Measure =="Adult Connections" | 
-         Measure =="Expectations" | 
-         Measure =="Recognition") %>% 
+         Measure == "Physical Safety" | 
+         Measure == "Fun" | 
+         Measure == "Sense of Belonging" | 
+         Measure == "Adult Connections" | 
+         Measure == "Expectations" | 
+         Measure == "Recognition") %>% 
   select(Year, Site, Measure, Optimal, Fair, "Needs Improvement") %>% 
   pivot_longer(c(Optimal, Fair, "Needs Improvement"),
                names_to = "Score",
@@ -780,27 +795,102 @@ ggplot(data = nyoi.experience, aes(x = Measure, y = Value, fill = Score)) +
   geom_col(position = "stack") + 
   facet_grid(rows = vars(Site), cols = vars(Year)) +
   labs(y = "Percent Response",
-       title = "Select Club Experience Measures") +
+       title = "Club Experience Measures") +
   guides(x = guide_axis(angle = 90)) +
   scale_y_continuous(labels = scales::label_percent(accuracy = 1)) +
   scale_fill_brewer(name = "", labels = c("Needs Improvement", "Fair", "Optimal"), palette = "Blues") +
   geom_text(aes(label = ifelse(Score == "Optimal", scales::percent(Value, accuracy = 1), '')), color = "black", vjust = 1.5, position = "stack") +
     theme(panel.background = element_blank())
 
+# I'd like to reorder the measures to show highest rated measures on the left and lowest on the right, so it's easy to see at a glance what's in most need of improvement.
+
 ```
+*The recognition scores at Woodview were low in 2021 and got even worse for 2022. Those numbers are concerning. In 2022 Recognition had the highest Needs Improvement scores for every site except Spring Branch Elementary.*
+
+An Optimal score requires the member to:
+
+- answer all questions in the category
+
+- Not disagree with any item
+
+- Strongly agreed with at least two 
+
+
+An item would be categorized as Needs Improvement if a member disagreed or strongly disagreed with at least two of the questions.
+
+```{r NYOI Recognition, fig.height=10, fig.width=6}
+
+# To look closer at the recognition score, these are the items that make up that measure: "Adults at this Club notice when I try my best" | "Adults here encourage me when I make positive choices" | "Adults at this Club ask my opinion on things" | "My ideas count here" | "I get to help make this Club better"
+
+nyoi.recognition <- nyoi %>% 
+  filter(Measure == "Adults at this Club notice when I try my best" | 
+         Measure == "Adults here encourage me when I make positive choices" | 
+         Measure == "Adults at this Club ask my opinion on things" | 
+         Measure == "My ideas count here"  | 
+         Measure == "I get to help make this Club better") %>% 
+  rename(Item = Measure,
+         "Very true" = Optimal,
+         "Sort of true" = Fair,
+         "Not very true" = "Needs Improvement",
+         "Not true at all" = ...7) %>% 
+  select(Year, Site, Item, "Very true", "Sort of true", "Not very true", "Not true at all") %>% 
+  pivot_longer(c("Very true", "Sort of true", "Not very true", "Not true at all"),
+               names_to = "Score",
+               values_to = "Value") %>%
+  mutate(Value = gsub("%", "", Value),
+         Value = as.numeric(Value),
+         Value = ifelse(Value>=1, Value/100, Value),
+         Score = factor(Score, levels= c("Not true at all", "Not very true", "Sort of true", "Very true"))) %>% 
+  pivot_wider(names_from = Score, values_from = Value)
+
+  # I'm changing the categorizes to a simple "True" or "Not true" to better capture the "Needs Improvement" rating  
+nyoi.recognition <- nyoi.recognition %>% 
+    mutate(True = `Very true` + `Sort of true`,
+         "Not true" = `Not very true` + `Not true at all`) %>% 
+  select(Year, Site, Item, "True", "Not true") %>% 
+  pivot_longer(c("True", "Not true"),
+               names_to = "Score",
+               values_to = "Value")
 
 
 
-*This doesn't need to be included in the final report. Maybe add to an appendix. I was just curious about the Overall Member Experience Measure.*
+ggplot(data = nyoi.recognition, aes(x = Item, y = Value, fill = Score)) + 
+  geom_col(position = "stack") + 
+  facet_grid(rows = vars(Site), cols = vars(Year)) +
+  labs(y = "Percent Response",
+       title = "Recognition Items") +
+  guides(x = guide_axis(angle = 90)) +
+  scale_y_continuous(labels = scales::label_percent(accuracy = 1)) +
+  scale_fill_brewer(name = "", palette = "Blues") +
+  geom_text(aes(label = ifelse(Score == "Not true", scales::percent(Value, accuracy = 1), '')), color = "black", vjust = 1.5, position = "stack") +
+    theme(panel.background = element_blank())
 
-```{r NYOI Overall Club Experience, fig.dim=c(10, 6)}
+
+```
+In 2022, 36% of of surveyed members from Woodview answered either "Not true at all" or "Not very true" to the statement "My ideas count here."
+
+
+### Overall Club Experience
+
+Members overall club experience is also categorized. This is done using all seven measures: Fun, Sense of Belonging, Physical Safety, Emotional Safety, Adult Connections, Recognition, Staff Expectations.
+
+Members overall club experience is considered optimal if it meets two conditions:
+
+- Their club experience must be optimal in at least three of the seven measures.
+
+- Their club experience does not fall into the needs improvement category for any of the measures.
+
+
+```{r NYOI Overall Club Experience, fig.height=8, fig.width=6}
+
+# I was thinking this would be the easiest way to see trends in longitudinal data
 
 nyoi.overall <- nyoi.plot %>% 
   filter(Measure == "Overall Club Experience")  
 
 ggplot(data = nyoi.overall, aes(x = Measure, y = Value, fill = Score)) + 
   geom_col(position = "stack") + 
-  facet_grid(rows = vars(Year), cols = vars(Site)) +
+  facet_grid(rows = vars(Site), cols = vars(Year)) +
   labs(y = "Percent Response",
        title = "Overall Club Experience") +
   scale_y_continuous(labels = scales::percent) +
@@ -814,30 +904,11 @@ ggplot(data = nyoi.overall, aes(x = Measure, y = Value, fill = Score)) +
 ```
 
 
+## Youth Program Quality Intervention (or Assessment?)
 
-*Why do we have so few survey responses? I don't think we can reasonably draw conclusions from such a small sample size.*
+Youth Program Quality Assessment (YPQA)
 
-*There were ### valid survey responses collected across the five clubs. CHILDREN AT RISK is not aware of the reason for the discrepancy in the number of Club Members and the number of valid surveys.*
-
-```{r}
-
-nyoi.responses <- nyoi %>% 
-  filter(Measure == "# of Member Responses") %>% 
-  mutate("# of Member Responses" = as.numeric(Optimal)) %>%
-  select(Year, Site, "# of Member Responses") %>% 
-  group_by(Year) %>% 
-  summarise("# of Member Responses" = sum(`# of Member Responses`))
-
-kable(nyoi.responses)
-
-```
-
-
-
-
-## YPQI
-
-BGCGH participates in the annual Youth Program Quality Intervention provided by United Way to conduct a self-assessment on four key areas: Safe Environment, Supportive Environment, Interaction, and Engagement. 
+BGCGH participates in the annual Youth Program Quality Intervention (YPQI) provided by United Way to conduct a self-assessment on four key areas: Safe Environment, Supportive Environment, Interaction, and Engagement. 
 
 Program Quality Assessment (PQA) scores range from 1.0 to 5.0. In general, scores can be interpreted as follows:
 
@@ -847,12 +918,14 @@ Program Quality Assessment (PQA) scores range from 1.0 to 5.0. In general, score
 
 - Score of 5 = The practice is widely available and/or with great frequency
 
+These reports are self-assessments. Self assessment is a team based process where multiple program offerings are observed and as a result of a consensus meeting, one set of program-wide scores is submitted.
+
 
 *Note: The Women’s Home, Westwood, and Woodview did not participate in the YPQI process in 2020 nor 2021 due to the pandemic so we have their 2019 report instead.*
 
 
 
-```{r include=FALSE}
+```{r YPQI Data, include=FALSE}
 
 # YPQI Data
 # Import all pdf files
