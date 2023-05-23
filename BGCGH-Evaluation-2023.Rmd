@@ -689,13 +689,9 @@ ggplot(ace.overall.plot, aes(x = Year)) +
 
 # Club-Level Data 
 
-## NYOI
+## National Youth Outcomes Initiative (NYOI)
 
-Boys & Girls Clubs of America’s National Youth Outcomes Initiative (NYOI) - Club Member Experience
-
-Member Survey Report
-
-We participate in an annual survey to hear directly from youth about their Club experience. This survey collects information on selected modules that vary Club. Some of the modules include: Club Experience, Safety, Healthy Lifestyles, Academic Success, Good Character, SEL, Art, STEM, Bullying, Workforce, Risky Behavior. , 
+*We participate in an annual survey to hear directly from youth about their Club experience. This survey collects information on selected modules that vary Club. Some of the modules include: Club Experience, Safety, Healthy Lifestyles, Academic Success, Good Character, SEL, Art, STEM, Bullying, Workforce, Risky Behavior. , (This is from our contract. The sentence was unfinished.)*
 
 For more information about NYOI and how it measures Boys and Girls Club experiences: https://clubexperience.blog/2018/02/22/how-do-we-measure-the-club-experience/
 
@@ -743,57 +739,85 @@ nyoi <- bind_rows(nyoi.2021, nyoi.2022) # UPDATE: add nyoi 2023
 
 ```
 
+The NYOI is a survey of the experiences and perceptions of the club completed by club members. Individual responses to survey items are compiled into a variety of measures, seven of which make up the The Club Experience Indicator and are detailed in this report: Emotional Safety, Physical Safety, Fun, Sense of Belonging, Adult Connections, Staff Expectations and Recognition. Each of the seven measure is reported in aggregate for each BGCGH club.
 
+The NYOI Club Experience Indicator Measures data provided to the author was in the form of percentages of members indicating that their club’s performance was Optimal (Doing Great), Fair (Doing Fine), or Needs Improvement (Room to Grow) on each of the seven Club Experience Indicator Measures: Emotional Safety, Physical Safety, Fun, Sense of Belonging, Adult Connections, Staff Expectations and Recognition. These measures are derived from club member responses to a survey item or items.
 
+```{r NYOI Visualizations, fig.dim = c(10, 12)}
 
-```{r}
+# Past years only looked at Emotional Safety, Physical Safety, Fun, Sense of Belonging, Adult Connections, Expectations, and Recognition.
 
-nyoi.experience <- nyoi %>% 
-  filter(Measure == "Overall Club Experience") %>% 
-  select(Year, Site, Optimal, Fair, "Needs Improvement") 
-
-# %>% 
-#   mutate(Optimal = as.numeric(Optimal))
-#     mutate_if(is.numeric, round, digits = 2)
-
-kable(nyoi.experience, caption = "Overall Club Experience by Site", digits = 2)
-
-
-# Last year we only looked at Emotional Safety, Physical Safety, Fun, Sense of Belonging, Adult Connections, Expectations, and Recognition.
-
-nyoi.select <- nyoi %>% 
-  filter(Measure == "Emotional Safety" | 
-           Measure =="Physical Safety" | 
-           Measure =="Fun" | 
-           Measure =="Sense of Belonging" | 
-           Measure =="Adult Connections" | 
-           Measure =="Expectations" | 
-           Measure =="Recognition") %>% 
-  select(Year, Site, Optimal, Fair, "Needs Improvement") %>% 
+nyoi.plot <- nyoi %>% 
+  filter(Measure == "Overall Club Experience" |
+         Measure == "Emotional Safety" | 
+         Measure =="Physical Safety" | 
+         Measure =="Fun" | 
+         Measure =="Sense of Belonging" | 
+         Measure =="Adult Connections" | 
+         Measure =="Expectations" | 
+         Measure =="Recognition") %>% 
+  select(Year, Site, Measure, Optimal, Fair, "Needs Improvement") %>% 
   pivot_longer(c(Optimal, Fair, "Needs Improvement"),
                names_to = "Score",
-               values_to = "Value") 
+               values_to = "Value") %>%
+  mutate(Value = gsub("%", "", Value),
+         Value = as.numeric(Value),
+         Value = ifelse(Value>=1, Value/100, Value),
+         Score = factor(Score, levels= c('Needs Improvement', 'Fair', 'Optimal')))
 
 
-# Next remove percent signs - change all to numeric decimals
 
+nyoi.experience <- nyoi.plot %>% 
+  filter(Measure == "Emotional Safety" | 
+         Measure =="Physical Safety" | 
+         Measure =="Fun" | 
+         Measure =="Sense of Belonging" | 
+         Measure =="Adult Connections" | 
+         Measure =="Expectations" | 
+         Measure =="Recognition")
 
-# %>% 
-#   mutate(gsub("%","")
-#   
-#   pivot_longer(c(`Spring Branch Elementary`, `Spring Oaks Middle`, `The Women's Home`,
-#                          `Westwood Elementary`, `Woodview Elementary`, Total),
-#                names_to = "Site",
-#                values_to = "Total Membership")
-#   
-#   
-#   mutate(Measure = gsub("%", "", variable),
+ggplot(data = nyoi.experience, aes(x = Measure, y = Value, fill = Score)) + 
+  geom_col(position = "stack") + 
+  facet_grid(rows = vars(Site), cols = vars(Year)) +
+  labs(y = "Percent Response",
+       title = "Select Club Experience Measures") +
+  guides(x = guide_axis(angle = 90)) +
+  scale_y_continuous(labels = scales::label_percent(accuracy = 1)) +
+  scale_fill_brewer(name = "", labels = c("Needs Improvement", "Fair", "Optimal"), palette = "Blues") +
+  geom_text(aes(label = ifelse(Score == "Optimal", scales::percent(Value, accuracy = 1), '')), color = "black", vjust = 1.5, position = "stack") +
+    theme(panel.background = element_blank())
 
 ```
 
 
 
-*Why do we have so few survey responses?*
+*This doesn't need to be included in the final report. Maybe add to an appendix. I was just curious about the Overall Member Experience Measure.*
+
+```{r NYOI Overall Club Experience, fig.dim=c(10, 6)}
+
+nyoi.overall <- nyoi.plot %>% 
+  filter(Measure == "Overall Club Experience")  
+
+ggplot(data = nyoi.overall, aes(x = Measure, y = Value, fill = Score)) + 
+  geom_col(position = "stack") + 
+  facet_grid(rows = vars(Year), cols = vars(Site)) +
+  labs(y = "Percent Response",
+       title = "Overall Club Experience") +
+  scale_y_continuous(labels = scales::percent) +
+  scale_fill_brewer(name = "", labels = c("Needs Improvement", "Fair", "Optimal"), palette = "Blues") +
+  geom_text(aes(label = scales::percent(Value)), color = "black", vjust = 1.5, position = "stack") +
+  theme(panel.background = element_blank(),
+        axis.text.x = element_blank(),
+        axis.ticks.x = element_blank()) +
+  xlab("")
+
+```
+
+
+
+*Why do we have so few survey responses? I don't think we can reasonably draw conclusions from such a small sample size.*
+
+*There were ### valid survey responses collected across the five clubs. CHILDREN AT RISK is not aware of the reason for the discrepancy in the number of Club Members and the number of valid surveys.*
 
 ```{r}
 
