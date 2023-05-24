@@ -1,6 +1,6 @@
 ---
 title: "BGCGH Evaluation 2023"
-author: "Amy Shuff"
+author: "Amy Shuff, Christine"
 date: "`r Sys.Date()`"
 output: html_document
 ---
@@ -52,6 +52,8 @@ To expect with the next data upload this summer:
     + I would like some more information about this and if the same is true for this year.
 
 - You sent Youth Program Quality Intervention (YPQI) data. The reports themselves and the past evaluations call it the Youth Program Quality Assessment (YPQA). What do you prefer for this report?
+
+- Supporting parents evaluation questions?
 
 ``` {r, results='hide'}
 
@@ -867,6 +869,7 @@ ggplot(data = nyoi.recognition, aes(x = Item, y = Value, fill = Score)) +
 
 
 ```
+
 In 2022, 36% of of surveyed members from Woodview answered either "Not true at all" or "Not very true" to the statement "My ideas count here."
 
 
@@ -884,6 +887,7 @@ Members overall club experience is considered optimal if it meets two conditions
 ```{r NYOI Overall Club Experience, fig.height=8, fig.width=6}
 
 # I was thinking this would be the easiest way to see trends in longitudinal data
+# But maybe change it to a line graph of optimal over time?
 
 nyoi.overall <- nyoi.plot %>% 
   filter(Measure == "Overall Club Experience")  
@@ -990,7 +994,30 @@ ypqi.below <- ypqi %>%
 
 ```
 
+*Scores lower than 3 may be the best candidates for improvement action*
 
+```{r fig.height=15, fig.width=8}
+
+ypqi.sets <- ypqi %>% 
+  filter(Measure == "I. SAFE ENVIRONMENT" | 
+         Measure == "II. SUPPORTIVE ENVIRONMENT" | 
+         Measure == "III. INTERACTION" | 
+         Measure == "IV. ENGAGEMENT" | 
+         Measure == "Instructional Total Score*")
+
+
+ggplot(data = ypqi.sets, aes(x = Measure, y = Score, fill = Score)) + 
+  geom_col() + 
+  facet_grid(rows = vars(Site), cols = vars(Year)) +
+  labs(title = "Program Quality Assessment Scores") +
+  guides(x = guide_axis(angle = 90)) +
+  geom_text(aes(label = Score), color = "white", vjust = 1.5) +
+    theme(panel.background = element_blank())
+
+# Instructional total score should stand out and be at the end
+# Color scores below three and above three instead of the current gradient
+
+```
 
 # Results and Implications
 
