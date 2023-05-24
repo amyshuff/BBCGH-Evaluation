@@ -175,6 +175,7 @@ ggplot(attendance.plot, aes(x = Year, y = attendance.plot$`Total Membership`, co
   ylab("Total Membership") +
     scale_fill_hue(l=40)
 
+# UPDATE: order of legend should have Total at top
 
 ```
 
@@ -204,6 +205,7 @@ attendance.grant <- tibble("Year" = c(2019, 2020, 2021, 2022),
                          "Total" = c(NA, .70, .65, .46)) 
   
 kable(attendance.grant)
+# UPDATE: numbers should display as percents (except for Year)
 
 
 attendance.grant.plot <- attendance.grant %>%   
@@ -221,6 +223,8 @@ ggplot(attendance.grant.plot, aes(x = Year, y = attendance.grant.plot$`Percent o
   labs(title = "Percent of Members Who Attended 45+ Days of ACE Programming, 2019-2023") +
   ylab("Percent of Members") +
     scale_fill_hue(l=40)
+
+# UPDATE: order of legend should have Total at top
 
 ```
 *What happened at The Women's Home last year? That's a dramatic change in regular attendance. I took the number from last year's report. You can find our folder for last year here: https://childrenatrisk.sharepoint.com/sites/GDrive/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FGDrive%2FShared%20Documents%2FCenter%20for%20Social%20Measurement%20and%20Evaluation%2FSharmily%20Working%2FBoys%20ang%20Girls%20Club%20Info&p=true&ct=1684425770678&or=Teams%2DHL&ga=1*
@@ -282,6 +286,7 @@ club.gender <- club.demographics.2023 %>%
   mutate("Not Set" = 1-Male-Female)
 
 kable(club.gender)
+# UPDATE: Numbers should display as percents
 
 club.gender.plot <- club.demographics.2023 %>% 
  filter(Demographic == 'Male' | Demographic == 'Female')  
@@ -334,6 +339,7 @@ club.race <- club.demographics.2023 %>%
   mutate("Not Set" = 1-Asian-Black-Latino-Native-White-Multiple)
 
 kable(club.race)
+# UPDATE: Numbers should display as percents
 
 club.race.plot <- 
   club.demographics.2023 %>% 
@@ -359,7 +365,7 @@ ggplot(club.race.plot, aes(x = Site, y = demographic.pct)) +
   xlab("")  +
     scale_fill_hue(l=40)
 
-# The colors of this graph are not great
+# UPDATE: The colors of this graph are not great
 
 ```
 
@@ -389,6 +395,8 @@ club.age <- club.demographics.2023 %>%
 # might try using pivot_wider() on club.demographics.2023 to see if it works better
 
 kable(club.age)
+# UPDATE: rename table headings (Site, "13 to 18", "10 to 12", "5 to 9", "Not Set")
+# and display numbers as percents
 
 club.age.plot <- 
   club.demographics.2023  %>% 
@@ -423,7 +431,7 @@ When reporting numeric values for grades, we used a traditional 0 to 4 grade poi
 
 *Past report language: A limitation of this analysis is the amount of available report cards. Despite the number of club Members in Texas ACE™, only a sample size of ### report cards were available. Because of the variability in grade level and Club site within the sample, this data has limited generalizability of the actual grade distribution within the five Clubs.*
 
-Data from *Spring?* 2022 is limited to 351 report cards and data from Spring 2021 is limited to 797 report cards. This is not a large enough sample size to draw conclusions from.
+Data from 2022 is limited to 351 report cards and data from Spring 2021 is limited to 797 report cards. This is not a large enough sample size to draw conclusions from.
 
 
 ```{r}
@@ -468,7 +476,7 @@ ace2021 <- ace2021 %>%
 
 
 
-# ACE 2022 - Fall
+# ACE 2022
 # Club.ID now starts with site name initials instead of a column for Site
 # View(csv.list[[6]]) # Grade is number (1)
 # View(csv.list[[7]]) # Grade is number (1)
@@ -497,7 +505,7 @@ ace2022 <- ace2022 %>%
          Site = ifelse(substr(ace2022$Club.ID, 1, 3) == "TWH", "The Women's Home", Site),
          Site = ifelse(substr(ace2022$Club.ID, 1, 3) == "WWE", "Westwood Elementary", Site),
          Site = ifelse(substr(ace2022$Club.ID, 1, 2) == "WV", "Woodview Elementary", Site),
-         Term = "Fall")
+         Term = "Spring")
 
 ace2022.duplicates <- ace2022$Club.ID[duplicated(ace2022$Club.ID)]
 # paste(ace2022.duplicates)
@@ -533,13 +541,12 @@ kable(ace2022.counts, caption = "2022 Report Card Counts")
 
 
 
-
 ```{r}
 
 ace <- bind_rows(ace2021, ace2022) %>%
   # Kinder has Pass/Fail. They were excluded from previous reports, so we'll do the same.
   filter(!Grade == "Kindergarten" & !Grade == "Kinder") %>% 
-  # 2022 GPA Methodology – Letter grades were converted to gpa scale where A=4, B=3, C=2, D=1, F=0 then averaged and rounded to the nearest whole number. Methodology consistent with 2020-2021 report  
+  # 2022 GPA Methodology – Letter grades were converted to gpa scale where A=4, B=3, C=2, D=1, F=0 then averaged and rounded to the nearest whole number. Methodology consistent with 2020-2021 report.
   mutate(Math = ifelse(Math == "A", 4, Math),
          Math = ifelse(Math == "B", 3, Math),
          Math = ifelse(Math == "C", 2, Math),
@@ -556,13 +563,11 @@ ace <- bind_rows(ace2021, ace2022) %>%
 # One kid has an S in math, but as.numeric makes it NA, so it's automatically dropped
 # Quite a few grades missing from 2021 data
 
-# We should expect 2023 Spring ACE Data?
-
 ```
 
 
 
-```{r}
+```{r Average Math and Reading GPAs}
 
 # Average Math and English/Reading GPAs
 
@@ -575,6 +580,7 @@ ace.averages <- ace %>%
 
 kable(ace.averages, caption = "Average GPA by Site and Year", digits = 2)
 
+# UPDATE, if wanted:
 # one of the old reports did a histogram with the frequency of grades. I like that idea.
 # geom_histogram() or geom_freqpoly()
 
@@ -585,7 +591,7 @@ kable(ace.averages, caption = "Average GPA by Site and Year", digits = 2)
 
 On average, math grades seem to have improved from 2021 to 2022. But we also have significantly fewer report cards to analyze, so there's a chance this wasn't a significant change.
 
-```{r}
+```{r Math GPA over time}
 
 # Math GPA by Site and Year
 
@@ -637,7 +643,7 @@ ggplot(ace.averages, aes(x = Site, y = English.Reading, fill = factor(ace.averag
 *The below table shows just how wide the variation is in the supplied number of report cards each year. This is what makes it impossible to draw conclusions from 2021 and 2022 data*
 
 
-```{r}
+```{r }
 
 # 2019 report has average GPA by site and subject. We would have to weight the averages by attendance for that year to get total subject average. There isn't a report card for each student, so this wouldn't be exact.
 
@@ -718,7 +724,6 @@ nyoi.2021 <- bind_rows(nyoi.2021.list, .id = "Site") %>%
   mutate(Year = 2021, .before = Site)
 
 
-# Need updated file from BGCGH -  tab for Westwood is not complete
 nyoi.2022.list <- list()
 for (site in site.names){
   nyoi.raw <- data.frame(xlsx.list[[3]][site]) # UPDATE number here if file number is different
@@ -729,8 +734,16 @@ nyoi.2022 <- bind_rows(nyoi.2022.list, .id = "Site") %>%
   replace(is.na(.), "") %>% 
   mutate(Year = 2022, .before = Site)
 
-# UPDATE: copy and paste above code but for NYOI 2023 file
-
+# UPDATE: the below code should work for the NYOI 2023 file
+# nyoi.2023.list <- list()
+# for (site in site.names){
+#   nyoi.raw <- data.frame(xlsx.list[[4]][site]) # UPDATE number here if file number is different
+#   colnames(nyoi.raw) <- c("Measure", "Optimal", "Fair", "Needs Improvement")
+#   nyoi.2023.list[[site]] <- nyoi.raw
+# }
+# nyoi.2023 <- bind_rows(nyoi.2023.list, .id = "Site") %>% 
+#   replace(is.na(.), "") %>% 
+#   mutate(Year = 2023, .before = Site)
 
 
 nyoi <- bind_rows(nyoi.2021, nyoi.2022) # UPDATE: add nyoi 2023
@@ -804,7 +817,7 @@ ggplot(data = nyoi.experience, aes(x = Measure, y = Value, fill = Score)) +
   geom_text(aes(label = ifelse(Score == "Optimal", scales::percent(Value, accuracy = 1), '')), color = "black", vjust = 1.5, position = "stack") +
     theme(panel.background = element_blank())
 
-# I'd like to reorder the measures to show highest rated measures on the left and lowest on the right, so it's easy to see at a glance what's in most need of improvement.
+# UPDATE: I'd like to reorder the measures to show highest rated measures on the left and lowest on the right, so it's easy to see at a glance what's in most need of improvement.
 
 ```
 *The recognition scores at Woodview were low in 2021 and got even worse for 2022. Those numbers are concerning. In 2022 Recognition had the highest Needs Improvement scores for every site except Spring Branch Elementary.*
@@ -887,7 +900,7 @@ Members overall club experience is considered optimal if it meets two conditions
 ```{r NYOI Overall Club Experience, fig.height=8, fig.width=6}
 
 # I was thinking this would be the easiest way to see trends in longitudinal data
-# But maybe change it to a line graph of optimal over time?
+# UPDATE, if wanted: maybe change it to a line graph of optimal over time?
 
 nyoi.overall <- nyoi.plot %>% 
   filter(Measure == "Overall Club Experience")  
@@ -1014,6 +1027,7 @@ ggplot(data = ypqi.sets, aes(x = Measure, y = Score, fill = Score)) +
   geom_text(aes(label = Score), color = "white", vjust = 1.5) +
     theme(panel.background = element_blank())
 
+# UPDATE:
 # Instructional total score should stand out and be at the end
 # Color scores below three and above three instead of the current gradient
 
