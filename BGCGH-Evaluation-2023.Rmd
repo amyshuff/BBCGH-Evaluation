@@ -21,30 +21,42 @@ By next check-in:
 
 - check with district about lack of report cards
 
+- check on family engagement surveys
+
 To expect with the next data upload this summer:
 
 - Attendance numbers. (In previous years the total attendance has been: 1622, 1227, and 1504.)
 
 - Fall 2023 ACE files (report cards) - will probably only get a few hundred again
 
+- NYOI 2023 Member Surveys
+
 
 # Next Questions
 
-- The ACE folder is named 2018-2022. Are we supposed to grab 2018-2020 data from the old evaluation reports? We could give very basic comparisons like total attendance, but we're limited in what we can get from these reports because the exact same graphs were not recreated each year and most of the graphs do not have individual data labels.
-
-- Folder “2018 – 2022 ACE Data”, file “BGCGH_TXACE_Evaluation_Analysis_Report_2019” is a draft document. It would be nice to have the final version. Even still, the data we can grab from someone else’s report will be quite limited, as the analysis each year was done a bit differently. 
-
 - When will we have the 2023 NYOI files? How is this survey administered? Wondering about the number of responses.
 
-- NYOI Member Surveys: Should we only look at the same member experience indicators we did last year? (Emotional Safety, Physical Safety, Fun, Sense of Belonging, Adult Connections, Expectations, and Recognition.)
+     + taken on computer, can take 20-25 members, can be taken over multiple days.
+     8 years and older, must have parent consent, members opt in with incentive program. expect 2023 data mid to late june, the surveys were completed in february, previously in oct/nov.
+     +
 
 - Notes from 19-20 report: number of days of BGCGH Texas ACE programming attended by a given student could not be calculated to a reasonable level of certainty because of disparities in data collection and management procedures.
 
-    + I would like some more information about this and if the same is true for this year.
+    + first semester of that year was accidentally deleted
+    +
 
 - You sent Youth Program Quality Intervention (YPQI) data. The reports themselves and the past evaluations call it the Youth Program Quality Assessment (YPQA). What do you prefer for this report?
 
+    + Assessment Tool is one portion of the intervention
+    + training start in August, assessments in oct/nov, implementing new takes place in next calendar year
+    + calendar years
+    +
+
 - Supporting parents evaluation questions?
+
+    + in the past they used family engagement surveys. They don't know if they have any current surveys. We'll decide later if we can include this or not.
+    +
+
 
 ``` {r, results='hide'}
 
