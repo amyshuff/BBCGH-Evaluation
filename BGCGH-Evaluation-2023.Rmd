@@ -924,7 +924,7 @@ ggplot(data = nyoi.overall, aes(x = Measure, y = Value, fill = Score)) +
 ```
 
 
-## Youth Program Quality Intervention (or Assessment?)
+## Youth Program Quality Intervention Assessment
 
 Youth Program Quality Assessment (YPQA)
 
@@ -1002,15 +1002,36 @@ ypqi <- ypqi %>%
          Year = ifelse(endsWith(ypqi$pdf.file.list, "2021.pdf"), "2021", Year),
          Year = ifelse(endsWith(ypqi$pdf.file.list, "2022.pdf"), "2022", Year),
          Year = ifelse(endsWith(ypqi$pdf.file.list, "2023.pdf"), "2023", Year))
+```
 
+Scores lower than 3 may be the best candidates for improvement action.
 
+```{r}
 # Pg 9 says scores lower than 3 may be the best candidates for improvement action
 ypqi.below <- ypqi %>% 
-  filter(Score < 3)
+  filter(Score < 3) %>% 
+  mutate(Year = as.numeric(Year)) %>% 
+  select(Year, Site, Measure, Score) %>% 
+  arrange(Year)
+
+kable(ypqi.below, caption = "YPQA Scores Under 3, 2019-2022")
 
 ```
 
-*Scores lower than 3 may be the best candidates for improvement action*
+
+In 2022, the lowest YPQA score was 1, for Encouragement at Spring Branch Elementary.
+
+Recommendations for Encouragement, Supportive Environment Domain: 
+
+- Youth Work, Ask-Listen-Encourage Method
+    + Ask-Listen-Encourage is a method for carrying out positive, purposeful interactions with young people. The method includes practices that can both foster positive relationships with youth and support young people in learning new skills.
+
+
+
+- Social Emotional Learning, Engaging Youth in Supportive Struggle Method
+    + Optimal growth and learning occur when trusted and encouraging adults provide young people with enough challenge, with enough support. This workshop helps youth workers learn practical ways to normalize struggle and foster growth mindset in a balanced and nuanced way that acknowledges social inequities while encouraging perseverance, high expectations, and hope.
+
+
 
 ```{r fig.height=15, fig.width=8}
 
@@ -1019,20 +1040,25 @@ ypqi.sets <- ypqi %>%
          Measure == "II. SUPPORTIVE ENVIRONMENT" | 
          Measure == "III. INTERACTION" | 
          Measure == "IV. ENGAGEMENT" | 
-         Measure == "Instructional Total Score*")
+         Measure == "Instructional Total Score*") %>% 
+  mutate(Measure = factor(Measure, levels=c("I. SAFE ENVIRONMENT", 
+                                            "II. SUPPORTIVE ENVIRONMENT",
+                                            "III. INTERACTION",
+                                            "IV. ENGAGEMENT",
+                                            "Instructional Total Score*")))
 
 
-ggplot(data = ypqi.sets, aes(x = Measure, y = Score, fill = Score)) + 
+ggplot(data = ypqi.sets, aes(x = Measure, y = Score, fill = Score < 3)) + 
   geom_col() + 
   facet_grid(rows = vars(Site), cols = vars(Year)) +
   labs(title = "Program Quality Assessment Scores") +
   guides(x = guide_axis(angle = 90)) +
-  geom_text(aes(label = Score), color = "white", vjust = 1.5) +
-    theme(panel.background = element_blank())
+  geom_text(aes(label = Score), color = "Black", vjust = 1.5) +
+  theme(panel.background = element_blank()) +
+  scale_fill_brewer(name = "Score", labels = c("3 or more", "Less than 3"), palette = "Blues")
 
 # UPDATE:
-# Instructional total score should stand out and be at the end
-# Color scores below three and above three instead of the current gradient
+# Instructional total score should stand out (maybe bold it?)
 
 ```
 
