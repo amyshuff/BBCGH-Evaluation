@@ -2,7 +2,9 @@
 title: "BGCGH Evaluation 2023"
 author: "Amy Shuff, Christine"
 date: "`r Sys.Date()`"
-output: html_document
+output:
+  html_document: default
+  word_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -69,6 +71,7 @@ library(stringr)
 library(here)
 library(readxl)
 library(pdftools)
+#library(kableExtra)
 
 ```
 
@@ -146,7 +149,7 @@ Total Club Membership is based on the unique Membership IDs present in the acade
 
 *Example text: During the 2022-2023 school year, the majority of Members (##%) attended Spring Oak Middle School. Club Membership was spread across the other schools in the following order: Westwood Elementary (##%), Woodview Elementary (##%), The Women’s Home (##%) and Spring Branch Elementary (##%). Spring Oaks was the only school to see a decrease in Club attendance from 2021-2022 to 2022-2023. The other four schools experienced a slight increase in Membership from the 2021-2022 school year. Figure 1 includes a breakdown by club site for members who attended at least one day of BGCGH Texas ACE™ programming.*
 
-```{r}
+```{r Attendance}
 
 # Last year's report included 2020-2021 and 2021-2022 data. 2020 numbers came from the 2019-2020 report. 2019 numbers came from the 2018-2019 report.
 # UPDATE attendance with 2023 attendance numbers.
@@ -168,17 +171,20 @@ attendance.plot <- attendance %>%
                names_to = "Site",
                values_to = "Total Membership")
 
+attendance.plot$Site <- factor(attendance.plot$Site, levels = c("Spring Branch Elementary", "Spring Oaks Middle", "The Women's Home", "Westwood Elementary", "Woodview Elementary", "Total"), ordered = TRUE)
+
 # Graph of attendance by site over time
 ggplot(attendance.plot, aes(x = Year, y = attendance.plot$`Total Membership`, color = Site)) +
   geom_line() +
   geom_point(position = "dodge") +
   coord_cartesian(ylim = c(0, 1650)) +
   scale_x_continuous(breaks = seq(2019, 2023, 1)) +
+  scale_colour_manual("", values = c("Spring Branch Elementary"= "red", "Spring Oaks Middle"= "orange", "The Women's Home" = "blue", "Westwood Elementary"= "green", "Woodview Elementary" = "pink", "Total" = "Black")) +
   labs(title = "Attendance by Site, 2019-2023") +
   ylab("Total Membership") +
     scale_fill_hue(l=40)
 
-# UPDATE: order of legend should have Total at top
+# UPDATE: these graph colors are terrible
 
 ```
 
@@ -757,7 +763,7 @@ nyoi <- bind_rows(nyoi.2021, nyoi.2022) # UPDATE: add nyoi 2023
 
 *Past report text: There were ### valid survey responses collected across the five clubs. CHILDREN AT RISK is not aware of the reason for the discrepancy in the number of Club Members and the number of valid surveys.*
 
-```{r}
+```{r NYOI Responses}
 
 nyoi.responses <- nyoi %>% 
   filter(Measure == "# of Member Responses") %>% 
@@ -767,6 +773,10 @@ nyoi.responses <- nyoi %>%
   summarise("# of Member Responses" = sum(`# of Member Responses`))
 
 kable(nyoi.responses)
+
+# I think the below code looks better, but it won't knit to a word document
+# kbl(nyoi.responses, caption = "NYOI Survey Response Counts") %>%
+#   kable_paper(bootstrap_options = "striped", full_width = F)
 
 ```
 
