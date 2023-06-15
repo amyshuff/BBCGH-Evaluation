@@ -23,7 +23,8 @@ By next check-in:
 
 - check with district about lack of report cards
 
-- check on family engagement surveys
+- check on family engagement surveys to fullfill the supporting families evaluation question
+
 
 To expect with the next data upload this summer:
 
@@ -36,29 +37,11 @@ To expect with the next data upload this summer:
 
 # Next Questions
 
-- When will we have the 2023 NYOI files? How is this survey administered? Wondering about the number of responses.
+- Required Funding Statement: Funded by the 21st CCLC Program administered by the US Department of Education. (Do we still need to include this? Found it in the 2019-2020 report, but not last year's.)
 
-     + taken on computer, can take 20-25 members, can be taken over multiple days.
-     8 years and older, must have parent consent, members opt in with incentive program. expect 2023 data mid to late june, the surveys were completed in february, previously in oct/nov.
-     +
+- Double check NYOI survey age. Can they take it starting at age 8 or 9?
 
-- Notes from 19-20 report: number of days of BGCGH Texas ACE programming attended by a given student could not be calculated to a reasonable level of certainty because of disparities in data collection and management procedures.
-
-    + first semester of that year was accidentally deleted
-    +
-
-- You sent Youth Program Quality Intervention (YPQI) data. The reports themselves and the past evaluations call it the Youth Program Quality Assessment (YPQA). What do you prefer for this report?
-
-    + Assessment Tool is one portion of the intervention
-    + training start in August, assessments in oct/nov, implementing new takes place in next calendar year
-    + calendar years
-    +
-
-- Supporting parents evaluation questions?
-
-    + in the past they used family engagement surveys. They don't know if they have any current surveys. We'll decide later if we can include this or not.
-    +
-
+- Grant attendance targets for BGCGH Texas ACE™ programming (students who attend at least 45 days). Is the number of members or the percentage more important? (What exactly are the targets? Are they the same each year?)
 
 ``` {r, results='hide'}
 
@@ -124,7 +107,6 @@ Data described in this section comes from aggregated club member demographics an
 
 *Expect 2023 attendance data with the summer data dump.*
 
-*Notes from 19-20 report: number of days of BGCGH Texas ACE programming attended by a given student could not be calculated to a reasonable level of certainty because of disparities in data collection and management procedures.*
 
 ```{r}
 
@@ -171,7 +153,8 @@ attendance.plot <- attendance %>%
                names_to = "Site",
                values_to = "Total Membership")
 
-attendance.plot$Site <- factor(attendance.plot$Site, levels = c("Spring Branch Elementary", "Spring Oaks Middle", "The Women's Home", "Westwood Elementary", "Woodview Elementary", "Total"), ordered = TRUE)
+# This reorders the legend once I make the graph so that Total is on top and not listed alphabetically.
+attendance.plot$Site <- factor(attendance.plot$Site, levels = c("Total", "Spring Branch Elementary", "Spring Oaks Middle", "The Women's Home", "Westwood Elementary", "Woodview Elementary"), ordered = TRUE)
 
 # Graph of attendance by site over time
 ggplot(attendance.plot, aes(x = Year, y = attendance.plot$`Total Membership`, color = Site)) +
@@ -179,12 +162,14 @@ ggplot(attendance.plot, aes(x = Year, y = attendance.plot$`Total Membership`, co
   geom_point(position = "dodge") +
   coord_cartesian(ylim = c(0, 1650)) +
   scale_x_continuous(breaks = seq(2019, 2023, 1)) +
-  scale_colour_manual("", values = c("Spring Branch Elementary"= "red", "Spring Oaks Middle"= "orange", "The Women's Home" = "blue", "Westwood Elementary"= "green", "Woodview Elementary" = "pink", "Total" = "Black")) +
+  #scale_colour_manual("", values = c("Spring Branch Elementary"= "red", "Spring Oaks Middle"= "orange", "The Women's Home" = "blue", "Westwood Elementary"= "green", "Woodview Elementary" = "pink", "Total" = "Black")) +
   labs(title = "Attendance by Site, 2019-2023") +
   ylab("Total Membership") +
-    scale_fill_hue(l=40)
+    scale_fill_hue(l=40) +
+  theme(panel.background = element_blank()) +
+  geom_text(aes(label = ifelse(attendance.plot$Site == 'Total', attendance.plot$`Total Membership`, "")), vjust = 1.5)
 
-# UPDATE: these graph colors are terrible
+# UPDATE (optional): these graph colors aren't great. 
 
 ```
 
@@ -198,9 +183,11 @@ Texas ACE™ defines regular participation as attending the program 45 days or m
 
 *Example text: All clubs providing BGCGH Texas ACE™ programming met their grant attendance targets. (Members who attend 45+ days), however attendance varied by club location (Table 1). Spring Oak and Woodview surpassed their goals the most compared to other club sites.*
 
+*Note that some values are missing (NA) because the reporting was not consistent from year to year. (These numbers were all pulled from past evaluation reports.)*
+
 ```{r}
 
-# Table idea: Number of students attending each site for at least 45 days
+# UPDATE: with 2023 data, make table with the number of students attending each site for at least 45 days
 
 # Percent of Members Who Attended 45+ Days of ACE Programming by Site
 # Previous years data taken from past reports
@@ -212,7 +199,16 @@ attendance.grant <- tibble("Year" = c(2019, 2020, 2021, 2022),
                          "Westwood Elementary" = c(.89, .79, .55, .37),
                          "Woodview Elementary" = c(.71, .68, NA, .54),
                          "Total" = c(NA, .70, .65, .46)) 
-  
+
+
+
+# My failed attempt at formatting the percents as percents
+# formattable::percent(subset(attendance.grant, select = c('Spring Branch Elementary', Total)), digits = NA, format = "f")
+# 
+# formattable::percent(subset(attendance.grant, select = 'Spring Branch Elementary':Total), digits = 0, na.rm = TRUE)
+
+# Next idea, identify numbers that start with . and format those as percents
+
 kable(attendance.grant)
 # UPDATE: numbers should display as percents (except for Year)
 
@@ -223,6 +219,12 @@ attendance.grant.plot <- attendance.grant %>%
                names_to = "Site",
                values_to = "Percent of Members")
 
+#The below code works, but then messes up the graph labels
+#attendance.grant.plot$`Percent of Members` <- formattable::percent(attendance.grant.plot$`Percent of Members`, digits = 0)
+
+# This reorders the legend once I make the graph so that Total is on top and not listed alphabetically.
+attendance.grant.plot$Site <- factor(attendance.grant.plot$Site, levels = c("Total", "Spring Branch Elementary", "Spring Oaks Middle", "The Women's Home", "Westwood Elementary", "Woodview Elementary"), ordered = TRUE)
+
 # Graph of Percent of Members Who Attended 45+ Days of ACE Programming by Site over time
 ggplot(attendance.grant.plot, aes(x = Year, y = attendance.grant.plot$`Percent of Members`, color = Site)) +
   geom_line() +
@@ -231,9 +233,12 @@ ggplot(attendance.grant.plot, aes(x = Year, y = attendance.grant.plot$`Percent o
   scale_x_continuous(breaks = seq(2019, 2023, 1)) +
   labs(title = "Percent of Members Who Attended 45+ Days of ACE Programming, 2019-2023") +
   ylab("Percent of Members") +
-    scale_fill_hue(l=40)
+    scale_fill_hue(l=40) +
+  theme(panel.background = element_blank()) +
+  geom_text(aes(label = ifelse(attendance.grant.plot$Site == 'Total', scales::percent(attendance.grant.plot$`Percent of Members`) , "")), vjust = 1.5)
 
-# UPDATE: order of legend should have Total at top
+# UPDATE: y axis should be formatted as percent
+# UPDATE (optional): I feel like the total blends in with the rest on the graph here.
 
 ```
 *What happened at The Women's Home last year? That's a dramatic change in regular attendance. I took the number from last year's report. You can find our folder for last year here: https://childrenatrisk.sharepoint.com/sites/GDrive/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FGDrive%2FShared%20Documents%2FCenter%20for%20Social%20Measurement%20and%20Evaluation%2FSharmily%20Working%2FBoys%20ang%20Girls%20Club%20Info&p=true&ct=1684425770678&or=Teams%2DHL&ga=1*
@@ -708,6 +713,9 @@ This survey is intended for members that are ages nine and up to give youth pers
 
 For more information about NYOI and how it measures Boys and Girls Club experiences: https://clubexperience.blog/2018/02/22/how-do-we-measure-the-club-experience/
 
+*Taken on computer. Can take 20-25 minutes. Can be taken over multiple days.*
+*8 years and older, must have parent consent, members opt in with incentive program. Expect 2023 data mid to late June. The surveys were completed in February. Previously they were done in Oct/Nov.*
+
 ```{r NYOI Data Import, echo=FALSE}
 
 # NYOI Member Survey Reports are xlsx files 2 and 3
@@ -937,6 +945,9 @@ ggplot(data = nyoi.overall, aes(x = Measure, y = Value, fill = Score)) +
 ## Youth Program Quality Intervention Assessment
 
 Youth Program Quality Assessment (YPQA)
+*Assessment Tool (YPQA) is one portion of the intervention (YPQI).*
+*Training start in August, assessments in oct/nov, implementing new practices takes place in next calendar year.*
+*Years for this report are calendar years.*
 
 BGCGH participates in the annual Youth Program Quality Intervention (YPQI) provided by United Way to conduct a self-assessment on four key areas: Safe Environment, Supportive Environment, Interaction, and Engagement. 
 
