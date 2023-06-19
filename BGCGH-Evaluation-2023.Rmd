@@ -15,7 +15,7 @@ Notes for Leila:
 Anything that shows up as blue in the code like *this*, surrounded by asterisks, should not stay in the final report. These comments are either copy and pasted from old reports, as example language that we need to update based on the new data, or observations I've made about the data but haven't written down using formal language. When looking at the html document, these words show up in italics.
 
 Notes for Christine:
-In the code chunks, I've written UPDATE everywhere something needs to be changed when we get the next batch of data in this summer. The code I've written that imports the csv, xlsx, and pdf files should capture everything saved in the working folder, but I have no idea what the attendance data will look like when it comes in. So, for instance, club demographics was imported as the first xlsx file, but if it's not the first file anymore, then that code will need to be updated.
+In the code chunks, I've written UPDATE everywhere something needs to be changed when we get the next batch of data in this summer. The code I've written that imports the csv, xlsx, and pdf files should capture everything saved in the working folder, but I have no idea what the attendance data will look like when it comes in. So, for instance, club demographics was imported as the first xlsx file, but if it's not the first file anymore, then that code will need to be updated. Also know that we can't follow individual students year over year using the Club ID. This was something you asked them about in a previous meeting and they thought it was possible. I looked at a few of them and it's not. 
 
 
 
@@ -42,6 +42,14 @@ To expect with the next data upload this summer:
 - Double check NYOI survey age. Can they take it starting at age 8 or 9?
 
 - Grant attendance targets for BGCGH Texas ACE™ programming (students who attend at least 45 days). Is the number of members or the percentage more important? (What exactly are the targets? Are they the same each year?)
+
+- We asked for the final data, but only received grades. We still do not have 2023 attendance data.
+
+- One of the folders is labeled 2023 FALL, which hasn't happened yet. When is this data actually from? Fall 2022?
+
+- 2023 Spring Grade Westwood doesn't have grade level information.
+
+- What's the difference between a Club ID and a Comet ID?
 
 ``` {r, results='hide'}
 
@@ -202,15 +210,20 @@ attendance.grant <- tibble("Year" = c(2019, 2020, 2021, 2022),
 
 
 
-# My failed attempt at formatting the percents as percents
+# My failed attempts at formatting the percents as percents
 # formattable::percent(subset(attendance.grant, select = c('Spring Branch Elementary', Total)), digits = NA, format = "f")
 # 
 # formattable::percent(subset(attendance.grant, select = 'Spring Branch Elementary':Total), digits = 0, na.rm = TRUE)
 
-# Next idea, identify numbers that start with . and format those as percents
+# subset(attendance.grant, select = 'Spring Branch Elementary':Total) <- formattable::percent(subset(attendance.grant, select = 'Spring Branch Elementary':Total), digits = 0, na.rm = TRUE)
+ 
+
+
+# Next idea, identify numbers that start with . and format those as percents or format each variable individually
 
 kable(attendance.grant)
 # UPDATE: numbers should display as percents (except for Year)
+# UPDATE: add caption title to chart (is this the percent of members in the club that attended at least 45 days?)
 
 
 attendance.grant.plot <- attendance.grant %>%   
@@ -231,13 +244,13 @@ ggplot(attendance.grant.plot, aes(x = Year, y = attendance.grant.plot$`Percent o
   geom_point(position = "dodge") +
   coord_cartesian(ylim = c(0, 1)) +
   scale_x_continuous(breaks = seq(2019, 2023, 1)) +
+  scale_y_continuous(labels = scales::label_percent(accuracy = 1)) +
   labs(title = "Percent of Members Who Attended 45+ Days of ACE Programming, 2019-2023") +
   ylab("Percent of Members") +
     scale_fill_hue(l=40) +
   theme(panel.background = element_blank()) +
-  geom_text(aes(label = ifelse(attendance.grant.plot$Site == 'Total', scales::percent(attendance.grant.plot$`Percent of Members`) , "")), vjust = 1.5)
+  geom_text(aes(label = ifelse(attendance.grant.plot$Site == 'Total', scales::percent(attendance.grant.plot$`Percent of Members`) , "")), vjust = 1.5) 
 
-# UPDATE: y axis should be formatted as percent
 # UPDATE (optional): I feel like the total blends in with the rest on the graph here.
 
 ```
@@ -448,7 +461,7 @@ When reporting numeric values for grades, we used a traditional 0 to 4 grade poi
 Data from 2022 is limited to 351 report cards and data from Spring 2021 is limited to 797 report cards. This is not a large enough sample size to draw conclusions from.
 
 
-```{r}
+```{r Import ACE Data}
 
 # ACE Data
 # Import all csv files
@@ -478,8 +491,7 @@ ace2021 <- bind_rows(list(csv.list[[1]], csv.list [[2]], csv.list[[3]], csv.list
          Math = MathGrade,
          English.Reading = ReadingGrade) 
 
-# UPDATE (I need help here)
-# figure out how to remove duplicate UIDs
+# UPDATE (I need help here): figure out how to remove duplicate UIDs
 ace2021.duplicates <- ace2021$UID[duplicated(ace2021$UID)]
 # paste(ace2021.duplicates)
 # "1841070" "1837954" "1838312" "1838401" "1839453" "1840898"
@@ -530,10 +542,66 @@ ace2022 <- ace2022 %>%
 
 # 2022 ACE data has 174 school days for all students. 2021 ACE data has SchoolDaysEnrolled and SchoolDayClasses, which both range from 0 to 94. But they're not always the same, nor do they match ACE Days Attended.
 
+
+
+# ACE 2023 Fall is how these were labeled, but that makes no sense. Waiting on clarification.
+# These were sent at xlsx, but since the last two years were csv, I resaved them as csv.
+
+# View(csv.list[[11]])
+# View(csv.list[[12]])
+# View(csv.list[[13]])
+# View(csv.list[[14]])
+# View(csv.list[[15]])
+
+
+
+# ACE 2023 Spring
+
+# These were sent at xlsx, but since the last two years were csv, I resaved them as csv.
+# View(csv.list[[16]]) # Grade is character (1st)
+# View(csv.list[[17]]) # Grade is number (1)
+# View(csv.list[[18]]) # Grade is character (1st). Also has some N/A values listed for grades.
+# View(csv.list[[19]]) # Westwood doesn't have grade level information.
+# View(csv.list[[20]]) # Grade is character (1st)
+
+ace2023 <- csv.list[[17]] %>% 
+  mutate(Grade = gsub("1", "1st", Grade),
+         Grade = gsub("2", "2nd", Grade),
+         Grade = gsub("3", "3rd", Grade),
+         Grade = gsub("4", "4th", Grade),
+         Grade = gsub("5", "5th", Grade),
+         Grade = gsub("6", "6th", Grade),
+         Grade = gsub("7", "7th", Grade),
+         Grade = gsub("8", "8th", Grade)) %>% 
+  bind_rows(., list(csv.list[[16]], csv.list[[18]], csv.list[[19]], csv.list[[20]]), .id = "id")
+
+ace2023 <- ace2023 %>% 
+  mutate(Site = ifelse(substr(ace2023$Club.ID, 1, 3) == "SOM", "Spring Oaks Middle", ""),
+         Site = ifelse(substr(ace2023$Club.ID, 1, 3) == "SBE", "Spring Branch Elementary", Site),
+         Site = ifelse(substr(ace2023$Club.ID, 1, 3) == "TWH", "The Women's Home", Site),
+         Site = ifelse(substr(ace2023$Club.ID, 1, 2) == "WW", "Westwood Elementary", Site),
+         Site = ifelse(substr(ace2023$Club.ID, 1, 2) == "WV", "Woodview Elementary", Site),
+         Year = as.numeric(2023),
+         Term = "Spring",
+         Data = "ACE")
+
+ace2023.comet.duplicates <- ace2023$Comet.ID[duplicated(ace2023$Comet.ID)]
+# paste(ace2023.comet.duplicates)
+# "1826954" "1841066" "1845474" "1853139" "1842531" "1851898" "1845379" "1854408" "1845372" "1852067" "1845368"
+
+ace2023.duplicates <- ace2023$Club.ID[duplicated(ace2023$Club.ID)]
+# paste(ace2023.duplicates)
+# No club ID duplicates, though. So maybe we don't remove any?
+
+ace2023 <- ace2023 %>% 
+  select(Site, Grade, Math, English.Reading, Year, Term, Data)
+
 ```
 
 
 *BGCGH told us this 2022 data was from the fall, but it looks exactly like last year's data except for Woodview.*
+
+*It would be nice to recreate this chart with 2023 data, but we don't have grade level information for Westwood.*
 
 ```{r}
 
@@ -555,11 +623,11 @@ kable(ace2022.counts, caption = "2022 Report Card Counts")
 
 
 
-```{r}
+```{r Bind ACE 2021-2023 Data}
 
-ace <- bind_rows(ace2021, ace2022) %>%
+ace <- bind_rows(list(ace2021, ace2022, ace2023)) %>%
   # Kinder has Pass/Fail. They were excluded from previous reports, so we'll do the same.
-  filter(!Grade == "Kindergarten" & !Grade == "Kinder") %>% 
+  filter((!Grade == "Kindergarten" & !Grade == "Kinder") %>% replace_na(TRUE)) %>% 
   # 2022 GPA Methodology – Letter grades were converted to gpa scale where A=4, B=3, C=2, D=1, F=0 then averaged and rounded to the nearest whole number. Methodology consistent with 2020-2021 report.
   mutate(Math = ifelse(Math == "A", 4, Math),
          Math = ifelse(Math == "B", 3, Math),
@@ -574,12 +642,14 @@ ace <- bind_rows(ace2021, ace2022) %>%
          English.Reading = ifelse(English.Reading == "F", 0, English.Reading),
          English.Reading = as.numeric(English.Reading)) 
 
-# One kid has an S in math, but as.numeric makes it NA, so it's automatically dropped
+# One kid has an S in math (2022 The Women's Home), but as.numeric makes it NA, so it's automatically dropped
 # Quite a few grades missing from 2021 data
+# The Women's Home 2023 has some N/A values for grades
 
 ```
 
 
+*I'm not sure how to organize the below table. Maybe by year would be best?*
 
 ```{r Average Math and Reading GPAs}
 
@@ -594,7 +664,9 @@ ace.averages <- ace %>%
 
 kable(ace.averages, caption = "Average GPA by Site and Year", digits = 2)
 
-# UPDATE, if wanted:
+# UPDATE: I think this table should be organized by year.
+
+# UPDATE (optional):
 # one of the old reports did a histogram with the frequency of grades. I like that idea.
 # geom_histogram() or geom_freqpoly()
 
@@ -698,7 +770,7 @@ ggplot(ace.overall.plot, aes(x = Year)) +
   coord_cartesian(ylim = c(0, 4)) +
   labs(title = "GPA Averages by Year",
        subtitle = "for all BGCGH sites combined") +
-  scale_x_continuous(breaks=seq(2019, 2022, 1))
+  scale_x_continuous(breaks=seq(2019, 2023, 1))
 
 ```
 
@@ -1100,6 +1172,8 @@ ggplot(data = ypqi.sets, aes(x = Measure, y = Score, fill = Score < 3)) +
 *One kid has an S in math, but as.numeric makes it NA, so it's automatically dropped*
 
 *2021 ACE data has 6 duplicate member ids: "1841070" "1837954" "1838312" "1838401" "1839453" "1840898"*
+
+*Spring 2023 Grade data has 11 duplicate Comet IDs: "1826954" "1841066" "1845474" "1853139" "1842531" "1851898" "1845379" "1854408" "1845372" "1852067" "1845368 But the all had unique Club IDs, so we might leave them in?*
 
 
 # Appendix Two: Additional Data
