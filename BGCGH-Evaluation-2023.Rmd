@@ -17,39 +17,71 @@ Anything that shows up as blue in the code like *this*, surrounded by asterisks,
 Notes for Christine:
 In the code chunks, I've written UPDATE everywhere something needs to be changed when we get the next batch of data in this summer. The code I've written that imports the csv, xlsx, and pdf files should capture everything saved in the working folder, but I have no idea what the attendance data will look like when it comes in. So, for instance, club demographics was imported as the first xlsx file, but if it's not the first file anymore, then that code will need to be updated. Also know that we can't follow individual students year over year using the Club ID. This was something you asked them about in a previous meeting and they thought it was possible. I looked at a few of them and it's not. 
 
+\
 
+Our deadline for the final written report is July 31, 2023.
+
+\
 
 By next check-in:
 
-- check with district about lack of report cards
+- Report card counts
 
-- check on family engagement surveys to fullfill the supporting families evaluation question
+- Total attendance counts. Grant attendance targets.
+
+- NYOI 2023 Member Surveys possibly haven't been received yet. Check on NYOI age.
+
+- 2023 Spring Grade Westwood doesn't have grade level information.
 
 
 To expect with the next data upload this summer:
 
 - Attendance numbers. (In previous years the total attendance has been: 1622, 1227, and 1504.)
 
-- Fall 2023 ACE files (report cards) - will probably only get a few hundred again
-
-- NYOI 2023 Member Surveys
-
 
 # Next Questions
 
-- Required Funding Statement: Funded by the 21st CCLC Program administered by the US Department of Education. (Do we still need to include this? Found it in the 2019-2020 report, but not last year's.)
+- I still have not been told the outcome of speaking to the school district about the lack of report cards.
 
-- Double check NYOI survey age. Can they take it starting at age 8 or 9?
+    + They say they have grades for every kid unless they transferred.
 
-- Grant attendance targets for BGCGH Texas ACE™ programming (students who attend at least 45 days). Is the number of members or the percentage more important? (What exactly are the targets? Are they the same each year?)
+- I did not receive any family engagement surveys, so I'm assuming we're dropping the supporting families evaluation question from the report.
 
-- We asked for the final data, but only received grades. We still do not have 2023 attendance data.
+    + Yes, they're dropped.
+
+- We asked for the final data, but only received grades. We still do not have 2023 attendance data or NYOI 2023 Member Surveys.
+
+    + Show that kids attend, grades are improving, sites should be sustained. This grant will not be continuing next year. Demonstrating the positive impact of BGCGH is most important.
+    
+    + Shared space model is any partnership they have. They share buildings with other organizations and schools.
+
+- It looks like last year they might have pulled the attendance data from the demographic data. The demographic data you sent me was already aggregated by percent, so I don't have the count of individual students.
 
 - One of the folders is labeled 2023 FALL, which hasn't happened yet. When is this data actually from? Fall 2022?
+
+    + Should be Fall 2022.
 
 - 2023 Spring Grade Westwood doesn't have grade level information.
 
 - What's the difference between a Club ID and a Comet ID?
+
+- Required Funding Statement: Funded by the 21st CCLC Program administered by the US Department of Education. (Do we still need to include this? Found it in the 2019-2020 report, but not last year's.)
+
+    + Inlucde this year as well.
+
+- Double check NYOI survey age. Can they take it starting at age 8 or 9? (The online source I found from a BGC video from 2018 said it was for ages nine and up.)
+
+    + Dexter needs to double check.
+
+- Grant attendance targets for BGCGH Texas ACE™ programming (students who attend at least 45 days). Is the number of members or the percentage more important? (What exactly are the targets? Are they the same each year?)
+
+    + Grant target stays the same each year. Number of students is most important.
+
+    + 115 required, 139 reached, from the Women's Home.
+    
+    + BGCGH came up with these numbers based on what they thought was achievable. Past formulas have been lost for how it came about.
+
+    + Is this required in this report? Because I currently don't have attendance information for this year.
 
 ``` {r, results='hide'}
 
