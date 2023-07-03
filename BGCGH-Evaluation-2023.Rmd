@@ -184,6 +184,7 @@ Texas ACE™ defines regular participation as attending the program 45 days or m
 *Note that some values are missing (NA) because the reporting was not consistent from year to year. (These numbers were all pulled from past evaluation reports.)*
 
 ```{r}
+
 attendance.grant.2023 <- tibble("Club" = c("Spring Oaks Middle", "The Women's Home", "Spring Branch Elementary", "Woodview Elementary", "Westwood Elementary"),	
                                 "Grant Required to attend 45+ Days" = c(100, 115, 110, 110, 110),	
                                 "Students that met Attendance	Grant" = c(264, 115,122,163, 182),
@@ -589,10 +590,10 @@ ace2022.fall <- ace2022.fall %>%
 # View(csv.list[[16]]) # Grade is character (1st)
 # View(csv.list[[17]]) # Grade is number (1)
 # View(csv.list[[18]]) # Grade is character (1st). Also has some N/A values listed for grades.
-# View(csv.list[[19]]) # Westwood doesn't have grade level information.
+# View(csv.list[[19]]) # Grade is number (1)
 # View(csv.list[[20]]) # Grade is character (1st)
 
-ace2023.spring <- csv.list[[17]] %>% 
+ace2023.spring <- bind_rows(list(csv.list[[17]], csv.list[[19]]), .id = "id")  %>% 
   mutate(Grade = gsub("1", "1st", Grade),
          Grade = gsub("2", "2nd", Grade),
          Grade = gsub("3", "3rd", Grade),
@@ -601,7 +602,7 @@ ace2023.spring <- csv.list[[17]] %>%
          Grade = gsub("6", "6th", Grade),
          Grade = gsub("7", "7th", Grade),
          Grade = gsub("8", "8th", Grade)) %>% 
-  bind_rows(., list(csv.list[[16]], csv.list[[18]], csv.list[[19]], csv.list[[20]]), .id = "id")
+  bind_rows(., list(csv.list[[16]], csv.list[[18]], csv.list[[20]]), .id = "id")
 
 ace2023.spring <- ace2023.spring %>% 
   mutate(Site = ifelse(substr(ace2023.spring$Club.ID, 1, 3) == "SOM", "Spring Oaks Middle", ""),
@@ -630,7 +631,6 @@ ace2023.spring <- ace2023.spring %>%
 ```
 
 
-*It would be nice to recreate this chart with 2023 data, but we don't have grade level information for Westwood.*
 
 ```{r}
 
@@ -647,6 +647,27 @@ ace2022.counts <- ace2022 %>%
             "8th" = sum(Grade == '8th'))
   
 kable(ace2022.counts, caption = "2022 Report Card Counts")
+
+
+
+#UPDATE, optional: It would be nice to recreate this chart with 2023 data.
+
+ace2023.counts <- bind_rows(list(ace2022.fall, ace2023.spring), .id = "id") %>% 
+  group_by(Site) %>% 
+  summarise(Kindergarten = sum(Grade == 'Kinder', na.rm = TRUE),
+            "1st" = sum(Grade == '1st', na.rm = TRUE),
+            "2nd" = sum(Grade == '2nd', na.rm = TRUE),
+            "3rd" = sum(Grade == '3rd', na.rm = TRUE),
+            "4th" = sum(Grade == '4th', na.rm = TRUE),
+            "5th" = sum(Grade == '5th', na.rm = TRUE),
+            "6th" = sum(Grade == '6th', na.rm = TRUE),
+            "7th" = sum(Grade == '7th', na.rm = TRUE),
+            "8th" = sum(Grade == '8th', na.rm = TRUE))
+# Two students from Spring Oaks Middle, fall 2022, are missing grade level information
+
+
+kable(ace2023.counts, caption = "2023 Report Card Counts")
+
 
 ```
 
@@ -1230,6 +1251,8 @@ ggplot(data = ypqi.sets, aes(x = Measure, y = Score, fill = Score < 3)) +
 *2021 ACE data has 6 duplicate member ids: "1841070" "1837954" "1838312" "1838401" "1839453" "1840898"*
 
 *Spring 2023 Grade data has 11 duplicate Comet IDs: "1826954" "1841066" "1845474" "1853139" "1842531" "1851898" "1845379" "1854408" "1845372" "1852067" "1845368 But the all had unique Club IDs, so we might leave them in?*
+
+*Two students from Fall 2022 Spring Oaks Middle are missing grade level information.*
 
 
 # Appendix Two: Additional Data
