@@ -1,4 +1,4 @@
-﻿Comet ID ,Club ID,Grade,Number of School              Days Fall Semester ,Math ,English/ Reading ,Conduct 
+﻿Comet ID ,Club ID,Grade,Number of School Days Fall Semester ,Math ,English Reading ,Conduct 
 1852062,WV002301 ,1st ,81,B,B,S
 1850839,WV002302,1st ,81,B,B,E
 1851937,WV002303,1st ,81,A,A,S
@@ -185,7 +185,3 @@
 1837115,WV0023184,5th,81,B,A,S
 1840775,WV0023185,5th,81,C,A,E
 1855309,WV0023186,5th,81,C,B,E
-,,,,,,
-,,,,,,
-,,,,,,
-,,,,,,

@@ -11,11 +11,12 @@ output:
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
 ```
 
-Notes for Leila:
-Anything that shows up as blue in the code like *this*, surrounded by asterisks, should not stay in the final report. These comments are either copy and pasted from old reports, as example language that we need to update based on the new data, or observations I've made about the data but haven't written down using formal language. When looking at the html document, these words show up in italics.
+Notes for Leila and Kim:
+Anything that shows up in italics like *this* should not stay in the final report. These comments are either copy and pasted from old reports, as example language that we need to update based on the new data, or observations I've made about the data but haven't written down using formal language. 
 
 Notes for Christine:
-In the code chunks, I've written UPDATE everywhere something needs to be changed when we get the next batch of data in this summer. The code I've written that imports the csv, xlsx, and pdf files should capture everything saved in the working folder, but I have no idea what the attendance data will look like when it comes in. So, for instance, club demographics was imported as the first xlsx file, but if it's not the first file anymore, then that code will need to be updated. Also know that we can't follow individual students year over year using the Club ID. This was something you asked them about in a previous meeting and they thought it was possible. I looked at a few of them and it's not. 
+In the code chunks, I've written UPDATE everywhere something needs to be changed.
+Also know that we can't follow individual students year over year using the Club ID. This was something you asked them about in a previous meeting and they thought it was possible. I looked at a few of them and it's not. 
 
 \
 
@@ -23,51 +24,22 @@ Our deadline for the final written report is July 31, 2023.
 
 \
 
-By next check-in:
+We still need:
 
-- Report card counts
+- NYOI 2023 Member Surveys
 
-- Total attendance counts. Grant attendance targets.
-
-- NYOI 2023 Member Surveys possibly haven't been received yet. Check on NYOI age.
-
-- 2023 Spring Grade Westwood doesn't have grade level information.
+- Check on NYOI age
 
 
-To expect with the next data upload this summer:
+# Last meeting notes
 
-- Attendance numbers. (In previous years the total attendance has been: 1622, 1227, and 1504.)
-
-
-# Next Questions
-
-- I still have not been told the outcome of speaking to the school district about the lack of report cards.
-
-    + They say they have grades for every kid unless they transferred.
-
-- I did not receive any family engagement surveys, so I'm assuming we're dropping the supporting families evaluation question from the report.
-
-    + Yes, they're dropped.
-
-- We asked for the final data, but only received grades. We still do not have 2023 attendance data or NYOI 2023 Member Surveys.
-
-    + Show that kids attend, grades are improving, sites should be sustained. This grant will not be continuing next year. Demonstrating the positive impact of BGCGH is most important.
+- Show that kids attend, grades are improving, sites should be sustained. This grant will not be continuing next year. Demonstrating the positive impact of BGCGH is most important.
     
-    + Shared space model is any partnership they have. They share buildings with other organizations and schools.
-
 - It looks like last year they might have pulled the attendance data from the demographic data. The demographic data you sent me was already aggregated by percent, so I don't have the count of individual students.
 
 - One of the folders is labeled 2023 FALL, which hasn't happened yet. When is this data actually from? Fall 2022?
 
     + Should be Fall 2022.
-
-- 2023 Spring Grade Westwood doesn't have grade level information.
-
-- What's the difference between a Club ID and a Comet ID?
-
-- Required Funding Statement: Funded by the 21st CCLC Program administered by the US Department of Education. (Do we still need to include this? Found it in the 2019-2020 report, but not last year's.)
-
-    + Inlucde this year as well.
 
 - Double check NYOI survey age. Can they take it starting at age 8 or 9? (The online source I found from a BGC video from 2018 said it was for ages nine and up.)
 
@@ -105,7 +77,7 @@ At the request of Boys and Girls Clubs of Greater Houston (BGCGH), CHILDREN AT R
 
 The findings from this evaluation are pulled from available data sources provided by BGCGH. CHILDREN AT RISK reviewed member and club data from the 2022-2023 school year. The quantitative data includes data on club members as well as aggregated data on each of the five clubs participating in Texas ACE™. Longitudinal data for 2019-2022 was pulled from past evaluation reports.
 
-*Required Funding Statement: Funded by the 21st CCLC Program administered by the US Department of Education. (Do we still need to include this? Found it in the 2019-2020 report, but not last year's.)*
+Required Funding Statement: Funded by the 21st CCLC Program administered by the US Department of Education.
 
 Major Findings on the BGCGH Texas ACE™ program include:
 
@@ -135,8 +107,6 @@ The following evaluation questions will be considered:
 
 - What impact has BGCGH ACE had on children over the past 5 years of programming?
 
-- How has BGCGH ACE supported parents?
-
 *I don't know if you want to include the above evaluation questions, but I thought  it would be good to copy them in here for reference when writing the report.*
 
 # Descriptive Statistics on Club Members
@@ -145,42 +115,30 @@ Data described in this section comes from aggregated club member demographics an
 
 ## Attendance
 
-*Expect 2023 attendance data with the summer data dump.*
-
 
 ```{r}
 
-# UPDATE: clean 2023 attendance data here
+
 
 ```
 
 
-In the 2022-2023 school year, there were *#,###* Club Members that served in BGCGH Texas ACE™. These Members were spread across 5 BGCGH Clubs from Spring Branch Independent School District (SBISD). Membership data included in this analysis are from the following schools in SBISD:
+In the 2022-2023 school year, there were 1,047 Club Members that served in BGCGH Texas ACE™. These Members were spread across 5 BGCGH Clubs from Spring Branch Independent School District (SBISD). Membership data included in this analysis are from the following schools in SBISD: Spring Branch Elementary School, Spring Oaks Middle School, The Women’s Home, Westwood Elementary School, and Woodview Elementary School.
 
-- Spring Branch Elementary School
-
-- Spring Oaks Middle School
-
-- The Women’s Home
- 
-- Westwood Elementary School
- 
-- Woodview Elementary School
-
-Total Club Membership is based on the unique Membership IDs present in the academic and club attendance data set which represents a single Club member who attended at least one day of BGCGH Texas ACE™ programming during 2022-2023 school year.
+Total Club Membership count was obtained from the Teal TX 21st data system and represents the total members who attended at least one day of BGCGH Texas ACE™ programming during 2022-2023 school year.
 
 *Example text: During the 2022-2023 school year, the majority of Members (##%) attended Spring Oak Middle School. Club Membership was spread across the other schools in the following order: Westwood Elementary (##%), Woodview Elementary (##%), The Women’s Home (##%) and Spring Branch Elementary (##%). Spring Oaks was the only school to see a decrease in Club attendance from 2021-2022 to 2022-2023. The other four schools experienced a slight increase in Membership from the 2021-2022 school year. Figure 1 includes a breakdown by club site for members who attended at least one day of BGCGH Texas ACE™ programming.*
 
 ```{r Attendance}
 
 # Last year's report included 2020-2021 and 2021-2022 data. 2020 numbers came from the 2019-2020 report. 2019 numbers came from the 2018-2019 report.
-# UPDATE attendance with 2023 attendance numbers.
-attendance <- tibble("Year" = c(2019, 2020, 2021, 2022), 
-                         "Spring Branch Elementary" = c(330, 172, 221,224),
-                         "Spring Oaks Middle" = c(283, 419, 572, 424),
-                         "The Women's Home" = c(322, 144, 177, 228),
-                         "Westwood Elementary" = c(346, 250, 298, 366),
-                         "Woodview Elementary" = c(319, 231, 212, 301)) %>% 
+
+attendance <- tibble("Year" = c(2019, 2020, 2021, 2022, 2023), 
+                         "Spring Branch Elementary" = c(330, 172, 221, 224, 150),
+                         "Spring Oaks Middle" = c(283, 419, 572, 424, 264),
+                         "The Women's Home" = c(322, 144, 177, 228, 166),
+                         "Westwood Elementary" = c(346, 250, 298, 366, 281),
+                         "Woodview Elementary" = c(319, 231, 212, 301, 186)) %>% 
   mutate(Total = `Spring Branch Elementary` + `Spring Oaks Middle` + `The Women's Home` +
                          `Westwood Elementary` + `Woodview Elementary`)
 
@@ -213,7 +171,7 @@ ggplot(attendance.plot, aes(x = Year, y = attendance.plot$`Total Membership`, co
 
 ```
 
-*I think it's interesting to see the big dip in membership for 2020. I'll be curious to know with the 2023 data if they're back up to the 2019 attendance numbers yet.*
+*I think it's interesting to see the big dip in membership for 2020. I'm surprised the 2023 numbers are so low. It looks like every club had the lowest attendance numbers since the report started in 2019.*
 
 ### Grant Attendance Targets
 
@@ -226,20 +184,30 @@ Texas ACE™ defines regular participation as attending the program 45 days or m
 *Note that some values are missing (NA) because the reporting was not consistent from year to year. (These numbers were all pulled from past evaluation reports.)*
 
 ```{r}
+attendance.grant.2023 <- tibble("Club" = c("Spring Oaks Middle", "The Women's Home", "Spring Branch Elementary", "Woodview Elementary", "Westwood Elementary"),	
+                                "Grant Required to attend 45+ Days" = c(100, 115, 110, 110, 110),	
+                                "Students that met Attendance	Grant" = c(264, 115,122,163, 182),
+                                "Required # to attend Family Engagement Event" = c(40, 45, 44, 44, 44),
+                                "Parents that met Attendance" = c(80, 117, 56, 82, 76))
 
-# UPDATE: with 2023 data, make table with the number of students attending each site for at least 45 days
+kable(attendance.grant.2023, caption = "Grant Required Attendance for 2023")
+
+```
+
+*I find it a little unbelievable that every single member at Spring Oaks Middle met the grant attendance targets. That hasn't happened any other year at any other club. It's also very uncharacteristic for Spring Oaks.*
+
+```{r}
 
 # Percent of Members Who Attended 45+ Days of ACE Programming by Site
 # Previous years data taken from past reports
 # UPDATE with 2023 numbers
-attendance.grant <- tibble("Year" = c(2019, 2020, 2021, 2022), 
-                         "Spring Branch Elementary" = c(.55, .70, .71, .83),
-                         "Spring Oaks Middle" = c(.39, .56, .45, .26),
-                         "The Women's Home" = c(.83, .97, .97, .51),
-                         "Westwood Elementary" = c(.89, .79, .55, .37),
-                         "Woodview Elementary" = c(.71, .68, NA, .54),
-                         "Total" = c(NA, .70, .65, .46)) 
-
+attendance.grant <- tibble("Year" = c(2019, 2020, 2021, 2022, 2023), 
+                         "Spring Branch Elementary" = c(.55, .70, .71, .83, 122/150),
+                         "Spring Oaks Middle" = c(.39, .56, .45, .26, 264/264),
+                         "The Women's Home" = c(.83, .97, .97, .51, 115/166),
+                         "Westwood Elementary" = c(.89, .79, .55, .37, 182/281),
+                         "Woodview Elementary" = c(.71, .68, NA, .54, 163/186),
+                         "Total" = c(NA, .70, .65, .46, (122 + 264 + 115 + 182 + 163)/1047)) 
 
 
 # My failed attempts at formatting the percents as percents
@@ -249,20 +217,22 @@ attendance.grant <- tibble("Year" = c(2019, 2020, 2021, 2022),
 
 # subset(attendance.grant, select = 'Spring Branch Elementary':Total) <- formattable::percent(subset(attendance.grant, select = 'Spring Branch Elementary':Total), digits = 0, na.rm = TRUE)
  
-
-
 # Next idea, identify numbers that start with . and format those as percents or format each variable individually
 
-kable(attendance.grant)
+kable(attendance.grant, caption = "Percent of Members that Attended at least 45 Days")
 # UPDATE: numbers should display as percents (except for Year)
-# UPDATE: add caption title to chart (is this the percent of members in the club that attended at least 45 days?)
 
+```
+
+
+```{r}
 
 attendance.grant.plot <- attendance.grant %>%   
     pivot_longer(c(`Spring Branch Elementary`, `Spring Oaks Middle`, `The Women's Home`,
                          `Westwood Elementary`, `Woodview Elementary`, Total),
                names_to = "Site",
                values_to = "Percent of Members")
+
 
 #The below code works, but then messes up the graph labels
 #attendance.grant.plot$`Percent of Members` <- formattable::percent(attendance.grant.plot$`Percent of Members`, digits = 0)
@@ -283,7 +253,7 @@ ggplot(attendance.grant.plot, aes(x = Year, y = attendance.grant.plot$`Percent o
   theme(panel.background = element_blank()) +
   geom_text(aes(label = ifelse(attendance.grant.plot$Site == 'Total', scales::percent(attendance.grant.plot$`Percent of Members`) , "")), vjust = 1.5) 
 
-# UPDATE (optional): I feel like the total blends in with the rest on the graph here.
+# UPDATE (optional): I feel like the total blends in with the rest on the graph here. Maybe that line should be bolded.
 
 ```
 *What happened at The Women's Home last year? That's a dramatic change in regular attendance. I took the number from last year's report. You can find our folder for last year here: https://childrenatrisk.sharepoint.com/sites/GDrive/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FGDrive%2FShared%20Documents%2FCenter%20for%20Social%20Measurement%20and%20Evaluation%2FSharmily%20Working%2FBoys%20ang%20Girls%20Club%20Info&p=true&ct=1684425770678&or=Teams%2DHL&ga=1*
@@ -488,7 +458,7 @@ Report card data in this section was provided by SBISD to BGCGH. We reviewed and
 
 When reporting numeric values for grades, we used a traditional 0 to 4 grade point scale in which 0 represents a grade of ‘F’ and 4 represents a grade of ‘A.’ Kindergarten students are not included in any analysis of reporting of grades here due to the small number of members in that grade and a different grading scale.
 
-*Past report language: A limitation of this analysis is the amount of available report cards. Despite the number of club Members in Texas ACE™, only a sample size of ### report cards were available. Because of the variability in grade level and Club site within the sample, this data has limited generalizability of the actual grade distribution within the five Clubs.*
+A limitation of this analysis is the amount of available report cards. Although there were 1,047 members, only 889 report cards were available. 
 
 Data from 2022 is limited to 351 report cards and data from Spring 2021 is limited to 797 report cards. This is not a large enough sample size to draw conclusions from.
 
@@ -502,9 +472,6 @@ csv.list <- sapply(csv.file.list, read.csv, simplify = FALSE, USE.NAMES = TRUE)
 
 
 # I went in to each ACE file and manually changed column names in Excel so that they were all the same across sites and years. (Site, Grade, Number of School Days, Number of Texas ACE Days, Math, English Reading)
-
-# UPDATE. Make sure to check column names manually in excel for new ACE data before importing all files, or bind_rows will not work properly. Also save all as csv if they send them in a different format.
-# Look at each file individually to see what it contains and if changes need to be made before it's joined with the others.
 
 
 # ACE Spring 2021
@@ -534,7 +501,7 @@ ace2021 <- ace2021 %>%
 
 
 
-# ACE 2022
+# ACE 2022 (Probably Spring. It looks like last year's data.)
 # Club.ID now starts with site name initials instead of a column for Site
 # View(csv.list[[6]]) # Grade is number (1)
 # View(csv.list[[7]]) # Grade is number (1)
@@ -576,14 +543,43 @@ ace2022 <- ace2022 %>%
 
 
 
-# ACE 2023 Fall is how these were labeled, but that makes no sense. Waiting on clarification.
+# ACE 2022 Fall
 # These were sent at xlsx, but since the last two years were csv, I resaved them as csv.
 
-# View(csv.list[[11]])
-# View(csv.list[[12]])
-# View(csv.list[[13]])
-# View(csv.list[[14]])
-# View(csv.list[[15]])
+# View(csv.list[[11]]) # Grade is character (1st)
+# View(csv.list[[12]]) # Grade is number (1)
+# View(csv.list[[13]]) # Grade is character (1st)
+# View(csv.list[[14]]) # Grade is number (1)
+# View(csv.list[[15]]) # Grade is character (1st)
+
+ace2022.fall <- bind_rows(list(csv.list[[12]], csv.list[[14]]), .id = "id") %>% 
+  mutate(Grade = gsub("1", "1st", Grade),
+         Grade = gsub("2", "2nd", Grade),
+         Grade = gsub("3", "3rd", Grade),
+         Grade = gsub("4", "4th", Grade),
+         Grade = gsub("5", "5th", Grade),
+         Grade = gsub("6", "6th", Grade),
+         Grade = gsub("7", "7th", Grade),
+         Grade = gsub("8", "8th", Grade)) %>% 
+  bind_rows(., list(csv.list[[11]], csv.list[[13]], csv.list[[15]]), .id = "id")%>% 
+  mutate(Year = as.numeric(2022),
+         Data = "ACE")
+ace2022.fall <- ace2022.fall %>% 
+  mutate(Site = ifelse(substr(ace2022.fall$Club.ID, 1, 3) == "SOM", "Spring Oaks Middle", ""),
+         Site = ifelse(substr(ace2022.fall$Club.ID, 1, 3) == "SBE", "Spring Branch Elementary", Site),
+         Site = ifelse(substr(ace2022.fall$Club.ID, 1, 3) == "TWH", "The Women's Home", Site),
+         Site = ifelse(substr(ace2022.fall$Club.ID, 1, 2) == "WW", "Westwood Elementary", Site),
+         Site = ifelse(substr(ace2022.fall$Club.ID, 1, 2) == "WV", "Woodview Elementary", Site),
+         Term = "Fall")
+
+ace2022.fall.duplicates <- ace2022.fall$Club.ID[duplicated(ace2022.fall$Club.ID)]
+# paste(ace2022.fall.duplicates)
+# No club ID duplicates
+
+ace2022.fall.total <- ace2022.fall
+
+ace2022.fall <- ace2022.fall %>% 
+  select(Site, Grade, Math, English.Reading, Year, Term, Data)
 
 
 
@@ -596,7 +592,7 @@ ace2022 <- ace2022 %>%
 # View(csv.list[[19]]) # Westwood doesn't have grade level information.
 # View(csv.list[[20]]) # Grade is character (1st)
 
-ace2023 <- csv.list[[17]] %>% 
+ace2023.spring <- csv.list[[17]] %>% 
   mutate(Grade = gsub("1", "1st", Grade),
          Grade = gsub("2", "2nd", Grade),
          Grade = gsub("3", "3rd", Grade),
@@ -607,31 +603,32 @@ ace2023 <- csv.list[[17]] %>%
          Grade = gsub("8", "8th", Grade)) %>% 
   bind_rows(., list(csv.list[[16]], csv.list[[18]], csv.list[[19]], csv.list[[20]]), .id = "id")
 
-ace2023 <- ace2023 %>% 
-  mutate(Site = ifelse(substr(ace2023$Club.ID, 1, 3) == "SOM", "Spring Oaks Middle", ""),
-         Site = ifelse(substr(ace2023$Club.ID, 1, 3) == "SBE", "Spring Branch Elementary", Site),
-         Site = ifelse(substr(ace2023$Club.ID, 1, 3) == "TWH", "The Women's Home", Site),
-         Site = ifelse(substr(ace2023$Club.ID, 1, 2) == "WW", "Westwood Elementary", Site),
-         Site = ifelse(substr(ace2023$Club.ID, 1, 2) == "WV", "Woodview Elementary", Site),
+ace2023.spring <- ace2023.spring %>% 
+  mutate(Site = ifelse(substr(ace2023.spring$Club.ID, 1, 3) == "SOM", "Spring Oaks Middle", ""),
+         Site = ifelse(substr(ace2023.spring$Club.ID, 1, 3) == "SBE", "Spring Branch Elementary", Site),
+         Site = ifelse(substr(ace2023.spring$Club.ID, 1, 3) == "TWH", "The Women's Home", Site),
+         Site = ifelse(substr(ace2023.spring$Club.ID, 1, 2) == "WW", "Westwood Elementary", Site),
+         Site = ifelse(substr(ace2023.spring$Club.ID, 1, 2) == "WV", "Woodview Elementary", Site),
          Year = as.numeric(2023),
          Term = "Spring",
          Data = "ACE")
 
-ace2023.comet.duplicates <- ace2023$Comet.ID[duplicated(ace2023$Comet.ID)]
+ace2023.comet.duplicates <- ace2023.spring$Comet.ID[duplicated(ace2023.spring$Comet.ID)]
 # paste(ace2023.comet.duplicates)
 # "1826954" "1841066" "1845474" "1853139" "1842531" "1851898" "1845379" "1854408" "1845372" "1852067" "1845368"
 
-ace2023.duplicates <- ace2023$Club.ID[duplicated(ace2023$Club.ID)]
+ace2023.duplicates <- ace2023.spring$Club.ID[duplicated(ace2023.spring$Club.ID)]
 # paste(ace2023.duplicates)
 # No club ID duplicates, though. So maybe we don't remove any?
 
-ace2023 <- ace2023 %>% 
+
+ace2023.spring.total <- ace2023.spring
+
+ace2023.spring <- ace2023.spring %>% 
   select(Site, Grade, Math, English.Reading, Year, Term, Data)
 
 ```
 
-
-*BGCGH told us this 2022 data was from the fall, but it looks exactly like last year's data except for Woodview.*
 
 *It would be nice to recreate this chart with 2023 data, but we don't have grade level information for Westwood.*
 
@@ -653,11 +650,38 @@ kable(ace2022.counts, caption = "2022 Report Card Counts")
 
 ```
 
+*I thought I might be able to see see total attendance by looking at number of report cards, but once again there aren't enough here.*
 
+```{r 2023 totals}
+
+attendance.2023 <- bind_rows(list(ace2022.fall.total, ace2023.spring.total)) %>% 
+  select(Club.ID, Site, Year, Term, Number.of.School.Days.Fall.Semester) %>% 
+  group_by(Club.ID, Site) %>% 
+  summarise(Number.of.School.Days.Fall.Semester = sum(Number.of.School.Days.Fall.Semester))
+
+attendance.2023.total <- attendance.2023 %>% 
+  ungroup() %>% 
+  summarise("Total Report Cards 2023" = length(unique(Club.ID)))
+
+kable(attendance.2023.total)
+
+
+attendance.2023.clubs <- attendance.2023 %>% 
+  ungroup() %>% 
+  group_by(Site) %>% 
+  summarise("Report Cards by Club 2023" = length(unique(Club.ID)))
+
+kable(attendance.2023.clubs)
+
+```
+
+*I left out fall 2022 here so that we're comparing only the spring semester each year. The following graphs represent only the Spring semester.*
 
 ```{r Bind ACE 2021-2023 Data}
 
-ace <- bind_rows(list(ace2021, ace2022, ace2023)) %>%
+# I'm going to leave out ace2022.fall since all the other years only looked at spring semester.
+
+ace <- bind_rows(list(ace2021, ace2022, ace2023.spring)) %>%
   # Kinder has Pass/Fail. They were excluded from previous reports, so we'll do the same.
   filter((!Grade == "Kindergarten" & !Grade == "Kinder") %>% replace_na(TRUE)) %>% 
   # 2022 GPA Methodology – Letter grades were converted to gpa scale where A=4, B=3, C=2, D=1, F=0 then averaged and rounded to the nearest whole number. Methodology consistent with 2020-2021 report.
@@ -681,7 +705,7 @@ ace <- bind_rows(list(ace2021, ace2022, ace2023)) %>%
 ```
 
 
-*I'm not sure how to organize the below table. Maybe by year would be best?*
+*I'm not sure how to organize the below table. Maybe by year would be best? Note that we have Fall 2022 data, but I'm only including spring semesters for continuity over longitudinal data.*
 
 ```{r Average Math and Reading GPAs}
 
