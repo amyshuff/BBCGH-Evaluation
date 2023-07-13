@@ -255,10 +255,11 @@ ggplot(attendance.grant.plot, aes(x = Year, y = attendance.grant.plot$`Percent o
   scale_size_manual(values = c(1.25, 0.5, 0.5, 0.5, 0.5, 0.5)) +
   labs(title = "Percent of Members Who Attended 45+ Days of ACE Programming, 2019-2023") +
   ylab("Percent of Members") +
-    scale_fill_hue(l=40) +
-  theme(panel.background = element_blank()) +
   #geom_text(aes(label = ifelse(attendance.grant.plot$Site == 'Total', scales::percent(attendance.grant.plot$`Percent of Members`, accuracy = 1) , "")), vjust = 2.25) 
-  geom_label(aes(label = ifelse(attendance.grant.plot$Site == 'Total', scales::percent(attendance.grant.plot$`Percent of Members`, accuracy = 1), "")))
+  geom_label(aes(label = ifelse(attendance.grant.plot$Site == 'Total', scales::percent(attendance.grant.plot$`Percent of Members`, accuracy = 1), ""))) +
+  theme(panel.background = element_blank()) +
+  scale_fill_hue(l=40) +
+  scale_fill_brewer(palette = "Blues")
 
 # UPDATE (optional): The aesthetics of this are off. I tried bolding the total line, but it didn't help.
 ```
@@ -329,14 +330,15 @@ club.gender.plot <- club.demographics.2023 %>%
 ggplot(club.gender.plot, aes(x = Site, y = demographic.pct)) +
   geom_col(aes(fill = Demographic)) +
   coord_flip() +
-  geom_text(aes(label = scales::percent(demographic.pct)), color = "white", hjust = 1.5, position = "stack") +
+  geom_text(aes(label = scales::percent(demographic.pct)), color = "black", hjust = 1.5, position = "stack") +
   labs(title = "Gender") +
   theme(panel.background = element_blank(),
         axis.text.x = element_blank(),
         axis.ticks.x = element_blank()) +
   ylab("Percent") +
   xlab("") +
-    scale_fill_hue(l=40)
+    scale_fill_hue(l=40) +
+  scale_fill_brewer(palette = "Blues")
 
 ```
 
@@ -398,9 +400,8 @@ ggplot(club.race.plot, aes(x = Site, y = demographic.pct)) +
         axis.ticks.x = element_blank()) +
   ylab("Percent") +
   xlab("")  +
-    scale_fill_hue(l=40)
-
-# UPDATE: The colors of this graph are not great
+    scale_fill_hue(l=40) +
+  scale_fill_brewer(palette = "Blues")
 
 ```
 
@@ -444,17 +445,16 @@ club.age.plot <-
 ggplot(club.age.plot, aes(x = forcats::fct_rev(Site), y = demographic.pct)) +
   geom_col(aes(fill = Demographic)) +
   coord_flip() +
-  geom_text(aes(label = ifelse(Demographic == "5 to 9" | Demographic == "13 to 18", scales::percent(demographic.pct), '')), 
-                color = "white", hjust = 1.5) +
+  geom_text(aes(x = Site, y = demographic.pct, label = scales::percent(demographic.pct), group = Demographic),
+            position = position_stack(vjust = 0.5)) +
   labs(title = "Age") +
   theme(panel.background = element_blank(),
         axis.text.x = element_blank(),
         axis.ticks.x = element_blank()) +
   ylab("Percent") +
   xlab("")  +
-    scale_fill_hue(l=40)
+  scale_fill_brewer(palette = "Blues")
 
-# UPDATE: The labels here need to be adjusted. I don't know why the Women's Home 13 to 18 label is in such a weird place.
 
 ```
 
@@ -759,23 +759,37 @@ kable(ace.averages, caption = "Average GPA by Site and Year", digits = 2)
 
 On average, math grades seem to have improved from 2021 to 2022. But we also have significantly fewer report cards to analyze, so there's a chance this wasn't a significant change.
 
-```{r Math GPA over time}
+```{r Math GPA over time, fig.height=4, fig.width=10}
 
 # Math GPA by Site and Year
 
+# ggplot(ace.averages, aes(x = Site, y = Math, fill = factor(ace.averages$Year))) +
+#   geom_bar(stat = "identity", position = "dodge") +
+#   coord_flip() +
+#   geom_text(aes(label = Math), 
+#             position = position_dodge(width = .9),
+#             hjust = 2) +
+#   labs(title = "Average Math GPA by Site and Year") +
+#   theme(panel.background = element_blank()) +
+#   ylab("Average Math GPA") +
+#   xlab("") +
+#   guides(fill = guide_legend(title = "Year")) +
+#     scale_fill_hue(l=40) +
+#   scale_fill_brewer(palette = "Blues")
+
+
 ggplot(ace.averages, aes(x = Site, y = Math, fill = factor(ace.averages$Year))) +
   geom_bar(stat = "identity", position = "dodge") +
-  coord_flip() +
   geom_text(aes(label = Math), 
-                color = "white",
             position = position_dodge(width = .9),
-            hjust = 2) +
-  labs(title = "Average Math GPA by Site and Year") +
+            vjust = 2) +
+  labs(title = "Math", subtitle = "Average GPA by Site and Year") +
   theme(panel.background = element_blank()) +
   ylab("Average Math GPA") +
   xlab("") +
   guides(fill = guide_legend(title = "Year")) +
-    scale_fill_hue(l=40)
+    scale_fill_hue(l=40) +
+  scale_fill_brewer(palette = "Blues")
 
     
 ```
@@ -785,25 +799,38 @@ ggplot(ace.averages, aes(x = Site, y = Math, fill = factor(ace.averages$Year))) 
 
 As with Math, there seems to be an increase in the average English/Reading grades from 2021 to 2022.
 
-```{r}
+```{r fig.height=4, fig.width=10}
 
 # English/Reading GPA by Site and Year
 
+# ggplot(ace.averages, aes(x = Site, y = English.Reading, fill = factor(ace.averages$Year))) +
+#   geom_bar(stat = "identity", position = "dodge") +
+#   coord_flip() +
+#   geom_text(aes(label = English.Reading), 
+#                 color = "white",
+#             position = position_dodge(width = .9),
+#             hjust = 2) +
+#   labs(title = "Average English/Reading GPA by Site and Year") +
+#   theme(panel.background = element_blank()) +
+#   ylab("Average English/Reading GPA") +
+#   xlab("") +
+#   guides(fill = guide_legend(title = "Year")) +
+#     scale_fill_hue(l=40)
+
+
 ggplot(ace.averages, aes(x = Site, y = English.Reading, fill = factor(ace.averages$Year))) +
   geom_bar(stat = "identity", position = "dodge") +
-  coord_flip() +
   geom_text(aes(label = English.Reading), 
-                color = "white",
             position = position_dodge(width = .9),
-            hjust = 2) +
-  labs(title = "Average English/Reading GPA by Site and Year") +
+            vjust = 2) +
+  labs(title = "English/Reading", subtitle = "Average GPA by Site and Year") +
   theme(panel.background = element_blank()) +
   ylab("Average English/Reading GPA") +
   xlab("") +
   guides(fill = guide_legend(title = "Year")) +
-    scale_fill_hue(l=40)
+    scale_fill_hue(l=40) +
+  scale_fill_brewer(palette = "Blues")
 
-    
 ```
 
 ### Overall Grades
@@ -852,7 +879,11 @@ ggplot(ace.overall.plot, aes(x = Year)) +
   coord_cartesian(ylim = c(0, 4)) +
   labs(title = "GPA Averages by Year",
        subtitle = "for all BGCGH sites combined") +
-  scale_x_continuous(breaks=seq(2019, 2023, 1))
+  scale_x_continuous(breaks=seq(2019, 2023, 1)) +
+  theme(panel.background = element_blank()) +
+  scale_fill_brewer(palette = "Blues")
+
+
 
 ```
 
@@ -995,6 +1026,30 @@ ggplot(data = nyoi.experience, aes(x = Measure, y = Value, fill = Score)) +
 # UPDATE: I'd like to reorder the measures to show highest rated measures on the left and lowest on the right, so it's easy to see at a glance what's in most need of improvement.
 
 ```
+```{r fig.height=4, fig.width=8}
+
+
+for (name in site.names) {
+print(  
+ggplot(data = subset(nyoi.experience, Site == name), 
+       aes(x = Measure, y = Value, fill = Score)) +
+  geom_bar(stat = "identity", position = "stack") +
+  facet_grid(~Year) +
+  labs(y = "Percent Response",
+       title = paste(name), subtitle = "Club Experience Measures") +
+  guides(x = guide_axis(angle = 90)) +
+  scale_y_continuous(labels = scales::label_percent(accuracy = 1)) +
+  scale_fill_brewer(name = "", labels = c("Needs Improvement", "Fair", "Optimal"), palette = "Blues") +
+    geom_text(aes(label = ifelse(Score == "Optimal", scales::percent(Value, accuracy = 1), '')), 
+              color = "black", vjust = 1.5, position = "stack") +
+    theme(panel.background = element_blank(),
+        axis.text = element_text(color = "black"))
+)
+}
+
+
+```
+
 *The recognition scores at Woodview were low in 2021 and got even worse for 2022. Those numbers are concerning. In 2022 Recognition had the highest Needs Improvement scores for every site except Spring Branch Elementary.*
 
 An Optimal score requires the member to:
@@ -1087,7 +1142,7 @@ ggplot(data = nyoi.overall, aes(x = Measure, y = Value, fill = Score)) +
        title = "Overall Club Experience") +
   scale_y_continuous(labels = scales::percent) +
   scale_fill_brewer(name = "", labels = c("Needs Improvement", "Fair", "Optimal"), palette = "Blues") +
-  geom_text(aes(label = scales::percent(Value)), color = "black", vjust = 1.5, position = "stack") +
+  geom_text(aes(label = ifelse(Score == 'Optimal' | Score == 'Fair', scales::percent(Value), "")), color = "black", vjust = 1.5, position = "stack") +
   theme(panel.background = element_blank(),
         axis.text.x = element_blank(),
         axis.ticks.x = element_blank()) +
@@ -1179,32 +1234,6 @@ ypqi <- ypqi %>%
          Year = ifelse(endsWith(ypqi$pdf.file.list, "2023.pdf"), "2023", Year))
 ```
 
-Scores lower than 3 may be the best candidates for improvement action.
-
-```{r}
-# Pg 9 says scores lower than 3 may be the best candidates for improvement action
-ypqi.below <- ypqi %>% 
-  filter(Score < 3) %>% 
-  mutate(Year = as.numeric(Year)) %>% 
-  select(Year, Site, Measure, Score) %>% 
-  arrange(Year)
-
-kable(ypqi.below, caption = "YPQA Scores Under 3, 2019-2022")
-
-```
-
-
-In 2022, the lowest YPQA score was 1, for Encouragement at Spring Branch Elementary.
-
-Recommendations for Encouragement, Supportive Environment Domain: 
-
-- Youth Work, Ask-Listen-Encourage Method
-    + Ask-Listen-Encourage is a method for carrying out positive, purposeful interactions with young people. The method includes practices that can both foster positive relationships with youth and support young people in learning new skills.
-
-
-
-- Social Emotional Learning, Engaging Youth in Supportive Struggle Method
-    + Optimal growth and learning occur when trusted and encouraging adults provide young people with enough challenge, with enough support. This workshop helps youth workers learn practical ways to normalize struggle and foster growth mindset in a balanced and nuanced way that acknowledges social inequities while encouraging perseverance, high expectations, and hope.
 
 
 
@@ -1223,20 +1252,89 @@ ypqi.sets <- ypqi %>%
                                             "Instructional Total Score*")))
 
 
-ggplot(data = ypqi.sets, aes(x = Measure, y = Score, fill = Score < 3)) + 
+# ggplot(data = ypqi.sets, aes(x = Measure, y = Score, fill = Score >= 5)) + 
+#   geom_col() + 
+#   facet_grid(rows = vars(Site), cols = vars(Year)) +
+#   labs(title = "Program Quality Assessment Scores") +
+#   guides(x = guide_axis(angle = 90)) +
+#   geom_text(aes(label = Score), color = "Black", vjust = 1.5) +
+#   theme(panel.background = element_blank()) +
+#   scale_fill_brewer(name = "Score", labels = c("Score of 5", "Less than 5"), palette = "Blues")
+
+
+ggplot(data = ypqi.sets, aes(x = Measure, y = Score, fill = Score)) + 
   geom_col() + 
   facet_grid(rows = vars(Site), cols = vars(Year)) +
   labs(title = "Program Quality Assessment Scores") +
   guides(x = guide_axis(angle = 90)) +
-  geom_text(aes(label = Score), color = "Black", vjust = 1.5) +
-  theme(panel.background = element_blank()) +
-  scale_fill_brewer(name = "Score", labels = c("3 or more", "Less than 3"), palette = "Blues")
+  geom_text(aes(label = Score), color = "white", vjust = 1.5) +
+  theme(panel.background = element_blank()) 
+
 
 # UPDATE:
 # Instructional total score should stand out (maybe bold it?)
 # Don't highlight less than three - we want positive impact. Maybe highlight above 4?
 
 ```
+
+
+```{r fig.height=4, fig.width=10}
+
+# ggplot(data = subset(ypqi.sets, Site == 'Spring Branch Elementary'), aes(x = Measure, y = Score, fill = Year)) +
+#   geom_bar(stat = "identity", position = "dodge") +
+#   geom_text(aes(label = Score), 
+#             position = position_dodge(width = .9),
+#             vjust = 2) +
+#   labs(title = "Spring Branch Elementary", subtitle = "Program Quality Assessment Scores") +
+#   theme(panel.background = element_blank()) +
+#   scale_fill_brewer(palette = "Blues")
+
+ypqi.names <- c("Spring Branch Elementary", "Spring Oaks Middle", "The Women's Home", "Woodview Elementary", "Westwood Elementary") 
+  
+  
+for (name in ypqi.names) {
+print(  
+ggplot(data = subset(ypqi.sets, Site == name), aes(x = Measure, y = Score, fill = Year)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  geom_text(aes(label = Score), 
+            position = position_dodge(width = .9),
+            vjust = 2) +
+  labs(title = paste(name), subtitle = "Program Quality Assessment Scores") +
+  theme(panel.background = element_blank(),
+        axis.text = element_text(color = "black")) +
+  coord_cartesian(ylim = c(0, 5)) +
+  scale_fill_brewer(palette = "Blues")
+)
+}
+
+```
+
+Scores lower than 3 may be the best candidates for improvement action.
+
+```{r}
+# Pg 9 says scores lower than 3 may be the best candidates for improvement action
+ypqi.below <- ypqi %>% 
+  filter(Score < 3) %>% 
+  mutate(Year = as.numeric(Year)) %>% 
+  select(Year, Site, Measure, Score) %>% 
+  arrange(Year)
+
+kable(ypqi.below, caption = "YPQA Scores Under 3, 2019-2022")
+
+```
+
+In 2022, the lowest YPQA score was 1, for Encouragement at Spring Branch Elementary.
+
+Recommendations for Encouragement, Supportive Environment Domain: 
+
+- Youth Work, Ask-Listen-Encourage Method
+    + Ask-Listen-Encourage is a method for carrying out positive, purposeful interactions with young people. The method includes practices that can both foster positive relationships with youth and support young people in learning new skills.
+
+
+
+- Social Emotional Learning, Engaging Youth in Supportive Struggle Method
+    + Optimal growth and learning occur when trusted and encouraging adults provide young people with enough challenge, with enough support. This workshop helps youth workers learn practical ways to normalize struggle and foster growth mindset in a balanced and nuanced way that acknowledges social inequities while encouraging perseverance, high expectations, and hope.
+
 
 # Results and Implications
 
