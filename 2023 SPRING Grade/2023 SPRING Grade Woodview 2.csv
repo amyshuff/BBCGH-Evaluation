@@ -1,4 +1,4 @@
-Comet ID ,Club ID,Grade,Math ,English/ Reading ,Conduct ,ACE Days Attended 
+Comet ID ,Club ID,Grade,Math ,English Reading ,Conduct ,ACE Days Attended 
 1852062,WV002301 ,1st ,A,B,S,74
 1850839,WV002302,1st ,B,B,E,154
 1851937,WV002303,1st ,A,A,S,155
@@ -185,7 +185,3 @@ Comet ID ,Club ID,Grade,Math ,English/ Reading ,Conduct ,ACE Days Attended
 1837115,WV0023184,5th,B,A,S,153
 1840775,WV0023185,5th,B,A,E,151
 1855309,WV0023186,5th,B,B,E,51
-,,,,,,
-,,,,,,
-,,,,,,
-,,,,,,
